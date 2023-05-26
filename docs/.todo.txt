@@ -1,0 +1,16 @@
++ make repo
+gh repo clone andreydmitr20/gitarista_back_g3_coinis
+
+
++ make venv and add to .gitignore
+python3 -m venv venv
+
++ install django 
+pip3 install django 
+
++ create project & rename folder to django ( & make copy of manager.py to m)
+django-admin startproject gitarista
+
++ test django 
+python3 m migrate
+python3 m runserver
