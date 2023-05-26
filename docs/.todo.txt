@@ -5,6 +5,9 @@ gh repo clone andreydmitr20/gitarista_back_g3_coinis
 + make venv and add to .gitignore
 python3 -m venv venv
 
++ add .editorconfig
+
+
 + install django 
 pip3 install django 
 
@@ -14,3 +17,33 @@ django-admin startproject gitarista
 + test django 
 python3 m migrate
 python3 m runserver
+
++ create user and song apps and add them to settings
+python3 m startapp user
+python3 m startapp song
+
++ create superuser "q" with password "q"
+python3 m createsuperuser
+
++ install rest framework 
+https://www.django-rest-framework.org/#installation
+(add all needed to settings and urls)
+pip3 install djangorestframework
+pip3 install markdown
+pip3 install django-filter
+
++ every time after install something , do
+pip3 freeze >requirements.txt
+
++ start to fill README.md
+
+
+
+
+- make models
+
+- write to README install section for frontenders
+
+- scrape and fill songs
+
+- scrape accords pictures
