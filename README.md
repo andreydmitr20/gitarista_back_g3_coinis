@@ -14,3 +14,10 @@
         <br>
         <li> song part (all about songs etc.)</li>
     </ul>
+
+<h3> Back-end team members </h3>
+    <ul>
+        <li> Andrei Osetrov </li>
+        <br>
+        <li> Nemanja Lakicevic </li>
+    </ul>
