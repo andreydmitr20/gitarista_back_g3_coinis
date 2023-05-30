@@ -1,2 +1,4 @@
-/venv
-**/__pycache__
+/venv/
+**/__pycache__/
+django/db.sqlite3
+**/.vscode/
