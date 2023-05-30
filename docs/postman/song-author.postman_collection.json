@@ -1,0 +1,167 @@
+{
+	"info": {
+		"_postman_id": "f88bb0d4-b0d3-4be4-9c51-7a7a204a87d6",
+		"name": "song/author",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27703246",
+		"_collection_link": "https://gitaristi-g3.postman.co/workspace/Team-Workspace~8d607f34-97e8-401f-84a2-9bf226ed0439/collection/27703246-f88bb0d4-b0d3-4be4-9c51-7a7a204a87d6?action=share&creator=27703246&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "L",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/song/author",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"song",
+						"author"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "C",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "name1",
+							"type": "text"
+						},
+						{
+							"key": "link",
+							"value": "link1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8000/song/author/",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"song",
+						"author",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "R",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/song/author/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"song",
+						"author",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "U",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "name12",
+							"type": "text"
+						},
+						{
+							"key": "link",
+							"value": "http://test.com",
+							"type": "text"
+						},
+						{
+							"key": "id\n",
+							"value": "",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8000/song/author/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"song",
+						"author",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "D",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "test1",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "test1",
+							"type": "text"
+						},
+						{
+							"key": "id\n",
+							"value": "",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8000/song/author/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"song",
+						"author",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
