@@ -146,14 +146,14 @@ class SongGenre(models.Model):
     list_display = ('get_song_title', 'get_song_genre')
 
     @admin.display(ordering='song__title', description='Song title')
-    def get_song_title(self, obj):
+    def get_song_title(self):
         """ get_song_title"""
-        return obj.song.title
+        return self.song.title
 
     @admin.display(ordering='song__genre', description='Song genre')
-    def get_song_genre(self, obj):
+    def get_song_genre(self):
         """get_song_genre"""
-        return obj.genre.name
+        return self.genre.name
 
     song = models.ForeignKey(
         Song,
@@ -179,14 +179,14 @@ class SongLike(models.Model):
     list_display = ('get_song_title', 'get_username')
 
     @admin.display(ordering='song__title', description='Song title')
-    def get_song_title(self, obj):
+    def get_song_title(self):
         """ get_song_title"""
-        return obj.song.title
+        return self.song.title
 
-    @admin.display(ordering='user__username', description='User likes song')
-    def get_username(self, obj):
+    @admin.display(ordering='user__username', description='User who likes')
+    def get_username(self):
         """get_username"""
-        return obj.user.username
+        return self.user.username
 
     song = models.ForeignKey(
         Song,

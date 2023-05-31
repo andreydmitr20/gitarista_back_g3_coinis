@@ -1,0 +1,582 @@
+[
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$5p7oTfsoCn9JS8gWnxQkjG$WsMXxtJoFVZZli1FyZzskZeSZHqwaifbA/r+76dasDA=",
+    "last_login": "2023-05-31T11:03:01.883Z",
+    "is_superuser": true,
+    "username": "q",
+    "first_name": "",
+    "last_name": "",
+    "email": "q@q.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2023-05-26T17:56:39.923Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$ZEnAamoppTH3QuYSsRFYtc$N1mLW9SfDERV78Wt0Xz6YE/jo2GAznQjsHAvK956+Fc=",
+    "last_login": "2023-05-31T07:38:44.070Z",
+    "is_superuser": true,
+    "username": "laki",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2023-05-30T08:04:36.328Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "7297hlajp2gw3ju3zfhuw0ih7lgjk6bt",
+  "fields": {
+    "session_data": ".eJxVjEEOwiAQRe_C2hCgMNNx6d4zkKGAVA0kpV0Z765NutDtf-_9l_C8rcVvPS1-juIsjDj9boGnR6o7iHeutyanVtdlDnJX5EG7vLaYnpfD_Tso3Mu3Bu0gpxEA3JgIA6KyGI2NiTWCI-MUMZCiSIyZaTBoMWjMg8JMhsT7A7TzNos:1q4GPs:h-vOH8-RHu7DhROic8Hqim1MfELeZeDoKE333ix-zXU",
+    "expire_date": "2023-06-14T07:38:44.082Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "9k0qtiyofq5w1nr0od5tac2wy90lteyo",
+  "fields": {
+    "session_data": ".eJxVjEEOwiAQRe_C2hCgMNNx6d4zkKGAVA0kpV0Z765NutDtf-_9l_C8rcVvPS1-juIsjDj9boGnR6o7iHeutyanVtdlDnJX5EG7vLaYnpfD_Tso3Mu3Bu0gpxEA3JgIA6KyGI2NiTWCI-MUMZCiSIyZaTBoMWjMg8JMhsT7A7TzNos:1q3uLZ:6knpn2rZGMzpB43pwofkLgZqhbdgMDk_SNyPsLLMDmw",
+    "expire_date": "2023-06-13T08:04:49.465Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "qulq07exuwpiq4nm1yv7r9wfpjrryrwu",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAQRf-FtSEFhkdduvcbyMCMUjWQlHZl_HfbpAvd3nPOfYuI61Li2nmOE4mzUOL0uyXMT647oAfWe5O51WWektwVedAur434dTncv4OCvWw1BD9aBsqKQWelHWrLjkbndDYYEmCicEPvEAIBwIa1YRN40NZDHsTnC9oMN3A:1q4JbZ:92UcNTY1PoR7e32qDr1nQCF2fazecuS6xkRqcsv0Xbk",
+    "expire_date": "2023-06-14T11:03:01.995Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "tads6bgo5ytaack3549mozqn41dq5kf5",
+  "fields": {
+    "session_data": ".eJxVjEEOwiAQRe_C2hCgMNNx6d4zkKGAVA0kpV0Z765NutDtf-_9l_C8rcVvPS1-juIsjDj9boGnR6o7iHeutyanVtdlDnJX5EG7vLaYnpfD_Tso3Mu3Bu0gpxEA3JgIA6KyGI2NiTWCI-MUMZCiSIyZaTBoMWjMg8JMhsT7A7TzNos:1q46sA:3VCgTt1ZzCghmPck7lJ-NdV1lmyTbaCUoJDQiqoeX5Q",
+    "expire_date": "2023-06-13T21:27:18.434Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "ut2cgzk4ty4p6263teuvv7zgqppmpskg",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAQRf-FtSEFhkdduvcbyMCMUjWQlHZl_HfbpAvd3nPOfYuI61Li2nmOE4mzUOL0uyXMT647oAfWe5O51WWektwVedAur434dTncv4OCvWw1BD9aBsqKQWelHWrLjkbndDYYEmCicEPvEAIBwIa1YRN40NZDHsTnC9oMN3A:1q2bgi:o4iFj57lwdpgfcNQrdi62nL8RXNSFZ3sD9r-LVxGF5k",
+    "expire_date": "2023-06-09T17:57:16.818Z"
+  }
+},
+{
+  "model": "user.user",
+  "pk": 1,
+  "fields": {
+    "username": "user1",
+    "password": "1234",
+    "public_info": "",
+    "date_creation": "2023-05-30T08:17:29.208Z"
+  }
+},
+{
+  "model": "user.user",
+  "pk": 2,
+  "fields": {
+    "username": "user2",
+    "password": "1234",
+    "public_info": "",
+    "date_creation": "2023-05-30T21:27:59.810Z"
+  }
+},
+{
+  "model": "song.genre",
+  "pk": 0,
+  "fields": {
+    "name": "Rock",
+    "description": "This genre encompasses various subgenres such as classic rock, hard rock, alternative rock, punk rock, and progressive rock. Guitar-driven bands and iconic guitar solos are a defining characteristic of rock music"
+  }
+},
+{
+  "model": "song.genre",
+  "pk": 1,
+  "fields": {
+    "name": "Blues",
+    "description": "Originating from African-American communities in the United States, blues music heavily relies on the guitar. It often features soulful playing, bending of notes, and expressive solos"
+  }
+},
+{
+  "model": "song.genre",
+  "pk": 2,
+  "fields": {
+    "name": "Jazz",
+    "description": "Jazz music incorporates improvisation and complex harmonies. The guitar plays a significant role in jazz, both as a rhythm instrument and for soloing. Subgenres like gypsy jazz and smooth jazz also have distinct guitar styles"
+  }
+},
+{
+  "model": "song.genre",
+  "pk": 3,
+  "fields": {
+    "name": "Country",
+    "description": "Country music often features acoustic and electric guitars, including fingerpicking and twangy guitar sounds. It encompasses subgenres like traditional country, country rock, and outlaw country"
+  }
+},
+{
+  "model": "song.genre",
+  "pk": 4,
+  "fields": {
+    "name": "Metal",
+    "description": "Known for its heavy sound, aggressive riffs, and fast guitar playing, metal music is characterized by distorted guitars and intricate solos. Subgenres like thrash metal, heavy metal, and power metal are all guitar-driven"
+  }
+},
+{
+  "model": "song.genre",
+  "pk": 5,
+  "fields": {
+    "name": "Folk",
+    "description": "Folk music utilizes acoustic guitars and often features storytelling through lyrics. Fingerpicking and strumming patterns are common techniques. Subgenres like contemporary folk and folk rock incorporate electric guitars as well"
+  }
+},
+{
+  "model": "song.genre",
+  "pk": 6,
+  "fields": {
+    "name": "Flamenco",
+    "description": "Originating in Spain, flamenco is a highly expressive and passionate genre that heavily relies on guitar playing. It combines intricate fingerpicking techniques with percussive elements"
+  }
+},
+{
+  "model": "song.genre",
+  "pk": 7,
+  "fields": {
+    "name": "Classical",
+    "description": "Classical music showcases the guitar as a solo instrument, featuring compositions by renowned composers like Fernando Sor and Johann Sebastian Bach. It requires fingerstyle playing and classical guitar techniques"
+  }
+},
+{
+  "model": "song.genre",
+  "pk": 8,
+  "fields": {
+    "name": "Funk",
+    "description": "Funk music is known for its tight rhythm sections and infectious grooves. The guitar typically plays a rhythmic role, providing syncopated chords and funky strumming patterns"
+  }
+},
+{
+  "model": "song.genre",
+  "pk": 9,
+  "fields": {
+    "name": "R&B/Soul",
+    "description": "Rhythm and blues and soul music often incorporate guitar as a foundational instrument, providing melodic and rhythmic elements. It can range from smooth and mellow to energetic and groovy"
+  }
+},
+{
+  "model": "song.genre",
+  "pk": 10,
+  "fields": {
+    "name": "test",
+    "description": "descr"
+  }
+},
+{
+  "model": "song.author",
+  "pk": 1,
+  "fields": {
+    "name": "Nedeljko Bajić Baja",
+    "link": "http://www.pesmarica.rs/Akordi/Gitara/6957/Nedeljko-Baji%C4%87-Baja"
+  }
+},
+{
+  "model": "song.author",
+  "pk": 2,
+  "fields": {
+    "name": "Aco Pejović",
+    "link": "http://www.pesmarica.rs/Akordi/Gitara/6965/Aco-Pejovi%C4%87"
+  }
+},
+{
+  "model": "song.author",
+  "pk": 3,
+  "fields": {
+    "name": "Toma Zdravković",
+    "link": "http://www.pesmarica.rs/Akordi/Gitara/243/Toma-Zdravkovi%C4%87"
+  }
+},
+{
+  "model": "song.song",
+  "pk": 1,
+  "fields": {
+    "user": 1,
+    "author": 1,
+    "title": "Zapisano je u vremenu",
+    "date_creation": "2023-05-30T08:17:35.442Z",
+    "link": "http://www.pesmarica.rs/Akordi/12796/Nedeljko-Baji%C4%87-Baja--Zapisano-je-u-vremenu",
+    "text_with_accords": "Em ---------Am ---Em \r\nZapisano je u vremenu\r\nC----------D- -----Em \r\nkakva je to ljubav bila\r\nC---------D- --------\r\n(kamo srece za nas dvoje\r\nG ----E -Am ---D- --G  (Em  2x)\r\nkad bi se nekom ponovila) 2x\r\n\r\nZapisano je u vremenu\r\nda se secam, da se secas\r\n(rekla si mi: ''Volecu te doveka.'',\r\nB ja tebi: ''Nemoj da me cekas!'') 2x\r\n\r\nRef. 2x\r\nD- -------------------Em -----------\r\nZazmuri, broj do sto, to bice dovoljno\r\n---D- ---------------Em -----------\r\nda probam nekako, da odem bezbolno\r\n---D- -------------Em -----------\r\nja necu voleti, posle tebe, ni u snu - \r\nC--------D- ------Em \r\nzapisano je u vremenu\r\n\r\nZapisano je u vremenu\r\nda smo mnogo jaki bili\r\n(B gde bi nam bio kraj\r\njos da smo se za ljubav borili)2x\r\n\r\nZapisano je u vremenu\r\nplakala si, i ja s' tobom\r\n(i na kraju, kad si rekla: ''Volim te.'',\r\nteska srca rekao sam: ''Zbogom'') 2x"
+  }
+},
+{
+  "model": "song.song",
+  "pk": 2,
+  "fields": {
+    "user": 2,
+    "author": 2,
+    "title": "Da si tu",
+    "date_creation": "2023-05-30T21:32:01.579Z",
+    "link": "http://www.pesmarica.rs/Akordi/12791/Aco-Pejovi%C4%87--Da-si-tu",
+    "text_with_accords": "Em                       D\r\nIako znam da ljubav nema pravila\r\nEm                       D\r\ntaj osjecaj krivice imam danima\r\nG \r\nza grube reci sto su pale\r\nD\r\nza ruke koje nisu znale\r\nAm                       Hm\r\nda zadrze te tu na mojim vratima\r\n\r\nEm                         D\r\nProveravam telefon svoj iz navike\r\nEm                           D\r\nza propusteni poziv tvoj bih dao sve\r\nG \r\nzar nije vredna ljubav moja\r\nD\r\nni poruke sa tvoga broja\r\nAm                        Hm\r\nzar mora Bog u crno da me zavije\r\nHm\r\nDa mi je\r\n\r\nRef.\r\nG \r\nDa si tu bar noci ove\r\nD\r\nda si tu, jedino moje\r\nAm                   Em      (D)\r\nda si tu da oci dusu odmore\r\n\r\nG \r\nDa si tu bar ovog' trena\r\nD\r\nbila bi za sva vremena\r\nC            D                 Em\r\nda si tu, pa makar i bio tvoja sena"
+  }
+},
+{
+  "model": "song.song",
+  "pk": 3,
+  "fields": {
+    "user": 2,
+    "author": 3,
+    "title": "Za ljiljanu",
+    "date_creation": "2023-05-30T21:42:45.137Z",
+    "link": "http://www.pesmarica.rs/Akordi/12781/Toma-Zdravkovi%C4%87--Za-ljiljanu",
+    "text_with_accords": "Em\r\nNe kosite rosnu travu\r\nAm\r\nne lomite mladu granu\r\nD\r\nOstavite cvetna polja\r\nG\r\nostavite cvetna polja\r\nH7                  Em\r\nnek cvetaju za Ljiljanu\r\n(2x)\r\n\r\n\r\nRef.\r\nC                  Am\r\nLjubavi su mnoge bile\r\nD                    G\r\nkao vatra mladost planu\r\nAm           Em\r\nsve sto osta od zivota\r\nD                  G\r\nja bi dao za Ljiljanu\r\nAm            Em\r\nsve sto osta od zivota\r\nD         H7       Em\r\nja bi dao za Ljiljanu\r\n\r\n\r\nNe pevajte pesme njene\r\nne dirajte staru ranu\r\npet godina ja negujem\r\npet godina ja jos cuvam\r\njednu ruzu za Ljiljanu\r\n\r\nPet godina ja jos cuvam\r\npet godina ja negujem\r\njednu ruzu za Ljiljanu\r\n\r\nRef.\r\n\r\nOstvaricu snove svoje\r\nkada hladne kise stanu\r\n\r\nKad s'prolecem ozelene\r\ncvetna polja za Ljiljanu\r\ncvetna polja za Ljiljanu\r\n(2x)\r\n\r\nRef.\r\n\r\nJa bi dao za Ljiljanu\r\nza Ljiljanu, za Ljiljanu"
+  }
+},
+{
+  "model": "song.songgenre",
+  "pk": 1,
+  "fields": {
+    "song": 1,
+    "genre": 5
+  }
+},
+{
+  "model": "song.songgenre",
+  "pk": 2,
+  "fields": {
+    "song": 2,
+    "genre": 5
+  }
+},
+{
+  "model": "song.songgenre",
+  "pk": 3,
+  "fields": {
+    "song": 3,
+    "genre": 2
+  }
+},
+{
+  "model": "song.songlike",
+  "pk": 1,
+  "fields": {
+    "song": 1,
+    "user": 2
+  }
+},
+{
+  "model": "song.accord",
+  "pk": 1,
+  "fields": {
+    "name": "E minor",
+    "link": "https://www.guitarlessons.org/wp-content/uploads/2022/07/e-minor-chord.png.webp",
+    "short_name": "Em"
+  }
+},
+{
+  "model": "song.accord",
+  "pk": 2,
+  "fields": {
+    "name": "E major",
+    "link": "https://www.guitarlessons.org/wp-content/uploads/2022/07/e-chord.png.webp",
+    "short_name": "E"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 1,
+  "fields": {
+    "action_time": "2023-05-30T08:12:32.645Z",
+    "user": [
+      "laki"
+    ],
+    "content_type": [
+      "song",
+      "songlike"
+    ],
+    "object_id": "1",
+    "object_repr": "Nedeljko Bajić Baja",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 2,
+  "fields": {
+    "action_time": "2023-05-30T08:17:29.210Z",
+    "user": [
+      "laki"
+    ],
+    "content_type": [
+      "user",
+      "user"
+    ],
+    "object_id": "1",
+    "object_repr": "user1",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 3,
+  "fields": {
+    "action_time": "2023-05-30T08:17:35.442Z",
+    "user": [
+      "laki"
+    ],
+    "content_type": [
+      "song",
+      "author"
+    ],
+    "object_id": "1",
+    "object_repr": "user1 added song Zapisano je u vremenu of author Nedeljko Bajić Baja",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 4,
+  "fields": {
+    "action_time": "2023-05-30T08:33:50.142Z",
+    "user": [
+      "laki"
+    ],
+    "content_type": [
+      "song",
+      "songgenre"
+    ],
+    "object_id": "1",
+    "object_repr": "Folk genre Zapisano je u vremenu",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 5,
+  "fields": {
+    "action_time": "2023-05-30T21:27:59.811Z",
+    "user": [
+      "laki"
+    ],
+    "content_type": [
+      "user",
+      "user"
+    ],
+    "object_id": "2",
+    "object_repr": "user2",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 6,
+  "fields": {
+    "action_time": "2023-05-30T21:28:12.231Z",
+    "user": [
+      "laki"
+    ],
+    "content_type": [
+      "user",
+      "user"
+    ],
+    "object_id": "1",
+    "object_repr": "user1",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Public info\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 7,
+  "fields": {
+    "action_time": "2023-05-30T21:31:11.103Z",
+    "user": [
+      "laki"
+    ],
+    "content_type": [
+      "song",
+      "songlike"
+    ],
+    "object_id": "2",
+    "object_repr": "Aco Pejović",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 8,
+  "fields": {
+    "action_time": "2023-05-30T21:32:01.580Z",
+    "user": [
+      "laki"
+    ],
+    "content_type": [
+      "song",
+      "author"
+    ],
+    "object_id": "2",
+    "object_repr": "user2 added song Da si tu of author Aco Pejović",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 9,
+  "fields": {
+    "action_time": "2023-05-30T21:41:06.134Z",
+    "user": [
+      "laki"
+    ],
+    "content_type": [
+      "song",
+      "songlike"
+    ],
+    "object_id": "3",
+    "object_repr": "Toma Zdravković",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 10,
+  "fields": {
+    "action_time": "2023-05-30T21:42:45.138Z",
+    "user": [
+      "laki"
+    ],
+    "content_type": [
+      "song",
+      "author"
+    ],
+    "object_id": "3",
+    "object_repr": "user2 added song Za ljiljanu of author Toma Zdravković",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 11,
+  "fields": {
+    "action_time": "2023-05-30T21:46:46.211Z",
+    "user": [
+      "laki"
+    ],
+    "content_type": [
+      "song",
+      "songgenre"
+    ],
+    "object_id": "2",
+    "object_repr": "Folk genre Da si tu",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 12,
+  "fields": {
+    "action_time": "2023-05-30T21:47:06.238Z",
+    "user": [
+      "laki"
+    ],
+    "content_type": [
+      "song",
+      "song"
+    ],
+    "object_id": "1",
+    "object_repr": "user2 likes Zapisano je u vremenu",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 13,
+  "fields": {
+    "action_time": "2023-05-31T08:08:58.424Z",
+    "user": [
+      "laki"
+    ],
+    "content_type": [
+      "song",
+      "accord"
+    ],
+    "object_id": "1",
+    "object_repr": "Em( E minor )",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 14,
+  "fields": {
+    "action_time": "2023-05-31T08:09:43.285Z",
+    "user": [
+      "laki"
+    ],
+    "content_type": [
+      "song",
+      "accord"
+    ],
+    "object_id": "2",
+    "object_repr": "E( E major )",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 15,
+  "fields": {
+    "action_time": "2023-05-31T11:03:26.787Z",
+    "user": [
+      "q"
+    ],
+    "content_type": [
+      "song",
+      "genre"
+    ],
+    "object_id": "10",
+    "object_repr": "test",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 16,
+  "fields": {
+    "action_time": "2023-05-31T11:07:31.336Z",
+    "user": [
+      "q"
+    ],
+    "content_type": [
+      "song",
+      "songgenre"
+    ],
+    "object_id": "3",
+    "object_repr": "Jazz genre Za ljiljanu",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+}
+]
