@@ -87,14 +87,14 @@ class Song (models.Model):
     list_display = ('get_author', 'get_username')
 
     @admin.display(ordering='song__author', description='Song author')
-    def get_author(self, obj):
+    def get_author(self):
         """ get_song_title"""
-        return obj.author.name
+        return self.author.name
 
     @admin.display(ordering='user__username', description='User who created')
-    def get_username(self, obj):
+    def get_username(self):
         """get_username"""
-        return obj.user.username
+        return self.user.username
 
     user = models.ForeignKey(
         User,
