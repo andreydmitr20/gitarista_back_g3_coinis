@@ -49,7 +49,8 @@ class SongGenreSerializer(serializers.ModelSerializer):
     """SongGenreSerializer"""
     class Meta:
         model = SongGenre
-        fields = ['song_id', 'genre_id']
+        # fields = ('id', 'song_id', 'genre_id')
+        fields = '__all__'
 
 
 class SongGenreListSerializer(serializers.ModelSerializer):
@@ -65,7 +66,16 @@ class SongLikeSerializer(serializers.ModelSerializer):
     """SongLikeSerializer"""
     class Meta:
         model = SongLike
-        fields = ['id', 'song', 'user']
+        fields = '__all__'
+
+
+class SongLikeListSerializer(serializers.ModelSerializer):
+    """SongLikeListSerializer"""
+    user__username = serializers.CharField()
+
+    class Meta:
+        model = SongLike
+        fields = ['user_id', 'user__username']
 
 
 class SongSerializer(serializers.ModelSerializer):

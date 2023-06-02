@@ -22,7 +22,7 @@ from .models import Song, Accord, Author, SongGenre, SongLike, Genre
 from .serializers import (SongSerializer,
                           AuthorSerializer, AuthorShortSerializer,
                           GenreSerializer, GenreShortSerializer,
-                          SongLikeSerializer,
+                          SongLikeSerializer, SongLikeListSerializer,
                           SongGenreSerializer, SongGenreListSerializer,
                           AccordSerializer, AccordShortSerializer)
 
@@ -141,17 +141,15 @@ class SongGenreView(APIView):
         return pagination_simple(request, serializer, queryset)
 
     def post(self, request, song_id=None, format=None):
-        # print(request.data)
-        data = request.POST.copy()
-        data['song_id'] = str(song_id)
-        # print(data)
-
-        serializer = self.serializer_class(data=data)
-        if serializer.is_valid():
-            print('valid')
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        #  TODO how to make it by serializer?
+        try:
+            instance = self.model()
+            instance.song_id = song_id
+            instance.genre_id = request.data['genre_id']
+            instance.save()
+            return Response([], status=status.HTTP_201_CREATED)
+        except:
+            return Response([], status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, song_id=None, format=None):
         return delete_simple(self.model, Q(song_id=song_id, genre_id=request.data['genre_id']))
@@ -161,3 +159,37 @@ class SongLikeView(APIView):
     permission_classes = PERMISSION_CLASSES
     serializer_class = SongLikeSerializer
     model = SongLike
+
+    def get(self, request, song_id=None, format=None):
+        serializer = SongLikeListSerializer
+        fields = serializer.Meta.fields
+        queryset = self.model.objects.select_related('user').values(*fields)
+
+        if not song_id is None:
+            queryset = queryset.filter(song_id=song_id)
+
+        if not request.query_params.get(API_TEXT_SEARCH) is None:
+            queryset = search_simple(
+                queryset,
+                request.query_params.get(API_TEXT_SEARCH),
+                'user__username',
+            )
+
+        queryset = order_simple(queryset, 'user__username')
+        print_query(PRINT_QUERY, queryset)
+
+        return pagination_simple(request, serializer, queryset)
+
+    def post(self, request, song_id=None, format=None):
+        #  TODO how to make it by serializer?
+        try:
+            instance = self.model()
+            instance.song_id = song_id
+            instance.user_id = request.data['user_id']
+            instance.save()
+            return Response([], status=status.HTTP_201_CREATED)
+        except:
+            return Response([], status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, song_id=None, format=None):
+        return delete_simple(self.model, Q(song_id=song_id, user_id=request.data['user_id']))
