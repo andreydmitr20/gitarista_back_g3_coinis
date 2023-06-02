@@ -1,3 +1,4 @@
+from re import search
 from rest_framework import status, viewsets
 from django.core.paginator import Paginator, EmptyPage
 from django.db.models import Q
@@ -12,11 +13,11 @@ API_TEXT_SHORT = 'short'
 DEFAULT_PAGE_SIZE_FOR_PAGINATION = 4
 
 
-def parse_search_to_queryset(queryset,
-                             search_text: str,
-                             search_field):
+def search_simple(queryset,
+                  search_text: str,
+                  search_field):
     """ search by max 3 patterns space separated """
-
+    print('search:', search_text)
     search_text = search_text.strip()
 
     if search_text != '':
@@ -24,7 +25,6 @@ def parse_search_to_queryset(queryset,
     search_text_len = len(search_text)
     if search_text_len > 0:
         if search_text_len == 1:
-            print(':', search_text[0].strip())
             queryset = queryset.filter(
                 Q(**{'{}__icontains'.format(search_field): search_text[0].strip()})
             )
@@ -43,6 +43,46 @@ def parse_search_to_queryset(queryset,
     return queryset
 
 
+def pagination_simple(
+        request,
+        serializer,
+        queryset
+):
+    page = request.query_params.get(API_TEXT_PAGE, '1')
+    if page == '0':
+        # return count
+        count = queryset.count()
+        return Response([{'count': count}], status=status.HTTP_200_OK)
+
+    page_size = request.query_params.get(API_TEXT_PAGE_SIZE,
+                                         DEFAULT_PAGE_SIZE_FOR_PAGINATION)
+
+    try:
+        paginator = Paginator(queryset, page_size)
+        serializer = serializer(
+            paginator.page(page),
+            many=True,
+            context={'request': request}
+        )
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except EmptyPage:
+        return Response([], status=status.HTTP_200_OK)
+
+
+def print_query(is_print_query, queryset):
+    if is_print_query:
+        print(queryset.query)
+
+
+def order_simple(
+        queryset,
+        order_field
+):
+    if not order_field is None:
+        order_field = '-id'
+    return queryset.order_by(order_field)
+
+
 def select_simple(
     model,
     request,
@@ -50,8 +90,8 @@ def select_simple(
     serializer_class,
     short_serializer_class=None,
     search_field=None,
-    order_by=None,
-    print_query=False
+    order_field=None,
+    is_print_query=False
 ):
     serializer_class_local = (
         short_serializer_class
@@ -72,38 +112,22 @@ def select_simple(
     #     queryset = queryset.filter(user=self.request.user.id)
 
     if not request.query_params.get(API_TEXT_SEARCH) is None:
-        if not search_field is None:
-            return Response([], status=status.HTTP_400_BAD_REQUEST)
-        queryset = parse_search_to_queryset(
-            queryset,
-            request.query_params.get(API_TEXT_SEARCH),
-            search_field)
+        if search_field is None:
+            Response([], status=status.HTTP_400_BAD_REQUEST)
+        else:
+            queryset = search_simple(
+                queryset,
+                request.query_params.get(API_TEXT_SEARCH),
+                search_field)
 
-    if not order_by is None:
-        order_by = '-id'
-    queryset = queryset.order_by(order_by)
+    queryset = order_simple(queryset, order_field)
 
     if not id is None:
         queryset = queryset.filter(pk=id)
 
-    if print_query:
-        print(queryset.query)
+    print_query(is_print_query, queryset)
 
-    page = request.query_params.get(API_TEXT_PAGE, 1)
-    if page == '0':
-        # return count
-        count = queryset.count()
-        return Response([{'count': count}], status=status.HTTP_200_OK)
-
-    page_size = request.query_params.get(API_TEXT_PAGE_SIZE,
-                                         DEFAULT_PAGE_SIZE_FOR_PAGINATION)
-    try:
-        paginator = Paginator(queryset, page_size)
-        serializer = serializer_class_local(paginator.page(
-            page), many=True, context={'request': request})
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    except EmptyPage:
-        return Response([], status=status.HTTP_200_OK)
+    return pagination_simple(request, serializer_class_local, queryset)
 
 
 def insert_simple(
@@ -127,11 +151,8 @@ def update_simple(
     """ update """
     try:
         instance = model.objects.get(pk=id)
-    except model.DoesNotExist:
-        raise Http404
-    # check if the same user
-    # if model.user_id != request.user.id:
-    #     return Response(USER_IS_NOT_AUTHORIZED_TO_DELETE, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as exc:
+        raise Http404 from exc
     serializer = serializer_class(instance, data=request.data)
     if serializer.is_valid():
         serializer.save()
@@ -144,15 +165,13 @@ ERROR_WHEN_DELETING = 'Error when deleting'
 
 def delete_simple(
         model,
-        id,
+        conditions
 ):
+    """ delete """
     try:
-        instance = model.objects.get(pk=id)
-    except model.DoesNotExist:
-        raise Http404
-    # check if the same user
-    # if ingredient.user_id != request.user.id:
-    #     return Response(USER_IS_NOT_AUTHORIZED_TO_DELETE, status=status.HTTP_400_BAD_REQUEST)
+        instance = model.objects.get(conditions)
+    except Exception as exc:
+        raise Http404 from exc
     try:
         instance.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

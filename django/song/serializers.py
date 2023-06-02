@@ -49,14 +49,23 @@ class SongGenreSerializer(serializers.ModelSerializer):
     """SongGenreSerializer"""
     class Meta:
         model = SongGenre
-        fields = '__all__'
+        fields = ['song_id', 'genre_id']
+
+
+class SongGenreListSerializer(serializers.ModelSerializer):
+    """SongGenreListSerializer"""
+    genre__name = serializers.CharField()
+
+    class Meta:
+        model = SongGenre
+        fields = ['genre_id', 'genre__name']
 
 
 class SongLikeSerializer(serializers.ModelSerializer):
     """SongLikeSerializer"""
     class Meta:
         model = SongLike
-        fields = '__all__'
+        fields = ['id', 'song', 'user']
 
 
 class SongSerializer(serializers.ModelSerializer):
