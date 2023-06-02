@@ -15,7 +15,7 @@ from .serializers import (SongSerializer,
                           GenreSerializer, GenreShortSerializer,
                           SongLikeSerializer,
                           SongGenreSerializer,
-                          AccordSerializer)
+                          AccordSerializer, AccordShortSerializer)
 
 
 PERMISSION_CLASSES = [AllowAny]

@@ -66,12 +66,7 @@
 
 <h3> API </h3>
 <br>
-    Retrieve (GET) parameters:
-
-    search,
-    page,
-    page_size,
-    short.
+    Retrieve (GET) parameters: search, page, page_size, short.
 
     Examples:
 

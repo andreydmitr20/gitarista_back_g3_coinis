@@ -24,7 +24,7 @@ class AccordSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class AccordSerializer(serializers.ModelSerializer):
+class AccordShortSerializer(serializers.ModelSerializer):
     """AccordShortSerializer"""
     class Meta:
         model = Accord
