@@ -209,13 +209,13 @@ class SongView(APIView):
             'user').select_related('author').values(*fields)
 
         author = self.request.query_params.get('author', '')
-        print('author', author)
         if author != '':
+            # print('author:', author)
             queryset = queryset.filter(author=author)
 
         user = self.request.query_params.get('user', '')
-        print('user', user)
         if user != '':
+            # print('user:', user)
             queryset = queryset.filter(user=user)
 
         if not request.query_params.get(API_TEXT_SEARCH) is None:
