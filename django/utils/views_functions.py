@@ -25,7 +25,7 @@ def search_simple(queryset,
                   search_text: str,
                   search_field):
     """ search by max 3 patterns space separated """
-    print('search:', search_text)
+    # print('search:', search_text)
     search_text = search_text.strip()
 
     if search_text != '':
@@ -75,7 +75,7 @@ def pagination_simple(
             many=True,
             context={'request': request}
         )
-        print(serializer.data)
+        # print(serializer.data)
         return Response(serializer.data, status=status.HTTP_200_OK)
     except EmptyPage:
         return Response([], status=status.HTTP_200_OK)
