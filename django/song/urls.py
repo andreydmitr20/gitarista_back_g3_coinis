@@ -7,6 +7,7 @@ from .views import (AuthorView,
                     AccordView,
                     SongGenreView,
                     SongLikeView,
+                    SongView,
                     )
 
 urlpatterns = [
@@ -22,4 +23,7 @@ urlpatterns = [
 
     path('<int:song_id>/genre/', SongGenreView.as_view(), name='song genres'),
     path('<int:song_id>/like/', SongLikeView.as_view(), name='song likes'),
+
+    path('', SongView.as_view(), name='songs'),
+    path('<int:song_id>/', SongView.as_view(), name='songs'),
 ]

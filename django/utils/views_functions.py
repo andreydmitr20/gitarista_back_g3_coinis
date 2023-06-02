@@ -13,6 +13,14 @@ API_TEXT_SHORT = 'short'
 DEFAULT_PAGE_SIZE_FOR_PAGINATION = 4
 
 
+def get_int_request_param(request, key):
+    try:
+        return int(request.data[key])
+    except:
+        pass
+    return None
+
+
 def search_simple(queryset,
                   search_text: str,
                   search_field):
@@ -26,16 +34,19 @@ def search_simple(queryset,
     if search_text_len > 0:
         if search_text_len == 1:
             queryset = queryset.filter(
-                Q(**{'{}__icontains'.format(search_field): search_text[0].strip()})
+                Q(**{'{}__icontains'.format(search_field)
+                  : search_text[0].strip()})
             )
         elif search_text_len == 2:
             queryset = queryset.filter(
-                Q(**{'{}__icontains'.format(search_field): search_text[0].strip()})
+                Q(**{'{}__icontains'.format(search_field)
+                  : search_text[0].strip()})
                 | Q(**{'{}__icontains'.format(search_field): search_text[1].strip()})
             )
         else:
             queryset = queryset.filter(
-                Q(**{'{}__icontains'.format(search_field): search_text[0].strip()})
+                Q(**{'{}__icontains'.format(search_field)
+                  : search_text[0].strip()})
                 | Q(**{'{}__icontains'.format(search_field): search_text[1].strip()})
                 | Q(**{'{}__icontains'.format(search_field): search_text[2].strip()})
             )
@@ -64,6 +75,7 @@ def pagination_simple(
             many=True,
             context={'request': request}
         )
+        print(serializer.data)
         return Response(serializer.data, status=status.HTTP_200_OK)
     except EmptyPage:
         return Response([], status=status.HTTP_200_OK)
@@ -131,11 +143,12 @@ def select_simple(
 
 
 def insert_simple(
-        request,
-        serializer_class
+        serializer_class,
+        data
 ):
     """ create """
-    serializer = serializer_class(data=request.data)
+    serializer = serializer_class(data=data)
+    print(serializer)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)

@@ -14,12 +14,14 @@ from utils.views_functions import (select_simple,
                                    pagination_simple,
                                    search_simple,
                                    order_simple,
-                                   API_TEXT_SEARCH)
+                                   get_int_request_param,
+                                   API_TEXT_SEARCH,
+                                   API_TEXT_SHORT)
 
 from django.db.models import Q
 
 from .models import Song, Accord, Author, SongGenre, SongLike, Genre
-from .serializers import (SongSerializer,
+from .serializers import (SongSerializer, SongShortSerializer, SongListSerializer,
                           AuthorSerializer, AuthorShortSerializer,
                           GenreSerializer, GenreShortSerializer,
                           SongLikeSerializer, SongLikeListSerializer,
@@ -51,7 +53,7 @@ class GenreView(APIView):
             is_print_query=PRINT_QUERY)
 
     def post(self, request, format=None):
-        return insert_simple(request, self.serializer_class)
+        return insert_simple(self.serializer_class, request.data)
 
     def put(self, request, id=None, format=None):
         return update_simple(self.model, request, id, self.serializer_class)
@@ -78,7 +80,7 @@ class AuthorView(APIView):
             is_print_query=PRINT_QUERY)
 
     def post(self, request, format=None):
-        return insert_simple(request, self.serializer_class)
+        return insert_simple(self.serializer_class, request.data)
 
     def put(self, request, id=None, format=None):
         return update_simple(self.model, request, id, self.serializer_class)
@@ -105,7 +107,7 @@ class AccordView(APIView):
             is_print_query=PRINT_QUERY)
 
     def post(self, request, format=None):
-        return insert_simple(request, self.serializer_class)
+        return insert_simple(self.serializer_class, request.data)
 
     def put(self, request, id=None, format=None):
         return update_simple(self.model, request, id, self.serializer_class)
@@ -141,18 +143,14 @@ class SongGenreView(APIView):
         return pagination_simple(request, serializer, queryset)
 
     def post(self, request, song_id=None, format=None):
-        #  TODO how to make it by serializer?
-        try:
-            instance = self.model()
-            instance.song_id = song_id
-            instance.genre_id = request.data['genre_id']
-            instance.save()
-            return Response([], status=status.HTTP_201_CREATED)
-        except:
-            return Response([], status=status.HTTP_400_BAD_REQUEST)
+        return insert_simple(self.serializer_class, {
+            'song': song_id,
+            'genre': get_int_request_param(request, 'genre')
+        })
 
     def delete(self, request, song_id=None, format=None):
-        return delete_simple(self.model, Q(song_id=song_id, genre_id=request.data['genre_id']))
+        return delete_simple(self.model, Q(song_id=song_id,
+                                           genre_id=request.data['genre']))
 
 
 class SongLikeView(APIView):
@@ -181,15 +179,70 @@ class SongLikeView(APIView):
         return pagination_simple(request, serializer, queryset)
 
     def post(self, request, song_id=None, format=None):
-        #  TODO how to make it by serializer?
-        try:
-            instance = self.model()
-            instance.song_id = song_id
-            instance.user_id = request.data['user_id']
-            instance.save()
-            return Response([], status=status.HTTP_201_CREATED)
-        except:
-            return Response([], status=status.HTTP_400_BAD_REQUEST)
+        return insert_simple(self.serializer_class, {
+            'song': song_id,
+            'user': get_int_request_param(request, 'user')
+        })
 
     def delete(self, request, song_id=None, format=None):
-        return delete_simple(self.model, Q(song_id=song_id, user_id=request.data['user_id']))
+        return delete_simple(self.model, Q(song_id=song_id,
+                                           user_id=request.data['user']))
+
+
+class SongView(APIView):
+    """SongView"""
+    permission_classes = PERMISSION_CLASSES
+    serializer_class = SongSerializer
+    model = Song
+
+    def get(self, request, song_id=None, format=None):
+        serializer_class_local = (
+            SongShortSerializer
+            if request.query_params.get(API_TEXT_SHORT, '0') == '1'
+            else SongListSerializer
+        )
+
+        fields = serializer_class_local.Meta.fields
+        print('fields', fields)
+        print(serializer_class_local)
+        queryset = self.model.objects.select_related(
+            'user').select_related('author').values(*fields)
+
+        author = self.request.query_params.get('author', '')
+        print('author', author)
+        if author != '':
+            queryset = queryset.filter(author=author)
+
+        user = self.request.query_params.get('user', '')
+        print('user', user)
+        if user != '':
+            queryset = queryset.filter(user=user)
+
+        if not request.query_params.get(API_TEXT_SEARCH) is None:
+            queryset = search_simple(
+                queryset,
+                request.query_params.get(API_TEXT_SEARCH),
+                "title")
+
+        queryset = order_simple(queryset, 'title')
+
+        if not song_id is None:
+            queryset = queryset.filter(pk=song_id)
+
+        print_query(PRINT_QUERY, queryset)
+
+        return pagination_simple(request, serializer_class_local, queryset)
+
+    def post(self, request, format=None):
+        # print('request', request.POST)
+        return insert_simple(self.serializer_class,
+                             request.data.dict() | {
+                                 'author': get_int_request_param(request, 'author'),
+                                 'user': get_int_request_param(request, 'user')
+                             })
+
+    def put(self, request, song_id=None, format=None):
+        return update_simple(self.model, request, song_id, self.serializer_class)
+
+    def delete(self, request, song_id=None, format=None):
+        return delete_simple(self.model, Q(pk=song_id))

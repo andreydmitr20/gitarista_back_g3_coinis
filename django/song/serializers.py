@@ -49,13 +49,12 @@ class SongGenreSerializer(serializers.ModelSerializer):
     """SongGenreSerializer"""
     class Meta:
         model = SongGenre
-        # fields = ('id', 'song_id', 'genre_id')
         fields = '__all__'
 
 
 class SongGenreListSerializer(serializers.ModelSerializer):
     """SongGenreListSerializer"""
-    genre__name = serializers.CharField()
+    genre__name = serializers.ReadOnlyField()
 
     class Meta:
         model = SongGenre
@@ -71,7 +70,7 @@ class SongLikeSerializer(serializers.ModelSerializer):
 
 class SongLikeListSerializer(serializers.ModelSerializer):
     """SongLikeListSerializer"""
-    user__username = serializers.CharField()
+    user__username = serializers.ReadOnlyField()
 
     class Meta:
         model = SongLike
@@ -80,21 +79,47 @@ class SongLikeListSerializer(serializers.ModelSerializer):
 
 class SongSerializer(serializers.ModelSerializer):
     """SongSerializer"""
-    user_name = serializers.CharField(
-        source='user.username', required=False)
-    author_name = serializers.CharField(
-        source='author.name', required=False)
+
+    class Meta:
+        model = Song
+        fields = '__all__'
+
+
+class SongListSerializer(serializers.ModelSerializer):
+    """SongListSerializer"""
+    # user = serializers.SerializerMethodField('id')
+
+    user__username = serializers.ReadOnlyField()
+    author__name = serializers.ReadOnlyField()
 
     class Meta:
         model = Song
         fields = [
             'id',
             'user_id',
-            'user_name',
+            'user__username',
             'author_id',
-            'author_name',
+            'author__name',
             'title',
             'text_with_accords',
             'date_creation',
             'link'
         ]
+
+
+class SongShortSerializer(serializers.ModelSerializer):
+    """SongShortSerializer"""
+    author__name = serializers.ReadOnlyField()
+
+    class Meta:
+        model = Song
+        fields = [
+            'id',
+            'user_id',
+            'author_id',
+            'author__name',
+            'title',
+            'date_creation',
+            'link'
+        ]
+        read_only_fields = ('author_id', 'author__name')
