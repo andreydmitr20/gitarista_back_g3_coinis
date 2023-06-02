@@ -24,11 +24,25 @@ class AccordSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class AccordSerializer(serializers.ModelSerializer):
+    """AccordShortSerializer"""
+    class Meta:
+        model = Accord
+        fields = ['id', 'short_name']
+
+
 class AuthorSerializer(serializers.ModelSerializer):
     """AuthorSerializer"""
     class Meta:
         model = Author
         fields = '__all__'
+
+
+class AuthorShortSerializer(serializers.ModelSerializer):
+    """AuthorShortSerializer"""
+    class Meta:
+        model = Author
+        fields = ['id', 'name']
 
 
 class SongGenreSerializer(serializers.ModelSerializer):
