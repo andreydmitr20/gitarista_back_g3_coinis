@@ -61,24 +61,25 @@
 <h3> Tools </h3>
 <br>
     Postman
+
     Dbeaver
 
 <h3> API </h3>
 <br>
+    Retrieve (GET) parameters:
+
+    search,
+    page,
+    page_size,
+    short,
+    order_by.
+
 <p>
     Schemas:
 
     http://127.0.0.1:8000/api/schema/
     http://127.0.0.1:8000/api/schema/swagger-ui/
     http://127.0.0.1:8000/api/schema/redoc/
-
-    API:
-
-    http://127.0.0.1:8000/api-auth/
-    http://127.0.0.1:8000/song/
-
-    Note that it is for back-enders only:
-    http://127.0.0.1:8000/admin/
 
 </p>
 <h3> Relational schema from <a href="erdplus.com">erdplus.com</a> </h3>

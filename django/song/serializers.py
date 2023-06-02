@@ -10,6 +10,13 @@ class GenreSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class GenreShortSerializer(serializers.ModelSerializer):
+    """GenreShortSerializer"""
+    class Meta:
+        model = Genre
+        fields = ['id', 'name']
+
+
 class AccordSerializer(serializers.ModelSerializer):
     """AccordSerializer"""
     class Meta:

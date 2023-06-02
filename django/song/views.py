@@ -23,7 +23,7 @@ from rest_framework import generics
 from .models import Song, Accord, Author, SongGenre, SongLike, Genre
 from .serializers import (SongSerializer,
                           AuthorSerializer,
-                          GenreSerializer,
+                          GenreSerializer, GenreShortSerializer,
                           SongLikeSerializer,
                           SongGenreSerializer,
                           AccordSerializer)
@@ -39,16 +39,7 @@ API_TEXT_SEARCH = 'search'
 API_TEXT_PAGE = 'page'
 API_TEXT_PAGE_SIZE = 'page_size'
 API_TEXT_SHORT = 'short'
-API_TEXT_ORDER = 'order_by'
-
-
-"""
-  create POST api-path/ body has data | return created object with id
-  retrieve GET api-path/ url has data | all with pagination
-            api-path/id | all data with id
-
-
-"""
+# API_TEXT_ORDER = 'order_by'
 
 
 def parse_search_to_queryset(queryset,
@@ -91,9 +82,10 @@ class GenreView(APIView):
     """ CRUD """
     permission_classes = PERMISSION_CLASSES
     serializer_class = GenreSerializer
-    short_serializer_class = GenreSerializer
+    short_serializer_class = GenreShortSerializer
     model = Genre
-    search_field = 'name'
+    # search_field = 'name'
+    order_by = 'name'
 
     def get_object(self, id):
         """ get_object """
@@ -106,9 +98,10 @@ class GenreView(APIView):
         """ R - retrieve """
 
         serializer_class_local = (
-            self.serializer_class
-            if (self.request.query_params.get(API_TEXT_SHORT) != '1')
-            else self.short_serializer_class)
+            self.short_serializer_class
+            if hasattr(self, "short_serializer_class") and self.request.query_params.get(API_TEXT_SHORT, 0) != '0'
+            else self.serializer_class
+        )
 
         fields = serializer_class_local.Meta.fields
         queryset = (self.model.objects.all()
@@ -129,9 +122,9 @@ class GenreView(APIView):
                 self.request.query_params.get(API_TEXT_SEARCH),
                 self.search_field)
 
-        order_by = self.request.query_params.get(API_TEXT_ORDER, '-id')
-        if not order_by is None:
-            queryset = queryset.order_by(order_by)
+        if not hasattr(self, "order_by"):
+            self.order_by = '-id'
+        queryset = queryset.order_by(self.order_by)
 
         if not id is None:
             queryset = queryset.filter(pk=id)
