@@ -203,8 +203,8 @@ class SongView(APIView):
         )
 
         fields = serializer_class_local.Meta.fields
-        print('fields', fields)
-        print(serializer_class_local)
+        # print('fields', fields)
+        # print(serializer_class_local)
         queryset = self.model.objects.select_related(
             'user').select_related('author').values(*fields)
 

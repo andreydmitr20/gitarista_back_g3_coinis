@@ -148,7 +148,7 @@ def insert_simple(
 ):
     """ create """
     serializer = serializer_class(data=data)
-    print(serializer)
+    # print(serializer)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
