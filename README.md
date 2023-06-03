@@ -4,24 +4,111 @@
 
 <h3> Installation </h3>
 <br>
+<h4> Linux </h4>
+<br>
+    Install python 3.10.6, then:
 
     > gh repo clone andreydmitr20/gitarista_back_g3_coinis
+
     > cd gitarista_back_g3_coinis
+
     > python3 -m venv venv
+
     > source venv/bin/activate
+
     > cd django
+
     > pip3 install -r requirements.txt
+
     > python3 m migrate
-    > python3 m loaddata /data/data<last_version>.json
+
+    > python3 m loaddata ./data/data<last_version>.json
+
     > python3 m runserver
 
-    You have got api :
-    http://127.0.0.1:8000/api-auth/
-    http://127.0.0.1:8000/song/
+<h4> Windows </h4>
+<br>
+<p>
+    Install python 3.10.6 https://www.python.org/downloads/release/python-3106/
 
-    Note that it is for back-enders only:
-    http://127.0.0.1:8000/admin/
+    Install gh https://github.com/cli/cli/releases/tag/v2.30.0
 
+    Install git https://github.com/git-for-windows/git/releases/tag/v2.40.1.windows.1
+
+    Then in command prompt:
+
+    > gh auth login
+
+    > gh repo clone andreydmitr20/gitarista_back_g3_coinis
+
+    > cd gitarista_back_g3_coinis
+
+    > python.exe -m venv venv
+
+    > venv\Scripts\activate.bat
+
+    > cd django
+
+    > pip.exe install -r requirements.txt
+
+    > python.exe m migrate
+
+    > python.exe m loaddata ./data/data<last_version>.json
+
+    > python.exe m runserver
+
+</p>
+<h3> Tools </h3>
+<br>
+    Postman
+
+    Dbeaver
+
+<h3> API </h3>
+<br>
+    Retrieve (GET) parameters: search, page, page_size, short.
+
+    Examples:
+
+    Get first page of authors:
+        GET
+        http://127.0.0.1:8000/api/v1/song/author/
+
+    Get first page of authors with just some (reduced) data fields count:
+        GET
+        http://127.0.0.1:8000/api/v1/song/author/?short=1
+
+    Get authors count with 'Mr' in name:
+        GET
+        http://127.0.0.1:8000/api/v1/song/author/?search=Mr&page=0
+
+    Get authors page 10:
+        GET
+        http://127.0.0.1:8000/api/v1/song/author/?page=10&page_size=5
+
+
+    Create an author 'new author':
+        POST body={'name'='new author'}
+        http://127.0.0.1:8000/api/v1/song/author/
+
+
+    Update the name of the author with id=1 to 'new name:
+        PUT body={'name'='new name'}
+        http://127.0.0.1:8000/api/v1/song/author/1/
+
+
+    Delete author with id=1:
+        DELETE
+        http://127.0.0.1:8000/api/v1/song/author/1/
+
+<p>
+    Schemas:
+
+    http://127.0.0.1:8000/api/schema/
+    http://127.0.0.1:8000/api/schema/swagger-ui/
+    http://127.0.0.1:8000/api/schema/redoc/
+
+</p>
 <h3> Relational schema from <a href="erdplus.com">erdplus.com</a> </h3>
 <br>
 <a href="./docs/gitaristi.erdplus">

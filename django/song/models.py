@@ -169,6 +169,9 @@ class SongGenre(models.Model):
         on_delete=models.DO_NOTHING
     )
 
+    class Meta:
+        unique_together = [['song', 'genre']]
+
     def __str__(self):
         return str(self.genre.name)+' genre '+str(self.song.title)
 
@@ -201,6 +204,9 @@ class SongLike(models.Model):
         blank=False,
         on_delete=models.DO_NOTHING
     )
+
+    class Meta:
+        unique_together = [['song', 'user']]
 
     def __str__(self):
         return str(self.user.username)+' likes '+str(self.song.title)
