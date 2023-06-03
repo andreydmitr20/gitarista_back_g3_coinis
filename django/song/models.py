@@ -169,15 +169,15 @@ class Song (models.Model):
     @admin.display(ordering='song_author', description='Song author')
     def get_author(self):
         """ get_song_title"""
-        return self.author.name
+        return self.author_id.name
 
     @admin.display(ordering='user_username', description='User who created')
     def get_username(self):
         """get_username"""
-        return self.user.username
+        return self.user_id.username
 
     def __str__(self):
-        return str(self.user.username)+' added song '+str(self.title)+(' of author ')+str(self.author.name)
+        return str(self.author_id.name)+(' - ')+str(self.title)
 
 
 class SongGenre(models.Model):
@@ -212,15 +212,15 @@ class SongGenre(models.Model):
     @admin.display(ordering='song_title', description='Song title')
     def get_song_title(self):
         """ get_song_title"""
-        return self.song.title
+        return self.song_id.title
 
     @admin.display(ordering='song_genre', description='Song genre')
     def get_song_genre(self):
         """get_song_genre"""
-        return self.genre.name
+        return self.genre_id.name
 
     def __str__(self):
-        return str(self.genre.name)+' genre '+str(self.song.title)
+        return str(self.genre_id.name)+' genre '+str(self.song_id.title)
 
 
 class SongLike(models.Model):
@@ -255,15 +255,15 @@ class SongLike(models.Model):
     @admin.display(ordering='song_title', description='Song title')
     def get_song_title(self):
         """ get_song_title"""
-        return self.song.title
+        return self.song_id.title
 
     @admin.display(ordering='user_username', description='User who likes')
     def get_username(self):
         """get_username"""
-        return self.user.username
+        return self.user_id.username
 
     def __str__(self):
-        return str(self.user.username)+' likes '+str(self.song.title)
+        return str(self.user_id.username)+' likes '+str(self.song_id.title)
 
 
 class Accord(models.Model):
