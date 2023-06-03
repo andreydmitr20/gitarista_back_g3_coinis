@@ -37,8 +37,8 @@ admin.site.register(Accord, AccordAdmin)
 class SongGenreAdmin(admin.ModelAdmin):
     """ song genre admin"""
     list_display = ['get_song_title', 'get_song_genre']
-    # list_filter = ['name',]
-    search_fields = ['get_song_title', 'get_song__genre']
+    list_filter = ['song_id', 'genre_id']
+    search_fields = ['get_song_title', 'get_song_genre']
 
 
 admin.site.register(SongGenre, SongGenreAdmin)
@@ -47,7 +47,7 @@ admin.site.register(SongGenre, SongGenreAdmin)
 class SongLikeAdmin(admin.ModelAdmin):
     """ song like admin"""
     list_display = ['get_song_title', 'get_username']
-    # list_filter = ['name',]
+    list_filter = ['song_id', 'user_id']
     search_fields = ['get_song_title', 'get_username']
 
 
