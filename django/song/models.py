@@ -28,12 +28,6 @@ class Genre(models.Model):
         default=''
     )
 
-    list_display = (
-        'genre_id',
-        'name',
-        'description',
-    )
-
     def __str__(self):
         return str(self.name)
 
@@ -94,12 +88,6 @@ class Author(models.Model):
         default=''
     )
 
-    list_display = (
-        'author_id',
-        'name',
-        'link',
-    )
-
     def __str__(self):
         return str(self.name)
 
@@ -155,17 +143,6 @@ class Song (models.Model):
         default=''
     )
 
-    list_display = (
-        'song_id',
-        'author_id',
-        'get_author',
-        'title',
-        'link',
-        'user_id',
-        'get_username',
-        'date_creation',
-    )
-
     @admin.display(ordering='song_author', description='Song author')
     def get_author(self):
         """ get_song_title"""
@@ -202,13 +179,6 @@ class SongGenre(models.Model):
     class Meta:
         unique_together = [['song_id', 'genre_id']]
 
-    list_display = (
-        'song_id',
-        'get_song_title',
-        'genre_id',
-        'get_song_genre',
-    )
-
     @admin.display(ordering='song_title', description='Song title')
     def get_song_title(self):
         """ get_song_title"""
@@ -244,13 +214,6 @@ class SongLike(models.Model):
 
     class Meta:
         unique_together = [['song_id', 'user_id']]
-
-    list_display = (
-        'song_id',
-        'get_song_title',
-        'user_id',
-        'get_username',
-    )
 
     @admin.display(ordering='song_title', description='Song title')
     def get_song_title(self):
@@ -292,13 +255,6 @@ class Accord(models.Model):
         null=False,
         blank=False,
         unique=True,
-    )
-
-    list_display = (
-        'accord_id',
-        'name',
-        'link',
-        'short_name',
     )
 
     def __str__(self):

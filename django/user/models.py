@@ -31,13 +31,5 @@ class User (models.Model):
         auto_now_add=True
     )
 
-    list_display = (
-        'user_id',
-        'username',
-        # 'password',
-        'public_info',
-        'date_creation',
-    )
-
     def __str__(self):
         return str(self.username)
