@@ -34,19 +34,16 @@ def search_simple(queryset,
     if search_text_len > 0:
         if search_text_len == 1:
             queryset = queryset.filter(
-                Q(**{'{}__icontains'.format(search_field)
-                  : search_text[0].strip()})
+                Q(**{'{}__icontains'.format(search_field): search_text[0].strip()})
             )
         elif search_text_len == 2:
             queryset = queryset.filter(
-                Q(**{'{}__icontains'.format(search_field)
-                  : search_text[0].strip()})
+                Q(**{'{}__icontains'.format(search_field): search_text[0].strip()})
                 | Q(**{'{}__icontains'.format(search_field): search_text[1].strip()})
             )
         else:
             queryset = queryset.filter(
-                Q(**{'{}__icontains'.format(search_field)
-                  : search_text[0].strip()})
+                Q(**{'{}__icontains'.format(search_field): search_text[0].strip()})
                 | Q(**{'{}__icontains'.format(search_field): search_text[1].strip()})
                 | Q(**{'{}__icontains'.format(search_field): search_text[2].strip()})
             )
@@ -134,7 +131,7 @@ def select_simple(
 
     queryset = order_simple(queryset, order_field)
 
-    if not id is None:
+    if not id is None and id != 0:
         queryset = queryset.filter(pk=id)
 
     print_query(is_print_query, queryset)

@@ -52,7 +52,7 @@ class GenreView(APIView):
             order_field='name',
             is_print_query=PRINT_QUERY)
 
-    def post(self, request, format=None):
+    def post(self, request, id=None, format=None):
         return insert_simple(self.serializer_class, request.data)
 
     def put(self, request, id=None, format=None):
@@ -79,7 +79,7 @@ class AuthorView(APIView):
             order_field='name',
             is_print_query=PRINT_QUERY)
 
-    def post(self, request, format=None):
+    def post(self, request, id=None, format=None):
         return insert_simple(self.serializer_class, request.data)
 
     def put(self, request, id=None, format=None):
@@ -106,7 +106,7 @@ class AccordView(APIView):
             order_field='name',
             is_print_query=PRINT_QUERY)
 
-    def post(self, request, format=None):
+    def post(self, request, id=None, format=None):
         return insert_simple(self.serializer_class, request.data)
 
     def put(self, request, id=None, format=None):
@@ -127,7 +127,7 @@ class SongGenreView(APIView):
         fields = serializer.Meta.fields
         queryset = self.model.objects.select_related('genre').values(*fields)
 
-        if not song_id is None:
+        if not song_id is None and song_id != 0:
             queryset = queryset.filter(song_id=song_id)
 
         if not request.query_params.get(API_TEXT_SEARCH) is None:
@@ -163,7 +163,7 @@ class SongLikeView(APIView):
         fields = serializer.Meta.fields
         queryset = self.model.objects.select_related('user').values(*fields)
 
-        if not song_id is None:
+        if not song_id is None and song_id != 0:
             queryset = queryset.filter(song_id=song_id)
 
         if not request.query_params.get(API_TEXT_SEARCH) is None:
@@ -226,14 +226,14 @@ class SongView(APIView):
 
         queryset = order_simple(queryset, 'title')
 
-        if not song_id is None:
+        if not song_id is None and song_id != 0:
             queryset = queryset.filter(pk=song_id)
 
         print_query(PRINT_QUERY, queryset)
 
         return pagination_simple(request, serializer_class_local, queryset)
 
-    def post(self, request, format=None):
+    def post(self, request, song_id=None, format=None):
         # print('request', request.POST)
         return insert_simple(self.serializer_class,
                              request.data.dict() | {
