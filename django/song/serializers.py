@@ -14,7 +14,7 @@ class GenreShortSerializer(serializers.ModelSerializer):
     """GenreShortSerializer"""
     class Meta:
         model = Genre
-        fields = ['id', 'name']
+        fields = ['genre_id', 'name']
 
 
 class AccordSerializer(serializers.ModelSerializer):

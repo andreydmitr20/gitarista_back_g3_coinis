@@ -60,23 +60,27 @@
 </p>
 <h3> Tools </h3>
 <br>
+    Info:
+
     Postman
 
     Dbeaver
 
 <h3> API </h3>
 <br>
-    Retrieve (GET) parameters: search, page, page_size, short and more....
+    Info:
     
-    Id==0 means 'All'
+    Common parameters for HTTP GET request: search, page, page_size, short.
+    
+    In API URI 0 for PK (Primary Key) means 'All'.
 
     Examples:
 
-    Get first page of authors:
+    Get first page of authors (PK=0):
         GET
         http://127.0.0.1:8000/api/v1/song/author/0
 
-    Get the author with id==23:
+    Get the author with PK=23:
         GET
         http://127.0.0.1:8000/api/v1/song/author/23
 
@@ -88,24 +92,24 @@
         GET
         http://127.0.0.1:8000/api/v1/song/author/0/?search=Mr&page=0
 
-    Get authors page 10:
+    Get author's page 10:
         GET
         http://127.0.0.1:8000/api/v1/song/author/0/?page=10&page_size=5
 
 
     Create an author 'new author':
         POST body={'name'='new author'}
-        http://127.0.0.1:8000/api/v1/song/author/0
+        http://127.0.0.1:8000/api/v1/song/author/0/
 
 
-    Update the name of the author with id=1 to 'new name:
+    Update the name of the author with PK=1 to 'new name:
         PUT body={'name'='new name'}
-        http://127.0.0.1:8000/api/v1/song/author/1
+        http://127.0.0.1:8000/api/v1/song/author/1/
 
 
-    Delete author with id=1:
+    Delete author with PK=1:
         DELETE
-        http://127.0.0.1:8000/api/v1/song/author/1
+        http://127.0.0.1:8000/api/v1/song/author/1/
 
 <p>
     Schemas:

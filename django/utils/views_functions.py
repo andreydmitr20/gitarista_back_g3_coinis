@@ -88,7 +88,7 @@ def order_simple(
         order_field
 ):
     if not order_field is None:
-        order_field = '-id'
+        order_field = '-pk'
     return queryset.order_by(order_field)
 
 
@@ -166,7 +166,7 @@ def update_simple(
     serializer = serializer_class(instance, data=request.data)
     if serializer.is_valid():
         serializer.save()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(serializer.data, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -180,11 +180,12 @@ def delete_simple(
     """ delete """
     try:
         instance = model.objects.get(conditions)
+        print(instance)
     except Exception as exc:
         raise Http404 from exc
     try:
         instance.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     except:
-        return Response(ERROR_WHEN_DELETING + ' id=' + str(id),
+        return Response(ERROR_WHEN_DELETING + ' pk=' + str(instance.pk),
                         status=status.HTTP_400_BAD_REQUEST)
