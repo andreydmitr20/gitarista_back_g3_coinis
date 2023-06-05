@@ -1,6 +1,13 @@
 """ songs serializers"""
 from rest_framework import serializers
-from .models import Song, Accord, Author, SongGenre, SongLike, Genre
+from .models import (
+    Song,
+    Accord,
+    Author,
+    SongGenre,
+    SongLike,
+    Genre
+)
 
 
 class GenreSerializer(serializers.ModelSerializer):
@@ -28,7 +35,7 @@ class AccordShortSerializer(serializers.ModelSerializer):
     """AccordShortSerializer"""
     class Meta:
         model = Accord
-        fields = ['id', 'short_name']
+        fields = ['accord_id', 'short_name']
 
 
 class AuthorSerializer(serializers.ModelSerializer):
@@ -42,7 +49,7 @@ class AuthorShortSerializer(serializers.ModelSerializer):
     """AuthorShortSerializer"""
     class Meta:
         model = Author
-        fields = ['id', 'name']
+        fields = ['author_id', 'name']
 
 
 class SongGenreSerializer(serializers.ModelSerializer):
@@ -54,12 +61,13 @@ class SongGenreSerializer(serializers.ModelSerializer):
 
 class SongGenreListSerializer(serializers.ModelSerializer):
     """SongGenreListSerializer"""
-    genre__name = serializers.ReadOnlyField()
-    genre = serializers.ReadOnlyField()
+    genre__name = serializers.ReadOnlyField()  # source='genre__name'
+    genre_id = serializers.ReadOnlyField()
+    # genre = serializers.CharField()
 
     class Meta:
         model = SongGenre
-        fields = ['genre', 'genre__name']
+        fields = ['genre_id', 'genre__name']
 
 
 class SongLikeSerializer(serializers.ModelSerializer):
@@ -76,7 +84,7 @@ class SongLikeListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SongLike
-        fields = ['user', 'user__username']
+        fields = ['user_id', 'user__username']
 
 
 class SongSerializer(serializers.ModelSerializer):

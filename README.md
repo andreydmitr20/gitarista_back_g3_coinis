@@ -78,11 +78,11 @@
 
     Get first page of authors (PK=0):
         GET
-        http://127.0.0.1:8000/api/v1/song/author/0
+        http://127.0.0.1:8000/api/v1/song/author/0/
 
     Get the author with PK=23:
         GET
-        http://127.0.0.1:8000/api/v1/song/author/23
+        http://127.0.0.1:8000/api/v1/song/author/23/
 
     Get first page of authors with just some (reduced) data fields count:
         GET
@@ -107,9 +107,9 @@
         http://127.0.0.1:8000/api/v1/song/author/1/
 
 
-    Delete author with PK=1:
+    Delete author with PK=17:
         DELETE
-        http://127.0.0.1:8000/api/v1/song/author/1/
+        http://127.0.0.1:8000/api/v1/song/author/17/
 
 <p>
     Schemas:

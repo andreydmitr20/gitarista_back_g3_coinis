@@ -125,7 +125,11 @@ class SongGenreView(APIView):
     def get(self, request, song_id=None, format=None):
         serializer = SongGenreListSerializer
         fields = serializer.Meta.fields
-        queryset = self.model.objects.select_related('genre').values(*fields)
+        print('fields:', fields)
+        queryset = self.model.objects.select_related(
+            'genre_id').values(*fields)
+        print('!!!')
+        print_query(PRINT_QUERY, queryset)
 
         if not song_id is None and song_id != 0:
             queryset = queryset.filter(song_id=song_id)
@@ -134,23 +138,23 @@ class SongGenreView(APIView):
             queryset = search_simple(
                 queryset,
                 request.query_params.get(API_TEXT_SEARCH),
-                'genre__name',
+                'genre_name',
             )
 
-        queryset = order_simple(queryset, 'genre__name')
+        queryset = order_simple(queryset, 'genre_name')
         print_query(PRINT_QUERY, queryset)
 
         return pagination_simple(request, serializer, queryset)
 
     def post(self, request, song_id=None, format=None):
         return insert_simple(self.serializer_class, {
-            'song': song_id,
-            'genre': get_int_request_param(request, 'genre')
+            'song_id': song_id,
+            'genre_id': get_int_request_param(request, 'genre_id')
         })
 
     def delete(self, request, song_id=None, format=None):
         return delete_simple(self.model, Q(song_id=song_id,
-                                           genre_id=request.data['genre']))
+                                           genre_id=request.data['genre_id']))
 
 
 class SongLikeView(APIView):
@@ -181,12 +185,12 @@ class SongLikeView(APIView):
     def post(self, request, song_id=None, format=None):
         return insert_simple(self.serializer_class, {
             'song': song_id,
-            'user': get_int_request_param(request, 'user')
+            'user': get_int_request_param(request, 'user_id')
         })
 
     def delete(self, request, song_id=None, format=None):
         return delete_simple(self.model, Q(song_id=song_id,
-                                           user_id=request.data['user']))
+                                           user_id=request.data['user_id']))
 
 
 class SongView(APIView):
