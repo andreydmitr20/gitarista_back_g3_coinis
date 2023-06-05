@@ -13,11 +13,19 @@ API_TEXT_SHORT = 'short'
 DEFAULT_PAGE_SIZE_FOR_PAGINATION = 4
 
 
+def get_int_request_param(request, key):
+    try:
+        return int(request.data[key])
+    except:
+        pass
+    return None
+
+
 def search_simple(queryset,
                   search_text: str,
                   search_field):
     """ search by max 3 patterns space separated """
-    print('search:', search_text)
+    # print('search:', search_text)
     search_text = search_text.strip()
 
     if search_text != '':
@@ -64,6 +72,7 @@ def pagination_simple(
             many=True,
             context={'request': request}
         )
+        # print(serializer.data)
         return Response(serializer.data, status=status.HTTP_200_OK)
     except EmptyPage:
         return Response([], status=status.HTTP_200_OK)
@@ -122,7 +131,7 @@ def select_simple(
 
     queryset = order_simple(queryset, order_field)
 
-    if not id is None:
+    if not id is None and id != 0:
         queryset = queryset.filter(pk=id)
 
     print_query(is_print_query, queryset)
@@ -131,11 +140,12 @@ def select_simple(
 
 
 def insert_simple(
-        request,
-        serializer_class
+        serializer_class,
+        data
 ):
     """ create """
-    serializer = serializer_class(data=request.data)
+    serializer = serializer_class(data=data)
+    # print(serializer)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)

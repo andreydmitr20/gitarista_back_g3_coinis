@@ -66,40 +66,46 @@
 
 <h3> API </h3>
 <br>
-    Retrieve (GET) parameters: search, page, page_size, short.
+    Retrieve (GET) parameters: search, page, page_size, short and more....
+    
+    Id==0 means 'All'
 
     Examples:
 
     Get first page of authors:
         GET
-        http://127.0.0.1:8000/api/v1/song/author/
+        http://127.0.0.1:8000/api/v1/song/author/0
+
+    Get the author with id==23:
+        GET
+        http://127.0.0.1:8000/api/v1/song/author/23
 
     Get first page of authors with just some (reduced) data fields count:
         GET
-        http://127.0.0.1:8000/api/v1/song/author/?short=1
+        http://127.0.0.1:8000/api/v1/song/author/0/?short=1
 
     Get authors count with 'Mr' in name:
         GET
-        http://127.0.0.1:8000/api/v1/song/author/?search=Mr&page=0
+        http://127.0.0.1:8000/api/v1/song/author/0/?search=Mr&page=0
 
     Get authors page 10:
         GET
-        http://127.0.0.1:8000/api/v1/song/author/?page=10&page_size=5
+        http://127.0.0.1:8000/api/v1/song/author/0/?page=10&page_size=5
 
 
     Create an author 'new author':
         POST body={'name'='new author'}
-        http://127.0.0.1:8000/api/v1/song/author/
+        http://127.0.0.1:8000/api/v1/song/author/0
 
 
     Update the name of the author with id=1 to 'new name:
         PUT body={'name'='new name'}
-        http://127.0.0.1:8000/api/v1/song/author/1/
+        http://127.0.0.1:8000/api/v1/song/author/1
 
 
     Delete author with id=1:
         DELETE
-        http://127.0.0.1:8000/api/v1/song/author/1/
+        http://127.0.0.1:8000/api/v1/song/author/1
 
 <p>
     Schemas:

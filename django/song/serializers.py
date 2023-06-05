@@ -49,17 +49,17 @@ class SongGenreSerializer(serializers.ModelSerializer):
     """SongGenreSerializer"""
     class Meta:
         model = SongGenre
-        # fields = ('id', 'song_id', 'genre_id')
         fields = '__all__'
 
 
 class SongGenreListSerializer(serializers.ModelSerializer):
     """SongGenreListSerializer"""
-    genre__name = serializers.CharField()
+    genre__name = serializers.ReadOnlyField()
+    genre = serializers.ReadOnlyField()
 
     class Meta:
         model = SongGenre
-        fields = ['genre_id', 'genre__name']
+        fields = ['genre', 'genre__name']
 
 
 class SongLikeSerializer(serializers.ModelSerializer):
@@ -71,30 +71,61 @@ class SongLikeSerializer(serializers.ModelSerializer):
 
 class SongLikeListSerializer(serializers.ModelSerializer):
     """SongLikeListSerializer"""
-    user__username = serializers.CharField()
+    user__username = serializers.ReadOnlyField()
+    user = serializers.ReadOnlyField()
 
     class Meta:
         model = SongLike
-        fields = ['user_id', 'user__username']
+        fields = ['user', 'user__username']
 
 
 class SongSerializer(serializers.ModelSerializer):
     """SongSerializer"""
-    user_name = serializers.CharField(
-        source='user.username', required=False)
-    author_name = serializers.CharField(
-        source='author.name', required=False)
+
+    class Meta:
+        model = Song
+        fields = '__all__'
+
+# TODO check if can use one serializer for get and post
+
+
+class SongListSerializer(serializers.ModelSerializer):
+    """SongListSerializer"""
+
+    user__username = serializers.ReadOnlyField()
+    author__name = serializers.ReadOnlyField()
+    user = serializers.ReadOnlyField()
+    author = serializers.ReadOnlyField()
 
     class Meta:
         model = Song
         fields = [
             'id',
-            'user_id',
-            'user_name',
-            'author_id',
-            'author_name',
+            'user',
+            'user__username',
+            'author',
+            'author__name',
             'title',
             'text_with_accords',
+            'date_creation',
+            'link'
+        ]
+
+
+class SongShortSerializer(serializers.ModelSerializer):
+    """SongShortSerializer"""
+    author__name = serializers.ReadOnlyField()
+    author = serializers.ReadOnlyField()
+    user = serializers.ReadOnlyField()
+
+    class Meta:
+        model = Song
+        fields = [
+            'id',
+            'user',
+            'author',
+            'author__name',
+            'title',
             'date_creation',
             'link'
         ]
