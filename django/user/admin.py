@@ -6,7 +6,7 @@ from .models import User
 
 class UserAdmin(admin.ModelAdmin):
     """ genre admin"""
-    list_display = ['username', 'public_info', 'date_creation']
+    list_display = ['first_name','last_name','email', 'password', 'date_creation']
     # list_filter = ['name',]
     search_fields = ['username', 'public_info']
 
