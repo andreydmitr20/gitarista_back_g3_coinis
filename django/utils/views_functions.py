@@ -1,9 +1,9 @@
-from re import search
 from rest_framework import status, viewsets
-from django.core.paginator import Paginator, EmptyPage
 from django.db.models import Q
 from django.http import Http404, HttpResponse
 from rest_framework.response import Response
+from django.core.paginator import Paginator, EmptyPage
+
 
 API_TEXT_SEARCH = 'search'
 API_TEXT_PAGE = 'page'
@@ -14,6 +14,8 @@ DEFAULT_PAGE_SIZE_FOR_PAGINATION = 4
 
 
 def get_int_request_param(request, key):
+    """ get it param from request 
+    (return None if param does not exist or it is not an integer) """
     try:
         return int(request.data[key])
     except:
@@ -24,7 +26,7 @@ def get_int_request_param(request, key):
 def search_simple(queryset,
                   search_text: str,
                   search_field):
-    """ search by max 3 patterns space separated """
+    """ search by max 3 patterns separated by spaces"""
     # print('search:', search_text)
     search_text = search_text.strip()
 
@@ -34,16 +36,16 @@ def search_simple(queryset,
     if search_text_len > 0:
         if search_text_len == 1:
             queryset = queryset.filter(
-                Q(**{'{}__icontains'.format(search_field): search_text[0].strip()})
+                Q(**{'{}__icontains'.format(search_field)                  : search_text[0].strip()})
             )
         elif search_text_len == 2:
             queryset = queryset.filter(
-                Q(**{'{}__icontains'.format(search_field): search_text[0].strip()})
+                Q(**{'{}__icontains'.format(search_field)                  : search_text[0].strip()})
                 | Q(**{'{}__icontains'.format(search_field): search_text[1].strip()})
             )
         else:
             queryset = queryset.filter(
-                Q(**{'{}__icontains'.format(search_field): search_text[0].strip()})
+                Q(**{'{}__icontains'.format(search_field)                  : search_text[0].strip()})
                 | Q(**{'{}__icontains'.format(search_field): search_text[1].strip()})
                 | Q(**{'{}__icontains'.format(search_field): search_text[2].strip()})
             )
@@ -56,6 +58,7 @@ def pagination_simple(
         serializer,
         queryset
 ):
+    """ paginate data and return them in response """
     page = request.query_params.get(API_TEXT_PAGE, '1')
     if page == '0':
         # return count
@@ -79,6 +82,7 @@ def pagination_simple(
 
 
 def print_query(is_print_query, queryset):
+    """ print query """
     if is_print_query:
         print(queryset.query)
 
@@ -87,6 +91,7 @@ def order_simple(
         queryset,
         order_field
 ):
+    """ order queryset """
     if not order_field is None:
         order_field = '-id'
     return queryset.order_by(order_field)
@@ -102,6 +107,9 @@ def select_simple(
     order_field=None,
     is_print_query=False
 ):
+    """ select data from table, 
+    serialize them and 
+    return them in response """
     serializer_class_local = (
         short_serializer_class
         if not short_serializer_class is None and
@@ -166,7 +174,7 @@ def update_simple(
     serializer = serializer_class(instance, data=request.data)
     if serializer.is_valid():
         serializer.save()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(serializer.data, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
