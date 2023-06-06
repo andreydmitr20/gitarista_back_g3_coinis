@@ -149,8 +149,9 @@ class SongGenreView(APIView):
         })
 
     def delete(self, request, song_id=None, format=None):
-        return delete_simple(self.model, Q(song_id=song_id,
-                                           genre_id=request.data['genre']))
+        return delete_simple(self.model,
+                             Q(song_id=song_id,
+                               genre_id=get_int_request_param(request, 'genre')))
 
 
 class SongLikeView(APIView):
@@ -170,10 +171,10 @@ class SongLikeView(APIView):
             queryset = search_simple(
                 queryset,
                 request.query_params.get(API_TEXT_SEARCH),
-                'user__username',
+                'user__email',
             )
 
-        queryset = order_simple(queryset, 'user__username')
+        queryset = order_simple(queryset, 'user__email')
         print_query(PRINT_QUERY, queryset)
 
         return pagination_simple(request, serializer, queryset)
@@ -185,8 +186,9 @@ class SongLikeView(APIView):
         })
 
     def delete(self, request, song_id=None, format=None):
-        return delete_simple(self.model, Q(song_id=song_id,
-                                           user_id=request.data['user']))
+        return delete_simple(self.model,
+                             Q(song_id=song_id,
+                               user_id=get_int_request_param(request, 'user')))
 
 
 class SongView(APIView):
@@ -196,6 +198,7 @@ class SongView(APIView):
     model = Song
 
     def get(self, request, song_id=None, format=None):
+        """ get """
         serializer_class_local = (
             SongShortSerializer
             if request.query_params.get(API_TEXT_SHORT, '0') == '1'
@@ -234,6 +237,7 @@ class SongView(APIView):
         return pagination_simple(request, serializer_class_local, queryset)
 
     def post(self, request, song_id=None, format=None):
+        """ post """
         # print('request', request.POST)
         return insert_simple(self.serializer_class,
                              request.data.dict() | {
@@ -242,7 +246,9 @@ class SongView(APIView):
                              })
 
     def put(self, request, song_id=None, format=None):
+        """ put """
         return update_simple(self.model, request, song_id, self.serializer_class)
 
     def delete(self, request, song_id=None, format=None):
+        """ delete """
         return delete_simple(self.model, Q(pk=song_id))
