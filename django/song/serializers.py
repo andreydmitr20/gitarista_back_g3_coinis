@@ -71,12 +71,12 @@ class SongLikeSerializer(serializers.ModelSerializer):
 
 class SongLikeListSerializer(serializers.ModelSerializer):
     """SongLikeListSerializer"""
-    user__username = serializers.ReadOnlyField()
+    user__email = serializers.ReadOnlyField()
     user = serializers.ReadOnlyField()
 
     class Meta:
         model = SongLike
-        fields = ['user', 'user__username']
+        fields = ['user', 'user__email']
 
 
 class SongSerializer(serializers.ModelSerializer):
@@ -86,13 +86,11 @@ class SongSerializer(serializers.ModelSerializer):
         model = Song
         fields = '__all__'
 
-# TODO check if can use one serializer for get and post
-
 
 class SongListSerializer(serializers.ModelSerializer):
     """SongListSerializer"""
 
-    user__username = serializers.ReadOnlyField()
+    user__email = serializers.ReadOnlyField()
     author__name = serializers.ReadOnlyField()
     user = serializers.ReadOnlyField()
     author = serializers.ReadOnlyField()
@@ -102,7 +100,7 @@ class SongListSerializer(serializers.ModelSerializer):
         fields = [
             'id',
             'user',
-            'user__username',
+            'user__email',
             'author',
             'author__name',
             'title',

@@ -84,17 +84,17 @@ class Author(models.Model):
 class Song (models.Model):
     """ songs  """
 
-    list_display = ('get_author', 'get_username')
+    list_display = ('get_author', 'get_user_email')
 
     @admin.display(ordering='song__author', description='Song author')
     def get_author(self):
         """ get_song_title"""
         return self.author.name
 
-    @admin.display(ordering='user__username', description='User who created')
-    def get_username(self):
-        """get_username"""
-        return self.user.username
+    @admin.display(ordering='user__email', description='User who created')
+    def get_user_email(self):
+        """get_user_email"""
+        return self.user.email
 
     user = models.ForeignKey(
         User,
@@ -137,7 +137,7 @@ class Song (models.Model):
     )
 
     def __str__(self):
-        return str(self.user.username)+' added song '+str(self.title)+(' of author ')+str(self.author.name)
+        return str(self.author.name)+' - '+str(self.title)
 
 
 class SongGenre(models.Model):
@@ -179,17 +179,17 @@ class SongGenre(models.Model):
 class SongLike(models.Model):
     """ likes from users """
 
-    list_display = ('get_song_title', 'get_username')
+    list_display = ('get_song_title', 'get_user_email')
 
     @admin.display(ordering='song__title', description='Song title')
     def get_song_title(self):
         """ get_song_title"""
         return self.song.title
 
-    @admin.display(ordering='user__username', description='User who likes')
-    def get_username(self):
-        """get_username"""
-        return self.user.username
+    @admin.display(ordering='email', description='User who likes')
+    def get_user_email(self):
+        """get_user_email"""
+        return self.user.email
 
     song = models.ForeignKey(
         Song,
@@ -209,7 +209,7 @@ class SongLike(models.Model):
         unique_together = [['song', 'user']]
 
     def __str__(self):
-        return str(self.user.username)+' likes '+str(self.song.title)
+        return str(self.user.email)+' likes '+str(self.song.title)
 
 
 class Accord(models.Model):
