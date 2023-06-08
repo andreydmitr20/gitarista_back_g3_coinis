@@ -36,19 +36,16 @@ def search_simple(queryset,
     if search_text_len > 0:
         if search_text_len == 1:
             queryset = queryset.filter(
-                Q(**{'{}__icontains'.format(search_field)
-                  : search_text[0].strip()})
+                Q(**{'{}__icontains'.format(search_field): search_text[0].strip()})
             )
         elif search_text_len == 2:
             queryset = queryset.filter(
-                Q(**{'{}__icontains'.format(search_field)
-                  : search_text[0].strip()})
+                Q(**{'{}__icontains'.format(search_field): search_text[0].strip()})
                 | Q(**{'{}__icontains'.format(search_field): search_text[1].strip()})
             )
         else:
             queryset = queryset.filter(
-                Q(**{'{}__icontains'.format(search_field)
-                  : search_text[0].strip()})
+                Q(**{'{}__icontains'.format(search_field): search_text[0].strip()})
                 | Q(**{'{}__icontains'.format(search_field): search_text[1].strip()})
                 | Q(**{'{}__icontains'.format(search_field): search_text[2].strip()})
             )
@@ -122,8 +119,7 @@ def select_simple(
                 # .select_related('user')
                 .values(*fields))
 
-    # if (self.request.query_params.get('mine') == "1"):
-    #     queryset = queryset.filter(user=self.request.user.id)
+    queryset = filter_simple(queryset, 'pk', id)
 
     if not request.query_params.get(API_TEXT_SEARCH) is None:
         if search_field is None:
@@ -135,9 +131,6 @@ def select_simple(
                 search_field)
 
     queryset = order_simple(queryset, order_field)
-
-    if not id is None and id != 0:
-        queryset = queryset.filter(pk=id)
 
     print_query(is_print_query, queryset)
 
@@ -202,3 +195,20 @@ def representation_simple(my_fields, instance):
     for field in my_fields:
         representation[field] = instance[field]
     return representation
+
+
+def filter_simple(queryset, field_name, value):
+    """ filter_simple """
+    try:
+        value = int(value)
+        if not value is None and value != 0:
+            queryset = queryset.filter(
+                **{'{}'.format(field_name): value})
+    except Exception as exc:
+        raise Http404 from exc
+    return queryset
+
+
+def filter_params_simple(queryset, field_name, request):
+    value = request.query_params.get(field_name, '0')
+    return filter_simple(queryset, field_name, value)

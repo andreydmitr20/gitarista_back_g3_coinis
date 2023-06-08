@@ -1,6 +1,5 @@
 
 
-from rest_framework import status, viewsets
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -15,6 +14,8 @@ from utils.views_functions import (select_simple,
                                    search_simple,
                                    order_simple,
                                    get_int_request_param,
+                                   filter_simple,
+                                   filter_params_simple,
                                    API_TEXT_SEARCH,
                                    API_TEXT_SHORT)
 
@@ -123,6 +124,7 @@ class SongGenreView(APIView):
     model = SongGenre
 
     def get(self, request, song_id=None, format=None):
+        """ get """
         serializer = SongGenreListSerializer
         fields = serializer.Meta.fields
         # print('fields:', fields)
@@ -133,8 +135,8 @@ class SongGenreView(APIView):
         ).values(
             *fields)
 
-        if not song_id is None and song_id != 0:
-            queryset = queryset.filter(song_id=song_id)
+        queryset = filter_simple(queryset, 'song_id', song_id)
+        queryset = filter_params_simple(queryset, 'genre_id', request)
 
         if not request.query_params.get(API_TEXT_SEARCH) is None:
             queryset = search_simple(
@@ -150,6 +152,7 @@ class SongGenreView(APIView):
         return pagination_simple(request, serializer, queryset)
 
     def post(self, request, song_id=None, format=None):
+        """ post """
         return insert_simple(self.serializer_class, {
             'song_id': song_id,
             'genre_id': get_int_request_param(request, 'genre_id')
@@ -179,8 +182,8 @@ class SongLikeView(APIView):
         ).values(
             *fields)
 
-        if not song_id is None and song_id != 0:
-            queryset = queryset.filter(song_id=song_id)
+        queryset = filter_simple(queryset, 'song_id', song_id)
+        queryset = filter_params_simple(queryset, 'user_id', request)
 
         if not request.query_params.get(API_TEXT_SEARCH) is None:
             queryset = search_simple(
@@ -234,15 +237,9 @@ class SongView(APIView):
         ).values(
             *fields)
 
-        author_id = self.request.query_params.get('author_id', '')
-        if author_id != '':
-            # print('author:', author)
-            queryset = queryset.filter(author_id=author_id)
-
-        user_id = self.request.query_params.get('user_id', '')
-        if user_id != '':
-            # print('user:', user)
-            queryset = queryset.filter(user_id=user_id)
+        queryset = filter_simple(queryset, 'song_id', song_id)
+        queryset = filter_params_simple(queryset, 'author_id', request)
+        queryset = filter_params_simple(queryset, 'user_id', request)
 
         if not request.query_params.get(API_TEXT_SEARCH) is None:
             queryset = search_simple(
@@ -251,9 +248,6 @@ class SongView(APIView):
                 "title")
 
         queryset = order_simple(queryset, 'title')
-
-        if not song_id is None and song_id != 0:
-            queryset = queryset.filter(pk=song_id)
 
         print_query(PRINT_QUERY, queryset)
 
