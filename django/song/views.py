@@ -18,7 +18,7 @@ from utils.views_functions import (select_simple,
                                    API_TEXT_SEARCH,
                                    API_TEXT_SHORT)
 
-from django.db.models import Q
+from django.db.models import Q, F
 
 from .models import Song, Accord, Author, SongGenre, SongLike, Genre
 from .serializers import (SongSerializer, SongShortSerializer, SongListSerializer,
@@ -127,9 +127,11 @@ class SongGenreView(APIView):
         fields = serializer.Meta.fields
         print('fields:', fields)
         queryset = self.model.objects.select_related(
-            'genre_id').values(*fields)
-        print('!!!')
-        print_query(PRINT_QUERY, queryset)
+            'genre_id'
+        ).annotate(
+            genre_name=F('genre_id__name')
+        ).values(
+            *fields)
 
         if not song_id is None and song_id != 0:
             queryset = queryset.filter(song_id=song_id)
@@ -142,6 +144,7 @@ class SongGenreView(APIView):
             )
 
         queryset = order_simple(queryset, 'genre_name')
+
         print_query(PRINT_QUERY, queryset)
 
         return pagination_simple(request, serializer, queryset)
@@ -153,8 +156,12 @@ class SongGenreView(APIView):
         })
 
     def delete(self, request, song_id=None, format=None):
-        return delete_simple(self.model, Q(song_id=song_id,
-                                           genre_id=request.data['genre_id']))
+        return delete_simple(self.model,
+                             Q(
+                                 song_id=song_id,
+                                 genre_id=get_int_request_param(
+                                     request, 'genre_id')
+                             ))
 
 
 class SongLikeView(APIView):
@@ -165,7 +172,12 @@ class SongLikeView(APIView):
     def get(self, request, song_id=None, format=None):
         serializer = SongLikeListSerializer
         fields = serializer.Meta.fields
-        queryset = self.model.objects.select_related('user').values(*fields)
+        queryset = self.model.objects.select_related(
+            'user'
+        ).annotate(
+            user_name=F('user_id__username')
+        ).values(
+            *fields)
 
         if not song_id is None and song_id != 0:
             queryset = queryset.filter(song_id=song_id)
@@ -174,23 +186,27 @@ class SongLikeView(APIView):
             queryset = search_simple(
                 queryset,
                 request.query_params.get(API_TEXT_SEARCH),
-                'user__username',
+                'user_name',
             )
 
-        queryset = order_simple(queryset, 'user__username')
+        queryset = order_simple(queryset, 'user_name')
         print_query(PRINT_QUERY, queryset)
 
         return pagination_simple(request, serializer, queryset)
 
     def post(self, request, song_id=None, format=None):
         return insert_simple(self.serializer_class, {
-            'song': song_id,
-            'user': get_int_request_param(request, 'user_id')
+            'song_id': song_id,
+            'user_id': get_int_request_param(request, 'user_id')
         })
 
     def delete(self, request, song_id=None, format=None):
-        return delete_simple(self.model, Q(song_id=song_id,
-                                           user_id=request.data['user_id']))
+        return delete_simple(self.model,
+                             Q(
+                                 song_id=song_id,
+                                 user_id=get_int_request_param(
+                                     request, 'user_id')
+                             ))
 
 
 class SongView(APIView):
@@ -207,20 +223,26 @@ class SongView(APIView):
         )
 
         fields = serializer_class_local.Meta.fields
-        # print('fields', fields)
-        # print(serializer_class_local)
         queryset = self.model.objects.select_related(
-            'user').select_related('author').values(*fields)
+            'user'
+        ).annotate(
+            user_name=F('user_id__username')
+        ).select_related(
+            'author'
+        ).annotate(
+            author_name=F('author_id__name')
+        ).values(
+            *fields)
 
-        author = self.request.query_params.get('author', '')
-        if author != '':
+        author_id = self.request.query_params.get('author_id', '')
+        if author_id != '':
             # print('author:', author)
-            queryset = queryset.filter(author=author)
+            queryset = queryset.filter(author_id=author_id)
 
-        user = self.request.query_params.get('user', '')
-        if user != '':
+        user_id = self.request.query_params.get('user_id', '')
+        if user_id != '':
             # print('user:', user)
-            queryset = queryset.filter(user=user)
+            queryset = queryset.filter(user_id=user_id)
 
         if not request.query_params.get(API_TEXT_SEARCH) is None:
             queryset = search_simple(
@@ -240,9 +262,10 @@ class SongView(APIView):
     def post(self, request, song_id=None, format=None):
         # print('request', request.POST)
         return insert_simple(self.serializer_class,
-                             request.data.dict() | {
-                                 'author': get_int_request_param(request, 'author'),
-                                 'user': get_int_request_param(request, 'user')
+                             request.data.dict() |
+                             {
+                                 'author_id': get_int_request_param(request, 'author_id'),
+                                 'user_id': get_int_request_param(request, 'user_id')
                              })
 
     def put(self, request, song_id=None, format=None):
