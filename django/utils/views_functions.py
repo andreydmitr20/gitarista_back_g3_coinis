@@ -197,7 +197,8 @@ def delete_simple(
 
 
 def representation_simple(my_fields, instance):
-    repr = {}
+    """ representation_simple """
+    representation = {}
     for field in my_fields:
-        repr[field] = instance[field]
-    return repr
+        representation[field] = instance[field]
+    return representation
