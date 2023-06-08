@@ -1,6 +1,9 @@
+""" functions to help with views and serializers """
 from django.core.paginator import Paginator, EmptyPage
 from django.db.models import Q
 from django.http import Http404, HttpResponse
+from django.db import IntegrityError
+
 
 from rest_framework import status, viewsets
 from rest_framework.response import Response
@@ -15,12 +18,21 @@ API_TEXT_SHORT = 'short'
 DEFAULT_PAGE_SIZE_FOR_PAGINATION = 4
 
 
-def get_int_request_param(request, key):
+def to_int(value, default_value):
+    """ return_none_or_int """
     try:
-        return int(request.data[key])
-    except:
-        pass
-    return None
+        return int(value)
+    except (ValueError, TypeError):
+        return default_value
+
+
+def get_int_request_param(request, key, default_value):
+    """ get_int_request_param """
+    try:
+        value = request.data[key]
+    except (KeyError) as exc:
+        raise Http404 from exc
+    return to_int(value, default_value)
 
 
 def search_simple(queryset,
@@ -36,16 +48,19 @@ def search_simple(queryset,
     if search_text_len > 0:
         if search_text_len == 1:
             queryset = queryset.filter(
-                Q(**{'{}__icontains'.format(search_field): search_text[0].strip()})
+                Q(**{'{}__icontains'.format(search_field)
+                  : search_text[0].strip()})
             )
         elif search_text_len == 2:
             queryset = queryset.filter(
-                Q(**{'{}__icontains'.format(search_field): search_text[0].strip()})
+                Q(**{'{}__icontains'.format(search_field)
+                  : search_text[0].strip()})
                 | Q(**{'{}__icontains'.format(search_field): search_text[1].strip()})
             )
         else:
             queryset = queryset.filter(
-                Q(**{'{}__icontains'.format(search_field): search_text[0].strip()})
+                Q(**{'{}__icontains'.format(search_field)
+                  : search_text[0].strip()})
                 | Q(**{'{}__icontains'.format(search_field): search_text[1].strip()})
                 | Q(**{'{}__icontains'.format(search_field): search_text[2].strip()})
             )
@@ -58,6 +73,7 @@ def pagination_simple(
         serializer,
         queryset
 ):
+    """ pagination_simple """
     page = request.query_params.get(API_TEXT_PAGE, '1')
     if page == '0':
         # return count
@@ -81,6 +97,7 @@ def pagination_simple(
 
 
 def print_query(is_print_query, queryset):
+    """ print_query """
     if is_print_query:
         print(queryset.query)
 
@@ -89,6 +106,7 @@ def order_simple(
         queryset,
         order_field
 ):
+    """ order_simple """
     if not order_field is None:
         order_field = '-pk'
     return queryset.order_by(order_field)
@@ -104,6 +122,7 @@ def select_simple(
     order_field=None,
     is_print_query=False
 ):
+    """ select_simple """
     serializer_class_local = (
         short_serializer_class
         if not short_serializer_class is None and
@@ -184,7 +203,7 @@ def delete_simple(
     try:
         instance.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-    except:
+    except (IntegrityError):
         return Response(ERROR_WHEN_DELETING + ' pk=' + str(instance.pk),
                         status=status.HTTP_400_BAD_REQUEST)
 
@@ -199,16 +218,17 @@ def representation_simple(my_fields, instance):
 
 def filter_simple(queryset, field_name, value):
     """ filter_simple """
-    try:
-        value = int(value)
-        if not value is None and value != 0:
-            queryset = queryset.filter(
-                **{'{}'.format(field_name): value})
-    except Exception as exc:
-        raise Http404 from exc
+    if not value is None:
+        try:
+            value = int(value)
+            if value != 0:
+                queryset = queryset.filter(
+                    **{'{}'.format(field_name): value})
+        except Exception as exc:
+            raise Http404 from exc
     return queryset
 
 
 def filter_params_simple(queryset, field_name, request):
-    value = request.query_params.get(field_name, '0')
-    return filter_simple(queryset, field_name, value)
+    """ filter_params_simple """
+    return filter_simple(queryset, field_name, request.query_params.get(field_name))

@@ -1,9 +1,10 @@
-
+from django.db.models import Q, F
 
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from drf_spectacular.utils import extend_schema, OpenApiParameter
 
 from utils.views_functions import (select_simple,
                                    insert_simple,
@@ -19,7 +20,6 @@ from utils.views_functions import (select_simple,
                                    API_TEXT_SEARCH,
                                    API_TEXT_SHORT)
 
-from django.db.models import Q, F
 
 from .models import Song, Accord, Author, SongGenre, SongLike, Genre
 from .serializers import (SongSerializer, SongShortSerializer, SongListSerializer,
@@ -42,7 +42,17 @@ class GenreView(APIView):
     serializer_class = GenreSerializer
     model = Genre
 
-    def get(self, request, id=None, format=None):
+    @extend_schema(
+        # description='test',
+        parameters=[
+            OpenApiParameter("search"),
+            OpenApiParameter("page"),
+            OpenApiParameter("page_size"),
+            OpenApiParameter("short"),
+        ]
+    )
+    def get(self, request, id=0, format=None):
+        """ get """
         return select_simple(
             self.model,
             request,
@@ -53,13 +63,16 @@ class GenreView(APIView):
             order_field='name',
             is_print_query=PRINT_QUERY)
 
-    def post(self, request, id=None, format=None):
+    def post(self, request, id=0, format=None):
+        """ post """
         return insert_simple(self.serializer_class, request.data)
 
-    def put(self, request, id=None, format=None):
+    def put(self, request, id=0, format=None):
+        """ put """
         return update_simple(self.model, request, id, self.serializer_class)
 
-    def delete(self, request, id=None, format=None):
+    def delete(self, request, id=0, format=None):
+        """ delete """
         return delete_simple(self.model, Q(pk=id))
 
 
@@ -69,7 +82,17 @@ class AuthorView(APIView):
     serializer_class = AuthorSerializer
     model = Author
 
-    def get(self, request, id=None, format=None):
+    @extend_schema(
+        # description='test',
+        parameters=[
+            OpenApiParameter("search"),
+            OpenApiParameter("page"),
+            OpenApiParameter("page_size"),
+            OpenApiParameter("short"),
+        ]
+    )
+    def get(self, request, id=0, format=None):
+        """ get """
         return select_simple(
             self.model,
             request,
@@ -80,13 +103,16 @@ class AuthorView(APIView):
             order_field='name',
             is_print_query=PRINT_QUERY)
 
-    def post(self, request, id=None, format=None):
+    def post(self, request, id=0, format=None):
+        """ post """
         return insert_simple(self.serializer_class, request.data)
 
-    def put(self, request, id=None, format=None):
+    def put(self, request, id=0, format=None):
+        """ put """
         return update_simple(self.model, request, id, self.serializer_class)
 
-    def delete(self, request, id=None, format=None):
+    def delete(self, request, id=0, format=None):
+        """ delete """
         return delete_simple(self.model, Q(pk=id))
 
 
@@ -96,7 +122,17 @@ class AccordView(APIView):
     serializer_class = AccordSerializer
     model = Accord
 
-    def get(self, request, id=None, format=None):
+    @extend_schema(
+        # description='test',
+        parameters=[
+            OpenApiParameter("search"),
+            OpenApiParameter("page"),
+            OpenApiParameter("page_size"),
+            OpenApiParameter("short"),
+        ]
+    )
+    def get(self, request, id=0, format=None):
+        """ get """
         return select_simple(
             self.model,
             request,
@@ -107,23 +143,36 @@ class AccordView(APIView):
             order_field='name',
             is_print_query=PRINT_QUERY)
 
-    def post(self, request, id=None, format=None):
+    def post(self, request, id=0, format=None):
+        """ post """
         return insert_simple(self.serializer_class, request.data)
 
-    def put(self, request, id=None, format=None):
+    def put(self, request, id=0, format=None):
+        """ put """
         return update_simple(self.model, request, id, self.serializer_class)
 
-    def delete(self, request, id=None, format=None):
+    def delete(self, request, id=0, format=None):
+        """ delete """
         return delete_simple(self.model, Q(pk=id))
 
 
 class SongGenreView(APIView):
     """SongGenreView"""
+
     permission_classes = PERMISSION_CLASSES
     serializer_class = SongGenreSerializer
     model = SongGenre
 
-    def get(self, request, song_id=None, format=None):
+    @extend_schema(
+        # description='test',
+        parameters=[
+            OpenApiParameter("search"),
+            OpenApiParameter("genre_id"),
+            OpenApiParameter("page"),
+            OpenApiParameter("page_size"),
+        ],
+    )
+    def get(self, request, song_id=0, format=None):
         """ get """
         serializer = SongGenreListSerializer
         fields = serializer.Meta.fields
@@ -151,19 +200,23 @@ class SongGenreView(APIView):
 
         return pagination_simple(request, serializer, queryset)
 
-    def post(self, request, song_id=None, format=None):
+    def post(self, request, song_id=0, format=None):
         """ post """
         return insert_simple(self.serializer_class, {
             'song_id': song_id,
-            'genre_id': get_int_request_param(request, 'genre_id')
+            'genre_id': get_int_request_param(
+                request, 'genre_id', None
+            )
         })
 
-    def delete(self, request, song_id=None, format=None):
+    def delete(self, request, song_id=0, format=None):
+        """ delete """
         return delete_simple(self.model,
                              Q(
                                  song_id=song_id,
                                  genre_id=get_int_request_param(
-                                     request, 'genre_id')
+                                     request, 'genre_id', None
+                                 )
                              ))
 
 
@@ -172,7 +225,8 @@ class SongLikeView(APIView):
     serializer_class = SongLikeSerializer
     model = SongLike
 
-    def get(self, request, song_id=None, format=None):
+    def get(self, request, song_id=0, format=None):
+        """ get """
         serializer = SongLikeListSerializer
         fields = serializer.Meta.fields
         queryset = self.model.objects.select_related(
@@ -197,18 +251,23 @@ class SongLikeView(APIView):
 
         return pagination_simple(request, serializer, queryset)
 
-    def post(self, request, song_id=None, format=None):
+    def post(self, request, song_id=0, format=None):
+        """ post """
         return insert_simple(self.serializer_class, {
             'song_id': song_id,
-            'user_id': get_int_request_param(request, 'user_id')
+            'user_id': get_int_request_param(
+                request, 'user_id', None
+            )
         })
 
-    def delete(self, request, song_id=None, format=None):
+    def delete(self, request, song_id=0, format=None):
+        """ delete """
         return delete_simple(self.model,
                              Q(
                                  song_id=song_id,
                                  user_id=get_int_request_param(
-                                     request, 'user_id')
+                                     request, 'user_id', None
+                                 )
                              ))
 
 
@@ -218,7 +277,8 @@ class SongView(APIView):
     serializer_class = SongSerializer
     model = Song
 
-    def get(self, request, song_id=None, format=None):
+    def get(self, request, song_id=0, format=None):
+        """ get """
         serializer_class_local = (
             SongShortSerializer
             if request.query_params.get(API_TEXT_SHORT, '0') == '1'
@@ -253,17 +313,28 @@ class SongView(APIView):
 
         return pagination_simple(request, serializer_class_local, queryset)
 
-    def post(self, request, song_id=None, format=None):
+    def post(self, request, song_id=0, format=None):
+        """ post """
         # print('request', request.POST)
+        try:
+            params = request.data.dict()
+        except (AttributeError):
+            params = {}
         return insert_simple(self.serializer_class,
-                             request.data.dict() |
+                             params |
                              {
-                                 'author_id': get_int_request_param(request, 'author_id'),
-                                 'user_id': get_int_request_param(request, 'user_id')
+                                 'author_id': get_int_request_param(
+                                     request, 'author_id', None
+                                 ),
+                                 'user_id': get_int_request_param(
+                                     request, 'user_id', None
+                                 )
                              })
 
-    def put(self, request, song_id=None, format=None):
+    def put(self, request, song_id=0, format=None):
+        """ put """
         return update_simple(self.model, request, song_id, self.serializer_class)
 
-    def delete(self, request, song_id=None, format=None):
+    def delete(self, request, song_id=0, format=None):
+        """ delete """
         return delete_simple(self.model, Q(pk=song_id))
