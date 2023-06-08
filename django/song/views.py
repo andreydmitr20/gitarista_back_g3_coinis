@@ -1,10 +1,10 @@
+from drf_spectacular.utils import extend_schema, OpenApiParameter
 from django.db.models import Q, F
 
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from drf_spectacular.utils import extend_schema, OpenApiParameter
 
 from utils.views_functions import (select_simple,
                                    insert_simple,
@@ -43,37 +43,38 @@ class GenreView(APIView):
     model = Genre
 
     @extend_schema(
-        # description='test',
+        description='genre_id=0 retrieve all records before applying filters',
         parameters=[
             OpenApiParameter("search"),
-            OpenApiParameter("page"),
+            OpenApiParameter(
+                "page", description='page=0 retrieve records count'),
             OpenApiParameter("page_size"),
             OpenApiParameter("short"),
         ]
     )
-    def get(self, request, id=0, format=None):
+    def get(self, request, genre_id=0, format=None):
         """ get """
         return select_simple(
             self.model,
             request,
-            id,
+            genre_id,
             self.serializer_class,
             short_serializer_class=GenreShortSerializer,
             search_field='name',
             order_field='name',
             is_print_query=PRINT_QUERY)
 
-    def post(self, request, id=0, format=None):
+    def post(self, request, genre_id=0, format=None):
         """ post """
         return insert_simple(self.serializer_class, request.data)
 
-    def put(self, request, id=0, format=None):
+    def put(self, request, genre_id=0, format=None):
         """ put """
-        return update_simple(self.model, request, id, self.serializer_class)
+        return update_simple(self.model, request, genre_id, self.serializer_class)
 
-    def delete(self, request, id=0, format=None):
+    def delete(self, request, genre_id=0, format=None):
         """ delete """
-        return delete_simple(self.model, Q(pk=id))
+        return delete_simple(self.model, Q(pk=genre_id))
 
 
 class AuthorView(APIView):
@@ -83,37 +84,38 @@ class AuthorView(APIView):
     model = Author
 
     @extend_schema(
-        # description='test',
+        description='author_id=0 retrieve all records before applying filters',
         parameters=[
             OpenApiParameter("search"),
-            OpenApiParameter("page"),
+            OpenApiParameter(
+                "page", description='page=0 retrieve records count'),
             OpenApiParameter("page_size"),
             OpenApiParameter("short"),
         ]
     )
-    def get(self, request, id=0, format=None):
+    def get(self, request, author_id=0, format=None):
         """ get """
         return select_simple(
             self.model,
             request,
-            id,
+            author_id,
             self.serializer_class,
             short_serializer_class=AuthorShortSerializer,
             search_field='name',
             order_field='name',
             is_print_query=PRINT_QUERY)
 
-    def post(self, request, id=0, format=None):
+    def post(self, request, author_id=0, format=None):
         """ post """
         return insert_simple(self.serializer_class, request.data)
 
-    def put(self, request, id=0, format=None):
+    def put(self, request, author_id=0, format=None):
         """ put """
-        return update_simple(self.model, request, id, self.serializer_class)
+        return update_simple(self.model, request, author_id, self.serializer_class)
 
-    def delete(self, request, id=0, format=None):
+    def delete(self, request, author_id=0, format=None):
         """ delete """
-        return delete_simple(self.model, Q(pk=id))
+        return delete_simple(self.model, Q(pk=author_id))
 
 
 class AccordView(APIView):
@@ -123,37 +125,38 @@ class AccordView(APIView):
     model = Accord
 
     @extend_schema(
-        # description='test',
+        description='accord_id=0 retrieve all records before applying filters',
         parameters=[
             OpenApiParameter("search"),
-            OpenApiParameter("page"),
+            OpenApiParameter(
+                "page", description='page=0 retrieve records count'),
             OpenApiParameter("page_size"),
             OpenApiParameter("short"),
         ]
     )
-    def get(self, request, id=0, format=None):
+    def get(self, request, accord_id=0, format=None):
         """ get """
         return select_simple(
             self.model,
             request,
-            id,
+            accord_id,
             self.serializer_class,
             short_serializer_class=AccordShortSerializer,
             search_field='name',
             order_field='name',
             is_print_query=PRINT_QUERY)
 
-    def post(self, request, id=0, format=None):
+    def post(self, request, accord_id=0, format=None):
         """ post """
         return insert_simple(self.serializer_class, request.data)
 
-    def put(self, request, id=0, format=None):
+    def put(self, request, accord_id=0, format=None):
         """ put """
-        return update_simple(self.model, request, id, self.serializer_class)
+        return update_simple(self.model, request, accord_id, self.serializer_class)
 
-    def delete(self, request, id=0, format=None):
+    def delete(self, request, accord_id=0, format=None):
         """ delete """
-        return delete_simple(self.model, Q(pk=id))
+        return delete_simple(self.model, Q(pk=accord_id))
 
 
 class SongGenreView(APIView):
@@ -164,12 +167,13 @@ class SongGenreView(APIView):
     model = SongGenre
 
     @extend_schema(
-        # description='test',
+        description='song_id=0 retrieve all records before applying filters',
         parameters=[
             OpenApiParameter("genre_id"),
 
             OpenApiParameter("search"),
-            OpenApiParameter("page"),
+            OpenApiParameter(
+                "page", description='page=0 retrieve records count'),
             OpenApiParameter("page_size"),
         ],
     )
@@ -227,13 +231,13 @@ class SongLikeView(APIView):
     model = SongLike
 
     @extend_schema(
-        # description='test',
+        description='song_id=0 retrieve all records before applying filters',
         parameters=[
             OpenApiParameter("user_id"),
 
             OpenApiParameter("search"),
-            OpenApiParameter("page"),
-            OpenApiParameter("page_size"),
+            OpenApiParameter(
+                "page", description='page=0 retrieve records count'),            OpenApiParameter("page_size"),
         ],
     )
     def get(self, request, song_id=0, format=None):
@@ -289,13 +293,14 @@ class SongView(APIView):
     model = Song
 
     @extend_schema(
-        # description='test',
+        description='song_id=0 retrieve all records before applying filters',
         parameters=[
             OpenApiParameter("user_id"),
             OpenApiParameter("author_id"),
 
             OpenApiParameter("search"),
-            OpenApiParameter("page"),
+            OpenApiParameter(
+                "page", description='page=0 retrieve records count'),
             OpenApiParameter("page_size"),
             OpenApiParameter("short"),
         ],

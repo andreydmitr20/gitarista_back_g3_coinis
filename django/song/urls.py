@@ -12,11 +12,11 @@ from .views import (AuthorView,
 
 urlpatterns = [
 
-    path('genre/<int:id>/', GenreView.as_view(), name='genres'),
+    path('genre/<int:genre_id>/', GenreView.as_view(), name='genres'),
 
-    path('author/<int:id>/', AuthorView.as_view(), name='authors'),
+    path('author/<int:author_id>/', AuthorView.as_view(), name='authors'),
 
-    path('accord/<int:id>/', AccordView.as_view(), name='accords'),
+    path('accord/<int:accord_id>/', AccordView.as_view(), name='accords'),
 
     path('<int:song_id>/genre/', SongGenreView.as_view(), name='song genres'),
 

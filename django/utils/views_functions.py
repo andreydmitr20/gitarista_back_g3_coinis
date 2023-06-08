@@ -48,24 +48,31 @@ def search_simple(queryset,
     if search_text_len > 0:
         if search_text_len == 1:
             queryset = queryset.filter(
-                Q(**{'{}__icontains'.format(search_field)
-                  : search_text[0].strip()})
+                Q(**{'{}__icontains'.format(search_field)                  : search_text[0].strip()})
             )
         elif search_text_len == 2:
             queryset = queryset.filter(
-                Q(**{'{}__icontains'.format(search_field)
-                  : search_text[0].strip()})
+                Q(**{'{}__icontains'.format(search_field)                  : search_text[0].strip()})
                 | Q(**{'{}__icontains'.format(search_field): search_text[1].strip()})
             )
         else:
             queryset = queryset.filter(
-                Q(**{'{}__icontains'.format(search_field)
-                  : search_text[0].strip()})
+                Q(**{'{}__icontains'.format(search_field)                  : search_text[0].strip()})
                 | Q(**{'{}__icontains'.format(search_field): search_text[1].strip()})
                 | Q(**{'{}__icontains'.format(search_field): search_text[2].strip()})
             )
 
     return queryset
+
+
+def get_page(value, default_value):
+    """ get_page """
+    if not value is None:
+        try:
+            return int(value)
+        except Exception as exc:
+            raise Http404 from exc
+    return default_value
 
 
 def pagination_simple(
@@ -74,14 +81,13 @@ def pagination_simple(
         queryset
 ):
     """ pagination_simple """
-    page = request.query_params.get(API_TEXT_PAGE, '1')
-    if page == '0':
+    page = get_page(request.query_params.get(API_TEXT_PAGE), 1)
+    if page == 0:
         # return count
-        count = queryset.count()
-        return Response([{'count': count}], status=status.HTTP_200_OK)
+        return Response([{'count': queryset.count()}], status=status.HTTP_200_OK)
 
-    page_size = request.query_params.get(API_TEXT_PAGE_SIZE,
-                                         DEFAULT_PAGE_SIZE_FOR_PAGINATION)
+    page_size = get_page(request.query_params.get(API_TEXT_PAGE_SIZE),
+                         DEFAULT_PAGE_SIZE_FOR_PAGINATION)
 
     try:
         paginator = Paginator(queryset, page_size)
