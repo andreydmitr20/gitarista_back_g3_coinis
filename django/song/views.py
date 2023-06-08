@@ -166,8 +166,9 @@ class SongGenreView(APIView):
     @extend_schema(
         # description='test',
         parameters=[
-            OpenApiParameter("search"),
             OpenApiParameter("genre_id"),
+
+            OpenApiParameter("search"),
             OpenApiParameter("page"),
             OpenApiParameter("page_size"),
         ],
@@ -225,6 +226,16 @@ class SongLikeView(APIView):
     serializer_class = SongLikeSerializer
     model = SongLike
 
+    @extend_schema(
+        # description='test',
+        parameters=[
+            OpenApiParameter("user_id"),
+
+            OpenApiParameter("search"),
+            OpenApiParameter("page"),
+            OpenApiParameter("page_size"),
+        ],
+    )
     def get(self, request, song_id=0, format=None):
         """ get """
         serializer = SongLikeListSerializer
@@ -277,6 +288,18 @@ class SongView(APIView):
     serializer_class = SongSerializer
     model = Song
 
+    @extend_schema(
+        # description='test',
+        parameters=[
+            OpenApiParameter("user_id"),
+            OpenApiParameter("author_id"),
+
+            OpenApiParameter("search"),
+            OpenApiParameter("page"),
+            OpenApiParameter("page_size"),
+            OpenApiParameter("short"),
+        ],
+    )
     def get(self, request, song_id=0, format=None):
         """ get """
         serializer_class_local = (
