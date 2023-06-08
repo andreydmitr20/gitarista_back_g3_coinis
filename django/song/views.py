@@ -125,7 +125,7 @@ class SongGenreView(APIView):
     def get(self, request, song_id=None, format=None):
         serializer = SongGenreListSerializer
         fields = serializer.Meta.fields
-        print('fields:', fields)
+        # print('fields:', fields)
         queryset = self.model.objects.select_related(
             'genre_id'
         ).annotate(

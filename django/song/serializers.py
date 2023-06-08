@@ -1,5 +1,7 @@
 """ songs serializers"""
 from rest_framework import serializers
+from utils.views_functions import (representation_simple)
+
 from .models import (
     Song,
     Accord,
@@ -61,13 +63,13 @@ class SongGenreSerializer(serializers.ModelSerializer):
 
 class SongGenreListSerializer(serializers.ModelSerializer):
     """SongGenreListSerializer"""
-    genre_id = serializers.ReadOnlyField()
-    song_id = serializers.ReadOnlyField()
-    genre_name = serializers.ReadOnlyField()
 
     class Meta:
         model = SongGenre
         fields = ['song_id', 'genre_id', 'genre_name']
+
+    def to_representation(self, instance):
+        return representation_simple(self.Meta.fields, instance)
 
 
 class SongLikeSerializer(serializers.ModelSerializer):
@@ -80,13 +82,13 @@ class SongLikeSerializer(serializers.ModelSerializer):
 
 class SongLikeListSerializer(serializers.ModelSerializer):
     """SongLikeListSerializer"""
-    user_name = serializers.ReadOnlyField()
-    user_id = serializers.ReadOnlyField()
-    song_id = serializers.ReadOnlyField()
 
     class Meta:
         model = SongLike
         fields = ['song_id', 'user_id', 'user_name']
+
+    def to_representation(self, instance):
+        return representation_simple(self.Meta.fields, instance)
 
 
 class SongSerializer(serializers.ModelSerializer):
@@ -99,12 +101,6 @@ class SongSerializer(serializers.ModelSerializer):
 
 class SongListSerializer(serializers.ModelSerializer):
     """SongListSerializer"""
-
-    user_name = serializers.ReadOnlyField()
-    author_name = serializers.ReadOnlyField()
-    user_id = serializers.ReadOnlyField()
-    author_id = serializers.ReadOnlyField()
-    song_id = serializers.ReadOnlyField()
 
     class Meta:
         model = Song
@@ -120,13 +116,12 @@ class SongListSerializer(serializers.ModelSerializer):
             'link'
         ]
 
+    def to_representation(self, instance):
+        return representation_simple(self.Meta.fields, instance)
+
 
 class SongShortSerializer(serializers.ModelSerializer):
     """SongShortSerializer"""
-    author_name = serializers.ReadOnlyField()
-    author_id = serializers.ReadOnlyField()
-    user_id = serializers.ReadOnlyField()
-    song_id = serializers.ReadOnlyField()
 
     class Meta:
         model = Song
@@ -139,3 +134,6 @@ class SongShortSerializer(serializers.ModelSerializer):
             'date_creation',
             'link'
         ]
+
+    def to_representation(self, instance):
+        return representation_simple(self.Meta.fields, instance)

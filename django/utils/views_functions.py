@@ -1,9 +1,11 @@
-from re import search
-from rest_framework import status, viewsets
 from django.core.paginator import Paginator, EmptyPage
 from django.db.models import Q
 from django.http import Http404, HttpResponse
+
+from rest_framework import status, viewsets
 from rest_framework.response import Response
+from rest_framework import serializers
+
 
 API_TEXT_SEARCH = 'search'
 API_TEXT_PAGE = 'page'
@@ -34,16 +36,19 @@ def search_simple(queryset,
     if search_text_len > 0:
         if search_text_len == 1:
             queryset = queryset.filter(
-                Q(**{'{}__icontains'.format(search_field): search_text[0].strip()})
+                Q(**{'{}__icontains'.format(search_field)
+                  : search_text[0].strip()})
             )
         elif search_text_len == 2:
             queryset = queryset.filter(
-                Q(**{'{}__icontains'.format(search_field): search_text[0].strip()})
+                Q(**{'{}__icontains'.format(search_field)
+                  : search_text[0].strip()})
                 | Q(**{'{}__icontains'.format(search_field): search_text[1].strip()})
             )
         else:
             queryset = queryset.filter(
-                Q(**{'{}__icontains'.format(search_field): search_text[0].strip()})
+                Q(**{'{}__icontains'.format(search_field)
+                  : search_text[0].strip()})
                 | Q(**{'{}__icontains'.format(search_field): search_text[1].strip()})
                 | Q(**{'{}__icontains'.format(search_field): search_text[2].strip()})
             )
@@ -67,12 +72,12 @@ def pagination_simple(
 
     try:
         paginator = Paginator(queryset, page_size)
+
         serializer = serializer(
             paginator.page(page),
             many=True,
             context={'request': request}
         )
-        # print(serializer.data)
         return Response(serializer.data, status=status.HTTP_200_OK)
     except EmptyPage:
         return Response([], status=status.HTTP_200_OK)
@@ -189,3 +194,10 @@ def delete_simple(
     except:
         return Response(ERROR_WHEN_DELETING + ' pk=' + str(instance.pk),
                         status=status.HTTP_400_BAD_REQUEST)
+
+
+def representation_simple(my_fields, instance):
+    repr = {}
+    for field in my_fields:
+        repr[field] = instance[field]
+    return repr
