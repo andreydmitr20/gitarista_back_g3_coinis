@@ -107,7 +107,7 @@ class SongListSerializer(serializers.ModelSerializer):
         fields = [
             'song_id',
             'user_id',
-            'user_name',
+            'user_email',
             'author_id',
             'author_name',
             'title',
