@@ -1,6 +1,15 @@
 """ songs serializers"""
 from rest_framework import serializers
-from .models import Song, Accord, Author, SongGenre, SongLike, Genre
+from utils.views_functions import (representation_simple)
+
+from .models import (
+    Song,
+    Accord,
+    Author,
+    SongGenre,
+    SongLike,
+    Genre
+)
 
 
 class GenreSerializer(serializers.ModelSerializer):
@@ -14,7 +23,7 @@ class GenreShortSerializer(serializers.ModelSerializer):
     """GenreShortSerializer"""
     class Meta:
         model = Genre
-        fields = ['id', 'name']
+        fields = ['genre_id', 'name']
 
 
 class AccordSerializer(serializers.ModelSerializer):
@@ -28,7 +37,7 @@ class AccordShortSerializer(serializers.ModelSerializer):
     """AccordShortSerializer"""
     class Meta:
         model = Accord
-        fields = ['id', 'short_name']
+        fields = ['accord_id', 'short_name']
 
 
 class AuthorSerializer(serializers.ModelSerializer):
@@ -42,7 +51,7 @@ class AuthorShortSerializer(serializers.ModelSerializer):
     """AuthorShortSerializer"""
     class Meta:
         model = Author
-        fields = ['id', 'name']
+        fields = ['author_id', 'name']
 
 
 class SongGenreSerializer(serializers.ModelSerializer):
@@ -54,16 +63,18 @@ class SongGenreSerializer(serializers.ModelSerializer):
 
 class SongGenreListSerializer(serializers.ModelSerializer):
     """SongGenreListSerializer"""
-    genre__name = serializers.ReadOnlyField()
-    genre = serializers.ReadOnlyField()
 
     class Meta:
         model = SongGenre
-        fields = ['genre', 'genre__name']
+        fields = ['song_id', 'genre_id', 'genre_name']
+
+    def to_representation(self, instance):
+        return representation_simple(self.Meta.fields, instance)
 
 
 class SongLikeSerializer(serializers.ModelSerializer):
     """SongLikeSerializer"""
+
     class Meta:
         model = SongLike
         fields = '__all__'
@@ -71,12 +82,13 @@ class SongLikeSerializer(serializers.ModelSerializer):
 
 class SongLikeListSerializer(serializers.ModelSerializer):
     """SongLikeListSerializer"""
-    user__email = serializers.ReadOnlyField()
-    user = serializers.ReadOnlyField()
 
     class Meta:
         model = SongLike
-        fields = ['user', 'user__email']
+        fields = ['song_id', 'user_id', 'user_name']
+
+    def to_representation(self, instance):
+        return representation_simple(self.Meta.fields, instance)
 
 
 class SongSerializer(serializers.ModelSerializer):
@@ -90,40 +102,38 @@ class SongSerializer(serializers.ModelSerializer):
 class SongListSerializer(serializers.ModelSerializer):
     """SongListSerializer"""
 
-    user__email = serializers.ReadOnlyField()
-    author__name = serializers.ReadOnlyField()
-    user = serializers.ReadOnlyField()
-    author = serializers.ReadOnlyField()
-
     class Meta:
         model = Song
         fields = [
-            'id',
-            'user',
-            'user__email',
-            'author',
-            'author__name',
+            'song_id',
+            'user_id',
+            'user_name',
+            'author_id',
+            'author_name',
             'title',
             'text_with_accords',
             'date_creation',
             'link'
         ]
 
+    def to_representation(self, instance):
+        return representation_simple(self.Meta.fields, instance)
+
 
 class SongShortSerializer(serializers.ModelSerializer):
     """SongShortSerializer"""
-    author__name = serializers.ReadOnlyField()
-    author = serializers.ReadOnlyField()
-    user = serializers.ReadOnlyField()
 
     class Meta:
         model = Song
         fields = [
-            'id',
-            'user',
-            'author',
-            'author__name',
+            'song_id',
+            'user_id',
+            'author_id',
+            'author_name',
             'title',
             'date_creation',
             'link'
         ]
+
+    def to_representation(self, instance):
+        return representation_simple(self.Meta.fields, instance)

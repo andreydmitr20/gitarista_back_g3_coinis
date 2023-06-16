@@ -46,9 +46,13 @@ admin.site.register(SongGenre, SongGenreAdmin)
 
 class SongLikeAdmin(admin.ModelAdmin):
     """ song like admin"""
-    list_display = ['get_song_title', 'get_user_email']
+    list_display = ['get_song_title'
+                    # , 'get_user_email'
+                    ]
     list_filter = ['song_id', 'user_id']
-    search_fields = ['get_song_title', 'get_user_email']
+    search_fields = ['get_song_title'
+                     #  , 'get_user_email'
+                     ]
 
 
 admin.site.register(SongLike, SongLikeAdmin)
@@ -58,7 +62,7 @@ class SongAdmin(admin.ModelAdmin):
     """ genre admin"""
     list_display = ['get_author',
                     'title',
-                    'get_user_email',
+                    # 'get_user_email',
                     'text_with_accords',
                     'link',
                     'date_creation']
@@ -67,7 +71,7 @@ class SongAdmin(admin.ModelAdmin):
                    'date_creation']
     search_fields = ['get_author',
                      'title',
-                     'get_user_email',
+                     #  'get_user_email',
                      'text_with_accords',
                      'link',
                      'date_creation']
