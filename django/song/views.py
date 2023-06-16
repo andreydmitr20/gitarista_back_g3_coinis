@@ -36,6 +36,7 @@ PERMISSION_CLASSES = [AllowAny]
 PRINT_QUERY = True
 
 
+@extend_schema(tags=['song : list of genres'])
 class GenreView(APIView):
     """ GenreView """
     permission_classes = PERMISSION_CLASSES
@@ -50,7 +51,7 @@ class GenreView(APIView):
                 "page", description='page=0 retrieve records count'),
             OpenApiParameter("page_size"),
             OpenApiParameter("short"),
-        ]
+        ],
     )
     def get(self, request, genre_id=0, format=None):
         """ get """
@@ -77,6 +78,7 @@ class GenreView(APIView):
         return delete_simple(self.model, Q(pk=genre_id))
 
 
+@extend_schema(tags=['song : list of authors'])
 class AuthorView(APIView):
     """ AuthorView """
     permission_classes = PERMISSION_CLASSES
@@ -118,6 +120,7 @@ class AuthorView(APIView):
         return delete_simple(self.model, Q(pk=author_id))
 
 
+@extend_schema(tags=['song : list of accords'])
 class AccordView(APIView):
     """AccordView"""
     permission_classes = PERMISSION_CLASSES
@@ -159,6 +162,7 @@ class AccordView(APIView):
         return delete_simple(self.model, Q(pk=accord_id))
 
 
+@extend_schema(tags=['song : list of pairs (song, genre of this song)'])
 class SongGenreView(APIView):
     """SongGenreView"""
 
@@ -225,6 +229,7 @@ class SongGenreView(APIView):
                              ))
 
 
+@extend_schema(tags=['song : list of pairs (song, user who likes this song)'])
 class SongLikeView(APIView):
     permission_classes = PERMISSION_CLASSES
     serializer_class = SongLikeSerializer
@@ -286,6 +291,7 @@ class SongLikeView(APIView):
                              ))
 
 
+@extend_schema(tags=['song : list of songs'])
 class SongView(APIView):
     """SongView"""
     permission_classes = PERMISSION_CLASSES
