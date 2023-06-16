@@ -64,10 +64,33 @@
 
     Dbeaver
 
+<h3> CORS </h3>
+<br>
+    We have add <a href="https://github.com/adamchainz/django-cors-headers">django-cors-headers</a>
+
+    So you just need to add your server path inside
+    django/gitarista/settings.py like this:
+
+    CORS_ALLOWED_ORIGINS = [
+    "http://localhost",
+    "http://127.0.0.1",
+    "null",
+    ]
+
 <h3> API </h3>
 <br>
+
+<p>
+    Schemas:
+
+    http://127.0.0.1:8000/api/schema/
+    http://127.0.0.1:8000/api/schema/swagger-ui/
+    http://127.0.0.1:8000/api/schema/redoc/
+
+</p>
+
     Retrieve (GET) parameters: search, page, page_size, short and more....
-    
+
     Id=0 means 'All'
 
     Examples:
@@ -107,14 +130,6 @@
         DELETE
         http://127.0.0.1:8000/api/v1/song/author/1/
 
-<p>
-    Schemas:
-
-    http://127.0.0.1:8000/api/schema/
-    http://127.0.0.1:8000/api/schema/swagger-ui/
-    http://127.0.0.1:8000/api/schema/redoc/
-
-</p>
 <h3> Relational schema from <a href="erdplus.com">erdplus.com</a> </h3>
 <br>
 <a href="./docs/gitaristi.erdplus">
