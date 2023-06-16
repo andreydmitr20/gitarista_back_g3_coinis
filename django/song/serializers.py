@@ -85,7 +85,7 @@ class SongLikeListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SongLike
-        fields = ['song_id', 'user_id', 'user_name']
+        fields = ['song_id', 'user_id', 'user_email']
 
     def to_representation(self, instance):
         return representation_simple(self.Meta.fields, instance)

@@ -252,7 +252,7 @@ class SongLikeView(APIView):
         queryset = self.model.objects.select_related(
             'user'
         ).annotate(
-            user_name=F('user_id__username')
+            user_email=F('user_id__email')
         ).values(
             *fields)
 
