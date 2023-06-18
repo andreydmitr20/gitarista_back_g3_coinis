@@ -3,107 +3,107 @@ from rest_framework import serializers
 from utils.views_functions import (representation_simple)
 
 from .models import (
-    Song,
-    Accord,
-    Author,
-    SongGenre,
-    SongLike,
-    Genre
+    Songs,
+    Accords,
+    Authors,
+    SongGenres,
+    SongLikes,
+    Genres
 )
 
 
-class GenreSerializer(serializers.ModelSerializer):
-    """GenreSerializer"""
+class GenresSerializer(serializers.ModelSerializer):
+    """GenresSerializer"""
     class Meta:
-        model = Genre
+        model = Genres
         fields = '__all__'
 
 
-class GenreShortSerializer(serializers.ModelSerializer):
-    """GenreShortSerializer"""
+class GenresShortSerializer(serializers.ModelSerializer):
+    """GenresShortSerializer"""
     class Meta:
-        model = Genre
+        model = Genres
         fields = ['genre_id', 'name']
 
 
-class AccordSerializer(serializers.ModelSerializer):
-    """AccordSerializer"""
+class AccordsSerializer(serializers.ModelSerializer):
+    """AccordsSerializer"""
     class Meta:
-        model = Accord
+        model = Accords
         fields = '__all__'
 
 
-class AccordShortSerializer(serializers.ModelSerializer):
-    """AccordShortSerializer"""
+class AccordsShortSerializer(serializers.ModelSerializer):
+    """AccordsShortSerializer"""
     class Meta:
-        model = Accord
+        model = Accords
         fields = ['accord_id', 'short_name']
 
 
-class AuthorSerializer(serializers.ModelSerializer):
-    """AuthorSerializer"""
+class AuthorsSerializer(serializers.ModelSerializer):
+    """AuthorsSerializer"""
     class Meta:
-        model = Author
+        model = Authors
         fields = '__all__'
 
 
-class AuthorShortSerializer(serializers.ModelSerializer):
-    """AuthorShortSerializer"""
+class AuthorsShortSerializer(serializers.ModelSerializer):
+    """AuthorsShortSerializer"""
     class Meta:
-        model = Author
+        model = Authors
         fields = ['author_id', 'name']
 
 
-class SongGenreSerializer(serializers.ModelSerializer):
-    """SongGenreSerializer"""
+class SongGenresSerializer(serializers.ModelSerializer):
+    """SongGenresSerializer"""
     class Meta:
-        model = SongGenre
+        model = SongGenres
         fields = '__all__'
 
 
-class SongGenreListSerializer(serializers.ModelSerializer):
-    """SongGenreListSerializer"""
+class SongGenresListSerializer(serializers.ModelSerializer):
+    """SongGenresListSerializer"""
 
     class Meta:
-        model = SongGenre
+        model = SongGenres
         fields = ['song_id', 'genre_id', 'genre_name']
 
     def to_representation(self, instance):
         return representation_simple(self.Meta.fields, instance)
 
 
-class SongLikeSerializer(serializers.ModelSerializer):
-    """SongLikeSerializer"""
+class SongLikesSerializer(serializers.ModelSerializer):
+    """SongLikesSerializer"""
 
     class Meta:
-        model = SongLike
+        model = SongLikes
         fields = '__all__'
 
 
-class SongLikeListSerializer(serializers.ModelSerializer):
-    """SongLikeListSerializer"""
+class SongLikesListSerializer(serializers.ModelSerializer):
+    """SongLikesListSerializer"""
 
     class Meta:
-        model = SongLike
+        model = SongLikes
         fields = ['song_id', 'user_id', 'user_email']
 
     def to_representation(self, instance):
         return representation_simple(self.Meta.fields, instance)
 
 
-class SongSerializer(serializers.ModelSerializer):
-    """SongSerializer"""
+class SongsSerializer(serializers.ModelSerializer):
+    """SongsSerializer"""
 
     class Meta:
-        model = Song
+        model = Songs
         fields = '__all__'
 
 
-class SongListSerializer(serializers.ModelSerializer):
-    """SongListSerializer"""
+class SongsListSerializer(serializers.ModelSerializer):
+    """SongsListSerializer"""
 
     class Meta:
-        model = Song
+        model = Songs
         fields = [
             'song_id',
             'user_id',
@@ -120,11 +120,11 @@ class SongListSerializer(serializers.ModelSerializer):
         return representation_simple(self.Meta.fields, instance)
 
 
-class SongShortSerializer(serializers.ModelSerializer):
-    """SongShortSerializer"""
+class SongsShortSerializer(serializers.ModelSerializer):
+    """SongsShortSerializer"""
 
     class Meta:
-        model = Song
+        model = Songs
         fields = [
             'song_id',
             'user_id',

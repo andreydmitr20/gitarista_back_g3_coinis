@@ -26,5 +26,5 @@ urlpatterns = [
          SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 
 
-    path('api/v2/song/', include('song.urls')),
+    path('api/v2/songs/', include('song.urls')),
 ]

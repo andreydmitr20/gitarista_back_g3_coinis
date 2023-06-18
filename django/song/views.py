@@ -21,13 +21,18 @@ from utils.views_functions import (select_simple,
                                    API_TEXT_SHORT)
 
 
-from .models import Song, Accord, Author, SongGenre, SongLike, Genre
-from .serializers import (SongSerializer, SongShortSerializer, SongListSerializer,
-                          AuthorSerializer, AuthorShortSerializer,
-                          GenreSerializer, GenreShortSerializer,
-                          SongLikeSerializer, SongLikeListSerializer,
-                          SongGenreSerializer, SongGenreListSerializer,
-                          AccordSerializer, AccordShortSerializer)
+from .models import (Songs,
+                     Accords,
+                     Authors,
+                     SongGenres,
+                     SongLikes,
+                     Genres)
+from .serializers import (SongsSerializer, SongsShortSerializer, SongsListSerializer,
+                          AuthorsSerializer, AuthorsShortSerializer,
+                          GenresSerializer, GenresShortSerializer,
+                          SongLikesSerializer, SongLikesListSerializer,
+                          SongGenresSerializer, SongGenresListSerializer,
+                          AccordsSerializer, AccordsShortSerializer)
 
 
 PERMISSION_CLASSES = [AllowAny]
@@ -37,11 +42,11 @@ PRINT_QUERY = True
 
 
 @extend_schema(tags=['song : list of genres'])
-class GenreView(APIView):
-    """ GenreView """
+class GenresView(APIView):
+    """ GenresView """
     permission_classes = PERMISSION_CLASSES
-    serializer_class = GenreSerializer
-    model = Genre
+    serializer_class = GenresSerializer
+    model = Genres
 
     @extend_schema(
         description='genre_id=0 retrieve all records before applying filters',
@@ -60,7 +65,7 @@ class GenreView(APIView):
             request,
             genre_id,
             self.serializer_class,
-            short_serializer_class=GenreShortSerializer,
+            short_serializer_class=GenresShortSerializer,
             search_field='name',
             order_field='name',
             is_print_query=PRINT_QUERY)
@@ -79,11 +84,11 @@ class GenreView(APIView):
 
 
 @extend_schema(tags=['song : list of authors'])
-class AuthorView(APIView):
-    """ AuthorView """
+class AuthorsView(APIView):
+    """ AuthorsView """
     permission_classes = PERMISSION_CLASSES
-    serializer_class = AuthorSerializer
-    model = Author
+    serializer_class = AuthorsSerializer
+    model = Authors
 
     @extend_schema(
         description='author_id=0 retrieve all records before applying filters',
@@ -102,7 +107,7 @@ class AuthorView(APIView):
             request,
             author_id,
             self.serializer_class,
-            short_serializer_class=AuthorShortSerializer,
+            short_serializer_class=AuthorsShortSerializer,
             search_field='name',
             order_field='name',
             is_print_query=PRINT_QUERY)
@@ -121,11 +126,11 @@ class AuthorView(APIView):
 
 
 @extend_schema(tags=['song : list of accords'])
-class AccordView(APIView):
-    """AccordView"""
+class AccordsView(APIView):
+    """AccordsView"""
     permission_classes = PERMISSION_CLASSES
-    serializer_class = AccordSerializer
-    model = Accord
+    serializer_class = AccordsSerializer
+    model = Accords
 
     @extend_schema(
         description='accord_id=0 retrieve all records before applying filters',
@@ -144,7 +149,7 @@ class AccordView(APIView):
             request,
             accord_id,
             self.serializer_class,
-            short_serializer_class=AccordShortSerializer,
+            short_serializer_class=AccordsShortSerializer,
             search_field='name',
             order_field='name',
             is_print_query=PRINT_QUERY)
@@ -163,12 +168,12 @@ class AccordView(APIView):
 
 
 @extend_schema(tags=['song : list of pairs (song, genre of this song)'])
-class SongGenreView(APIView):
-    """SongGenreView"""
+class SongGenresView(APIView):
+    """SongGenresView"""
 
     permission_classes = PERMISSION_CLASSES
-    serializer_class = SongGenreSerializer
-    model = SongGenre
+    serializer_class = SongGenresSerializer
+    model = SongGenres
 
     @extend_schema(
         description='song_id=0 retrieve all records before applying filters',
@@ -183,7 +188,7 @@ class SongGenreView(APIView):
     )
     def get(self, request, song_id=0, format=None):
         """ get """
-        serializer = SongGenreListSerializer
+        serializer = SongGenresListSerializer
         fields = serializer.Meta.fields
         # print('fields:', fields)
         queryset = self.model.objects.select_related(
@@ -230,10 +235,10 @@ class SongGenreView(APIView):
 
 
 @extend_schema(tags=['song : list of pairs (song, user who likes this song)'])
-class SongLikeView(APIView):
+class SongLikesView(APIView):
     permission_classes = PERMISSION_CLASSES
-    serializer_class = SongLikeSerializer
-    model = SongLike
+    serializer_class = SongLikesSerializer
+    model = SongLikes
 
     @extend_schema(
         description='song_id=0 retrieve all records before applying filters',
@@ -247,7 +252,7 @@ class SongLikeView(APIView):
     )
     def get(self, request, song_id=0, format=None):
         """ get """
-        serializer = SongLikeListSerializer
+        serializer = SongLikesListSerializer
         fields = serializer.Meta.fields
         queryset = self.model.objects.select_related(
             'user'
@@ -292,11 +297,11 @@ class SongLikeView(APIView):
 
 
 @extend_schema(tags=['song : list of songs'])
-class SongView(APIView):
-    """SongView"""
+class SongsView(APIView):
+    """SongsView"""
     permission_classes = PERMISSION_CLASSES
-    serializer_class = SongSerializer
-    model = Song
+    serializer_class = SongsSerializer
+    model = Songs
 
     @extend_schema(
         description='song_id=0 retrieve all records before applying filters',
@@ -314,9 +319,9 @@ class SongView(APIView):
     def get(self, request, song_id=0, format=None):
         """ get """
         serializer_class_local = (
-            SongShortSerializer
+            SongsShortSerializer
             if request.query_params.get(API_TEXT_SHORT, '0') == '1'
-            else SongListSerializer
+            else SongsListSerializer
         )
 
         fields = serializer_class_local.Meta.fields

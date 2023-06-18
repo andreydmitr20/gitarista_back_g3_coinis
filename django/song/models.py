@@ -6,8 +6,8 @@ from django.contrib import admin
 from user.models import User
 
 
-class Genre(models.Model):
-    """ genre """
+class Genres(models.Model):
+    """ genres """
 
     genre_id = models.BigAutoField(
         primary_key=True,
@@ -58,15 +58,15 @@ class Genre(models.Model):
         """ fill model with choices"""
 
         for key, value in self.choices.items():
-            genre = Genre(
+            genre = Genres(
                 genre_id=key,
                 name=value[0],
                 description=value[1])
             genre.save()
 
 
-class Author(models.Model):
-    """ author """
+class Authors(models.Model):
+    """ authors """
 
     author_id = models.BigAutoField(
         primary_key=True,
@@ -92,7 +92,7 @@ class Author(models.Model):
         return str(self.name)
 
 
-class Song (models.Model):
+class Songs (models.Model):
     """ songs  """
 
     song_id = models.BigAutoField(
@@ -110,7 +110,7 @@ class Song (models.Model):
     )
 
     author_id = models.ForeignKey(
-        Author,
+        Authors,
         db_column='author_id',
         null=False,
         blank=False,
@@ -157,11 +157,11 @@ class Song (models.Model):
         return str(self.author_id.name)+(' - ')+str(self.title)
 
 
-class SongGenre(models.Model):
+class SongGenres(models.Model):
     """ genres of certain song """
 
     song_id = models.ForeignKey(
-        Song,
+        Songs,
         db_column='song_id',
         null=False,
         blank=False,
@@ -169,7 +169,7 @@ class SongGenre(models.Model):
     )
 
     genre_id = models.ForeignKey(
-        Genre,
+        Genres,
         db_column='genre_id',
         null=False,
         blank=False,
@@ -193,11 +193,11 @@ class SongGenre(models.Model):
         return str(self.genre_id.name)+' genre '+str(self.song_id.title)
 
 
-class SongLike(models.Model):
+class SongLikes(models.Model):
     """ likes from users """
 
     song_id = models.ForeignKey(
-        Song,
+        Songs,
         db_column='song_id',
         null=False,
         blank=False,
@@ -229,7 +229,7 @@ class SongLike(models.Model):
         return str(self.user_id.username)+' likes '+str(self.song_id.title)
 
 
-class Accord(models.Model):
+class Accords(models.Model):
     """ accords """
     accord_id = models.BigAutoField(
         primary_key=True,
