@@ -6,8 +6,30 @@ from django.contrib import admin
 from user.models import User
 
 
-class Genre(models.Model):
-    """ genre """
+class Genres(models.Model):
+    """ genres """
+
+    genre_id = models.BigAutoField(
+        primary_key=True,
+        # default=0,
+        db_column='genre_id'
+    )
+    name = models.CharField(
+        max_length=20,
+        null=False,
+        blank=False,
+        unique=True,
+    )
+
+    description = models.CharField(
+        max_length=300,
+        null=True,
+        blank=True,
+        default=''
+    )
+
+    def __str__(self):
+        return str(self.name)
 
     choices = {
         0: ['Rock',
@@ -32,36 +54,28 @@ class Genre(models.Model):
             'Rhythm and blues and soul music often incorporate guitar as a foundational instrument, providing melodic and rhythmic elements. It can range from smooth and mellow to energetic and groovy'],
     }
 
-    name = models.CharField(
-        max_length=20,
-        null=False,
-        blank=False,
-        unique=True,
-    )
-
-    description = models.CharField(
-        max_length=300,
-        null=True,
-        blank=True,
-        default=''
-    )
-
-    def __str__(self):
-        return str(self.name)
-
     def fill(self):
         """ fill model with choices"""
 
         for key, value in self.choices.items():
-            genre = Genre(
-                id=key,
+            genre = Genres(
+                genre_id=key,
                 name=value[0],
                 description=value[1])
             genre.save()
 
+    class Meta:
+        verbose_name_plural = "Genres"
 
-class Author(models.Model):
-    """ author """
+
+class Authors(models.Model):
+    """ authors """
+
+    author_id = models.BigAutoField(
+        primary_key=True,
+        # default=0,
+        db_column='author_id'
+    )
 
     name = models.CharField(
         max_length=255,
@@ -80,31 +94,30 @@ class Author(models.Model):
     def __str__(self):
         return str(self.name)
 
+    class Meta:
+        verbose_name_plural = "Authors"
 
-class Song (models.Model):
+
+class Songs (models.Model):
     """ songs  """
 
-    list_display = ('get_author', 'get_user_email')
+    song_id = models.BigAutoField(
+        primary_key=True,
+        # default=0,
+        db_column='song_id'
+    )
 
-    @admin.display(ordering='song__author', description='Song author')
-    def get_author(self):
-        """ get_song_title"""
-        return self.author.name
-
-    @admin.display(ordering='user__email', description='User who created')
-    def get_user_email(self):
-        """get_user_email"""
-        return self.user.email
-
-    user = models.ForeignKey(
+    user_id = models.ForeignKey(
         User,
+        db_column='user_id',
         null=False,
         blank=False,
         on_delete=models.DO_NOTHING
     )
 
-    author = models.ForeignKey(
-        Author,
+    author_id = models.ForeignKey(
+        Authors,
+        db_column='author_id',
         null=False,
         blank=False,
         on_delete=models.DO_NOTHING
@@ -136,85 +149,105 @@ class Song (models.Model):
         default=''
     )
 
+    @admin.display(ordering='song_author', description='Song author')
+    def get_author(self):
+        """ get_song_title"""
+        return self.author_id.name
+
+    @admin.display(ordering='user_username', description='User who created')
+    def get_username(self):
+        """get_username"""
+        return self.user_id.username
+
     def __str__(self):
-        return str(self.author.name)+' - '+str(self.title)
+        return str(self.author_id.name)+(' - ')+str(self.title)
+
+    class Meta:
+        # verbose_name = "Song"
+        verbose_name_plural = "Songs"
 
 
-class SongGenre(models.Model):
+class SongGenres(models.Model):
     """ genres of certain song """
 
-    list_display = ('get_song_title', 'get_song_genre')
+    song_id = models.ForeignKey(
+        Songs,
+        db_column='song_id',
+        null=False,
+        blank=False,
+        on_delete=models.DO_NOTHING
+    )
 
-    @admin.display(ordering='song__title', description='Song title')
+    genre_id = models.ForeignKey(
+        Genres,
+        db_column='genre_id',
+        null=False,
+        blank=False,
+        on_delete=models.DO_NOTHING
+    )
+
+    class Meta:
+        unique_together = [['song_id', 'genre_id']]
+        verbose_name_plural = "Song genres"
+
+    @admin.display(ordering='song_title', description='Song title')
     def get_song_title(self):
         """ get_song_title"""
-        return self.song.title
+        return self.song_id.title
 
-    @admin.display(ordering='song__genre', description='Song genre')
+    @admin.display(ordering='song_genre', description='Song genre')
     def get_song_genre(self):
         """get_song_genre"""
-        return self.genre.name
-
-    song = models.ForeignKey(
-        Song,
-        null=False,
-        blank=False,
-        on_delete=models.DO_NOTHING
-    )
-
-    genre = models.ForeignKey(
-        Genre,
-        null=False,
-        blank=False,
-        on_delete=models.DO_NOTHING
-    )
-
-    class Meta:
-        unique_together = [['song', 'genre']]
+        return self.genre_id.name
 
     def __str__(self):
-        return str(self.genre.name)+' genre '+str(self.song.title)
+        return str(self.genre_id.name)+' genre '+str(self.song_id.title)
 
 
-class SongLike(models.Model):
+class SongLikes(models.Model):
     """ likes from users """
 
-    list_display = ('get_song_title', 'get_user_email')
-
-    @admin.display(ordering='song__title', description='Song title')
-    def get_song_title(self):
-        """ get_song_title"""
-        return self.song.title
-
-    @admin.display(ordering='email', description='User who likes')
-    def get_user_email(self):
-        """get_user_email"""
-        return self.user.email
-
-    song = models.ForeignKey(
-        Song,
+    song_id = models.ForeignKey(
+        Songs,
+        db_column='song_id',
         null=False,
         blank=False,
         on_delete=models.DO_NOTHING
     )
 
-    user = models.ForeignKey(
+    user_id = models.ForeignKey(
         User,
+        db_column='user_id',
         null=False,
         blank=False,
         on_delete=models.DO_NOTHING
     )
 
     class Meta:
-        unique_together = [['song', 'user']]
+        unique_together = [['song_id', 'user_id']]
+        verbose_name_plural = "Song likes"
+
+    @admin.display(ordering='song_title', description='Song title')
+    def get_song_title(self):
+        """ get_song_title"""
+        return self.song_id.title
+
+    @admin.display(ordering='user_username', description='User who likes')
+    def get_username(self):
+        """get_username"""
+        return self.user_id.username
 
     def __str__(self):
-        return str(self.user.email)+' likes '+str(self.song.title)
+        return str(self.user_id.username)+' likes '+str(self.song_id.title)
 
 
-class Accord(models.Model):
+class Accords(models.Model):
     """ accords """
-
+    accord_id = models.BigAutoField(
+        primary_key=True,
+        db_column='accord_id',
+        # default=0
+    )
     name = models.CharField(
         max_length=40,
         null=False,
@@ -238,3 +271,6 @@ class Accord(models.Model):
 
     def __str__(self):
         return str(self.short_name)+'( '+str(self.name)+' )'
+
+    class Meta:
+        verbose_name_plural = "Accords"

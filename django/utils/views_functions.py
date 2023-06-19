@@ -1,8 +1,13 @@
-from rest_framework import status, viewsets
+""" functions to help with views and serializers """
+from django.core.paginator import Paginator, EmptyPage
 from django.db.models import Q
 from django.http import Http404, HttpResponse
+from django.db import IntegrityError
+
+
+from rest_framework import status, viewsets
 from rest_framework.response import Response
-from django.core.paginator import Paginator, EmptyPage
+from rest_framework import serializers
 
 
 API_TEXT_SEARCH = 'search'
@@ -13,20 +18,27 @@ API_TEXT_SHORT = 'short'
 DEFAULT_PAGE_SIZE_FOR_PAGINATION = 4
 
 
-def get_int_request_param(request, key):
-    """ get it param from request 
-    (return None if param does not exist or it is not an integer) """
+def to_int(value, default_value):
+    """ return_none_or_int """
     try:
-        return int(request.data[key])
-    except:
-        pass
-    return None
+        return int(value)
+    except (ValueError, TypeError):
+        return default_value
+
+
+def get_int_request_param(request, key, default_value):
+    """ get_int_request_param """
+    try:
+        value = request.data[key]
+    except (KeyError) as exc:
+        raise Http404 from exc
+    return to_int(value, default_value)
 
 
 def search_simple(queryset,
                   search_text: str,
                   search_field):
-    """ search by max 3 patterns separated by spaces"""
+    """ search by max 3 patterns space separated """
     # print('search:', search_text)
     search_text = search_text.strip()
 
@@ -53,36 +65,45 @@ def search_simple(queryset,
     return queryset
 
 
+def get_page(value, default_value):
+    """ get_page """
+    if not value is None:
+        try:
+            return int(value)
+        except Exception as exc:
+            raise Http404 from exc
+    return default_value
+
+
 def pagination_simple(
         request,
         serializer,
         queryset
 ):
-    """ paginate data and return them in response """
-    page = request.query_params.get(API_TEXT_PAGE, '1')
-    if page == '0':
+    """ pagination_simple """
+    page = get_page(request.query_params.get(API_TEXT_PAGE), 1)
+    if page == 0:
         # return count
-        count = queryset.count()
-        return Response([{'count': count}], status=status.HTTP_200_OK)
+        return Response([{'count': queryset.count()}], status=status.HTTP_200_OK)
 
-    page_size = request.query_params.get(API_TEXT_PAGE_SIZE,
-                                         DEFAULT_PAGE_SIZE_FOR_PAGINATION)
+    page_size = get_page(request.query_params.get(API_TEXT_PAGE_SIZE),
+                         DEFAULT_PAGE_SIZE_FOR_PAGINATION)
 
     try:
         paginator = Paginator(queryset, page_size)
+
         serializer = serializer(
             paginator.page(page),
             many=True,
             context={'request': request}
         )
-        # print(serializer.data)
         return Response(serializer.data, status=status.HTTP_200_OK)
     except EmptyPage:
         return Response([], status=status.HTTP_200_OK)
 
 
 def print_query(is_print_query, queryset):
-    """ print query """
+    """ print_query """
     if is_print_query:
         print(queryset.query)
 
@@ -91,9 +112,9 @@ def order_simple(
         queryset,
         order_field
 ):
-    """ order queryset """
+    """ order_simple """
     if not order_field is None:
-        order_field = '-id'
+        order_field = '-pk'
     return queryset.order_by(order_field)
 
 
@@ -107,9 +128,7 @@ def select_simple(
     order_field=None,
     is_print_query=False
 ):
-    """ select data from table, 
-    serialize them and 
-    return them in response """
+    """ select_simple """
     serializer_class_local = (
         short_serializer_class
         if not short_serializer_class is None and
@@ -125,8 +144,7 @@ def select_simple(
                 # .select_related('user')
                 .values(*fields))
 
-    # if (self.request.query_params.get('mine') == "1"):
-    #     queryset = queryset.filter(user=self.request.user.id)
+    queryset = filter_simple(queryset, 'pk', id)
 
     if not request.query_params.get(API_TEXT_SEARCH) is None:
         if search_field is None:
@@ -138,9 +156,6 @@ def select_simple(
                 search_field)
 
     queryset = order_simple(queryset, order_field)
-
-    if not id is None and id != 0:
-        queryset = queryset.filter(pk=id)
 
     print_query(is_print_query, queryset)
 
@@ -188,11 +203,38 @@ def delete_simple(
     """ delete """
     try:
         instance = model.objects.get(conditions)
+        print(instance)
     except Exception as exc:
         raise Http404 from exc
     try:
         instance.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-    except:
-        return Response(ERROR_WHEN_DELETING + ' id=' + str(id),
+    except (IntegrityError):
+        return Response(ERROR_WHEN_DELETING + ' pk=' + str(instance.pk),
                         status=status.HTTP_400_BAD_REQUEST)
+
+
+def representation_simple(my_fields, instance):
+    """ representation_simple """
+    representation = {}
+    for field in my_fields:
+        representation[field] = instance[field]
+    return representation
+
+
+def filter_simple(queryset, field_name, value):
+    """ filter_simple """
+    if not value is None:
+        try:
+            value = int(value)
+            if value != 0:
+                queryset = queryset.filter(
+                    **{'{}'.format(field_name): value})
+        except Exception as exc:
+            raise Http404 from exc
+    return queryset
+
+
+def filter_params_simple(queryset, field_name, request):
+    """ filter_params_simple """
+    return filter_simple(queryset, field_name, request.query_params.get(field_name))
