@@ -64,6 +64,9 @@ class Genres(models.Model):
                 description=value[1])
             genre.save()
 
+    class Meta:
+        verbose_name_plural = "Genres"
+
 
 class Authors(models.Model):
     """ authors """
@@ -90,6 +93,9 @@ class Authors(models.Model):
 
     def __str__(self):
         return str(self.name)
+
+    class Meta:
+        verbose_name_plural = "Authors"
 
 
 class Songs (models.Model):
@@ -156,6 +162,10 @@ class Songs (models.Model):
     def __str__(self):
         return str(self.author_id.name)+(' - ')+str(self.title)
 
+    class Meta:
+        # verbose_name = "Song"
+        verbose_name_plural = "Songs"
+
 
 class SongGenres(models.Model):
     """ genres of certain song """
@@ -178,6 +188,7 @@ class SongGenres(models.Model):
 
     class Meta:
         unique_together = [['song_id', 'genre_id']]
+        verbose_name_plural = "Song genres"
 
     @admin.display(ordering='song_title', description='Song title')
     def get_song_title(self):
@@ -214,6 +225,7 @@ class SongLikes(models.Model):
 
     class Meta:
         unique_together = [['song_id', 'user_id']]
+        verbose_name_plural = "Song likes"
 
     @admin.display(ordering='song_title', description='Song title')
     def get_song_title(self):
@@ -259,3 +271,6 @@ class Accords(models.Model):
 
     def __str__(self):
         return str(self.short_name)+'( '+str(self.name)+' )'
+
+    class Meta:
+        verbose_name_plural = "Accords"
