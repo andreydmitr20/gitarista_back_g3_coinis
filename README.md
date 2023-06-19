@@ -83,9 +83,8 @@
 <p>
     Schemas:
 
+    http://127.0.0.1:8000/api/docs/
     http://127.0.0.1:8000/api/schema/
-    http://127.0.0.1:8000/api/schema/swagger-ui/
-    http://127.0.0.1:8000/api/schema/redoc/
 
 </p>
 
@@ -97,38 +96,38 @@
 
     Get first page of authors:
         GET
-        http://127.0.0.1:8000/api/v2/song/author/0/
+        http://127.0.0.1:8000/api/v2/songs/authors/0/
 
     Get the author with id=23:
         GET
-        http://127.0.0.1:8000/api/v2/song/author/23/
+        http://127.0.0.1:8000/api/v2/songs/authors/23/
 
     Get first page of authors with just some (reduced) data fields count:
         GET
-        http://127.0.0.1:8000/api/v2/song/author/0/?short=1
+        http://127.0.0.1:8000/api/v2/songs/authors/0/?short=1
 
     Get authors count with 'Mr' in name:
         GET
-        http://127.0.0.1:8000/api/v2/song/author/0/?search=Mr&page=0
+        http://127.0.0.1:8000/api/v2/songs/authors/0/?search=Mr&page=0
 
     Get authors page 10:
         GET
-        http://127.0.0.1:8000/api/v2/song/author/0/?page=10&page_size=5
+        http://127.0.0.1:8000/api/v2/songs/authors/0/?page=10&page_size=5
 
 
     Create an author 'new author':
         POST body={'name'='new author'}
-        http://127.0.0.1:8000/api/v2/song/author/0/
+        http://127.0.0.1:8000/api/v2/songs/authors/0/
 
 
     Update the name of the author with id=1 to 'new name:
         PUT body={'name'='new name'}
-        http://127.0.0.1:8000/api/v2/song/author/1/
+        http://127.0.0.1:8000/api/v2/songs/authors/1/
 
 
     Delete author with id=1:
         DELETE
-        http://127.0.0.1:8000/api/v2/song/author/1/
+        http://127.0.0.1:8000/api/v2/songs/authors/1/
 
 <h3> Relational schema from <a href="erdplus.com">erdplus.com</a> </h3>
 <br>

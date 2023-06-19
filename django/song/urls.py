@@ -18,9 +18,11 @@ urlpatterns = [
 
     path('accords/<int:accord_id>/', AccordsView.as_view(), name='accords'),
 
-    path('<int:song_id>/genres/', SongGenresView.as_view(), name='song genres'),
+    path('<int:song_id>/genres/<int:genre_id>/',
+         SongGenresView.as_view(), name='song genres'),
 
-    path('<int:song_id>/likes/', SongLikesView.as_view(), name='song likes'),
+    path('<int:song_id>/likes/<int:user_id>/',
+         SongLikesView.as_view(), name='song likes'),
 
     path('<int:song_id>/', SongsView.as_view(), name='songs'),
 ]

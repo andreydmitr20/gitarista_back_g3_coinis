@@ -178,15 +178,13 @@ class SongGenresView(APIView):
     @extend_schema(
         description='song_id=0 retrieve all records before applying filters',
         parameters=[
-            OpenApiParameter("genre_id"),
-
             OpenApiParameter("search"),
             OpenApiParameter(
                 "page", description='page=0 retrieve records count'),
             OpenApiParameter("page_size"),
         ],
     )
-    def get(self, request, song_id=0, format=None):
+    def get(self, request, song_id=0, genre_id=0, format=None):
         """ get """
         serializer = SongGenresListSerializer
         fields = serializer.Meta.fields
@@ -199,7 +197,8 @@ class SongGenresView(APIView):
             *fields)
 
         queryset = filter_simple(queryset, 'song_id', song_id)
-        queryset = filter_params_simple(queryset, 'genre_id', request)
+        queryset = filter_simple(queryset, 'genre_id', genre_id)
+        # queryset = filter_params_simple(queryset, 'genre_id', request)
 
         if not request.query_params.get(API_TEXT_SEARCH) is None:
             queryset = search_simple(
@@ -214,24 +213,28 @@ class SongGenresView(APIView):
 
         return pagination_simple(request, serializer, queryset)
 
-    def post(self, request, song_id=0, format=None):
+    @extend_schema(
+        request=None,
+    )
+    def post(self, request, song_id=0, genre_id=0, format=None):
         """ post """
         return insert_simple(self.serializer_class, {
             'song_id': song_id,
-            'genre_id': get_int_request_param(
-                request, 'genre_id', None
-            )
+            'genre_id': genre_id
+            # get_int_request_param(
+            # request, 'genre_id', None )
         })
 
-    def delete(self, request, song_id=0, format=None):
+    def delete(self, request, song_id=0, genre_id=0, format=None):
         """ delete """
         return delete_simple(self.model,
                              Q(
                                  song_id=song_id,
-                                 genre_id=get_int_request_param(
-                                     request, 'genre_id', None
-                                 )
-                             ))
+                                 genre_id=genre_id
+                                 #  get_int_request_param(
+                                 #  request, 'genre_id', None
+                             )
+                             )
 
 
 @extend_schema(tags=['song : list of pairs (song, user who likes this song)'])
@@ -243,14 +246,12 @@ class SongLikesView(APIView):
     @extend_schema(
         description='song_id=0 retrieve all records before applying filters',
         parameters=[
-            OpenApiParameter("user_id"),
-
             OpenApiParameter("search"),
             OpenApiParameter(
                 "page", description='page=0 retrieve records count'),            OpenApiParameter("page_size"),
         ],
     )
-    def get(self, request, song_id=0, format=None):
+    def get(self, request, song_id=0, user_id=0, format=None):
         """ get """
         serializer = SongLikesListSerializer
         fields = serializer.Meta.fields
@@ -262,7 +263,8 @@ class SongLikesView(APIView):
             *fields)
 
         queryset = filter_simple(queryset, 'song_id', song_id)
-        queryset = filter_params_simple(queryset, 'user_id', request)
+        queryset = filter_simple(queryset, 'user_id', user_id)
+        # queryset = filter_params_simple(queryset, 'user_id', request)
 
         if not request.query_params.get(API_TEXT_SEARCH) is None:
             queryset = search_simple(
@@ -276,23 +278,28 @@ class SongLikesView(APIView):
 
         return pagination_simple(request, serializer, queryset)
 
-    def post(self, request, song_id=0, format=None):
+    @extend_schema(
+        request=None,
+    )
+    def post(self, request, song_id=0, user_id=0, format=None):
         """ post """
         return insert_simple(self.serializer_class, {
             'song_id': song_id,
-            'user_id': get_int_request_param(
-                request, 'user_id', None
-            )
+            'user_id': user_id
+            # get_int_request_param(
+            #     request, 'user_id', None
+            # )
         })
 
-    def delete(self, request, song_id=0, format=None):
+    def delete(self, request, song_id=0, user_id=0, format=None):
         """ delete """
         return delete_simple(self.model,
                              Q(
                                  song_id=song_id,
-                                 user_id=get_int_request_param(
-                                     request, 'user_id', None
-                                 )
+                                 user_id=user_id
+                                 #  get_int_request_param(
+                                 #      request, 'user_id', None
+                                 #  )
                              ))
 
 
@@ -354,11 +361,11 @@ class SongsView(APIView):
 
     def post(self, request, song_id=0, format=None):
         """ post """
-        # print('request', request.POST)
         try:
-            params = request.data.dict()
+            params = request.data
         except (AttributeError):
             params = {}
+
         return insert_simple(self.serializer_class,
                              params |
                              {
