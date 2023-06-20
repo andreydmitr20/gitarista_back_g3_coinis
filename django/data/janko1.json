@@ -597,7 +597,7 @@
     }
   },
   {
-    "model": "song.genre",
+    "model": "song.genres",
     "pk": 0,
     "fields": {
       "name": "Rock",
@@ -605,7 +605,7 @@
     }
   },
   {
-    "model": "song.genre",
+    "model": "song.genres",
     "pk": 1,
     "fields": {
       "name": "Blues",
@@ -613,7 +613,7 @@
     }
   },
   {
-    "model": "song.genre",
+    "model": "song.genres",
     "pk": 2,
     "fields": {
       "name": "Jazz",
@@ -621,7 +621,7 @@
     }
   },
   {
-    "model": "song.genre",
+    "model": "song.genres",
     "pk": 3,
     "fields": {
       "name": "Country",
@@ -629,7 +629,7 @@
     }
   },
   {
-    "model": "song.genre",
+    "model": "song.genres",
     "pk": 4,
     "fields": {
       "name": "Metal",
@@ -637,7 +637,7 @@
     }
   },
   {
-    "model": "song.genre",
+    "model": "song.genres",
     "pk": 5,
     "fields": {
       "name": "Folk",
@@ -645,7 +645,7 @@
     }
   },
   {
-    "model": "song.genre",
+    "model": "song.genres",
     "pk": 6,
     "fields": {
       "name": "Flamenco",
@@ -653,7 +653,7 @@
     }
   },
   {
-    "model": "song.genre",
+    "model": "song.genres",
     "pk": 7,
     "fields": {
       "name": "Classical",
@@ -661,7 +661,7 @@
     }
   },
   {
-    "model": "song.genre",
+    "model": "song.genres",
     "pk": 8,
     "fields": {
       "name": "Funk",
@@ -669,7 +669,7 @@
     }
   },
   {
-    "model": "song.genre",
+    "model": "song.genres",
     "pk": 9,
     "fields": {
       "name": "R&B/Soul",
@@ -677,12 +677,12 @@
     }
   },
   {
-    "model": "song.genre",
+    "model": "song.genres",
     "pk": 10,
     "fields": { "name": "test", "description": "descr" }
   },
   {
-    "model": "song.author",
+    "model": "song.authors",
     "pk": 1,
     "fields": {
       "name": "Rolling Stones",
@@ -690,7 +690,7 @@
     }
   },
   {
-    "model": "song.author",
+    "model": "song.authors",
     "pk": 2,
     "fields": {
       "name": "The Kinks",
@@ -698,7 +698,7 @@
     }
   },
   {
-    "model": "song.author",
+    "model": "song.authors",
     "pk": 3,
     "fields": {
       "name": "Cream",
@@ -706,7 +706,7 @@
     }
   },
   {
-    "model": "song.author",
+    "model": "song.authors",
     "pk": 4,
     "fields": {
       "name": "Linkin Park",
@@ -714,7 +714,7 @@
     }
   },
   {
-    "model": "song.author",
+    "model": "song.authors",
     "pk": 5,
     "fields": {
       "name": "Led Zeppelin",
@@ -722,7 +722,7 @@
     }
   },
   {
-    "model": "song.author",
+    "model": "song.authors",
     "pk": 6,
     "fields": {
       "name": "The Beatles",
@@ -730,7 +730,7 @@
     }
   },
   {
-    "model": "song.author",
+    "model": "song.authors",
     "pk": 7,
     "fields": {
       "name": "Van Halen",
@@ -738,11 +738,11 @@
     }
   },
   {
-    "model": "song.song",
+    "model": "song.songs",
     "pk": 1,
     "fields": {
-      "user": 1,
-      "author": 1,
+      "user_id": 1,
+      "author_id": 1,
       "title": "Zapisano je u vremenu",
       "date_creation": "2023-05-30T08:17:35.442Z",
       "link": "http://www.pesmarica.rs/Akordi/12796/Nedeljko-Baji%C4%87-Baja--Zapisano-je-u-vremenu",
@@ -750,11 +750,11 @@
     }
   },
   {
-    "model": "song.song",
+    "model": "song.songs",
     "pk": 2,
     "fields": {
-      "user": 2,
-      "author": 2,
+      "user_id": 2,
+      "author_id": 2,
       "title": "Da si tu",
       "date_creation": "2023-05-30T21:32:01.579Z",
       "link": "http://www.pesmarica.rs/Akordi/12791/Aco-Pejovi%C4%87--Da-si-tu",
@@ -762,11 +762,11 @@
     }
   },
   {
-    "model": "song.song",
+    "model": "song.songs",
     "pk": 3,
     "fields": {
-      "user": 2,
-      "author": 3,
+      "user_id": 2,
+      "author_id": 3,
       "title": "Za ljiljanu",
       "date_creation": "2023-05-30T21:42:45.137Z",
       "link": "http://www.pesmarica.rs/Akordi/12781/Toma-Zdravkovi%C4%87--Za-ljiljanu",
@@ -774,23 +774,39 @@
     }
   },
   {
-    "model": "song.song",
+    "model": "song.songs",
     "pk": 4,
     "fields": {
-      "user": 1,
-      "author": 4,
+      "user_id": 1,
+      "author_id": 4,
       "title": "In The End",
       "date_creation": "2023-06-15T20:46:48.074Z",
       "link": "",
       "text_with_accords": ""
     }
   },
-  { "model": "song.songgenre", "pk": 1, "fields": { "song": 1, "genre": 5 } },
-  { "model": "song.songgenre", "pk": 2, "fields": { "song": 2, "genre": 5 } },
-  { "model": "song.songgenre", "pk": 3, "fields": { "song": 3, "genre": 2 } },
-  { "model": "song.songlike", "pk": 1, "fields": { "song": 1, "user": 2 } },
   {
-    "model": "song.accord",
+    "model": "song.songgenres",
+    "pk": 1,
+    "fields": { "song_id": 1, "genre_id": 5 }
+  },
+  {
+    "model": "song.songgenres",
+    "pk": 2,
+    "fields": { "song_id": 2, "genre_id": 5 }
+  },
+  {
+    "model": "song.songgenres",
+    "pk": 3,
+    "fields": { "song_id": 3, "genre_id": 2 }
+  },
+  {
+    "model": "song.songlikes",
+    "pk": 1,
+    "fields": { "song_id": 1, "user_id": 2 }
+  },
+  {
+    "model": "song.accords",
     "pk": 1,
     "fields": {
       "name": "E minor",
@@ -799,7 +815,7 @@
     }
   },
   {
-    "model": "song.accord",
+    "model": "song.accords",
     "pk": 2,
     "fields": {
       "name": "E major",
