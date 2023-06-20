@@ -60,3 +60,21 @@ class TestSongGenresEndpoints(TestEndpoints):
             response.data,
             expected_data
         )
+
+    def test_get_short(self, client):
+
+        self.fill_test_data(Genres)
+
+        expected_data = [
+            {'genre_id': 1, 'name': Genres.test_data[0]['name']}
+        ]
+
+        response = self.get(client, self.endpoint +
+                            '1/?page_size=1000&short=1'
+                            )
+
+        assert len(response.data) == 1
+        assert self.is_equal(
+            response.data,
+            expected_data
+        )
