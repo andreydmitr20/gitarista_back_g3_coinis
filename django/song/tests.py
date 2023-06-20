@@ -1,5 +1,4 @@
 """ song part tests """
-
 from song.models import Accords, Authors, Genres, SongGenres, SongLikes, Songs
 from user.models import User
 from utils.functions_for_tests import TestEndpoints
@@ -13,12 +12,9 @@ class TestSongGenresEndpoints(TestEndpoints):
 
     endpoint = API_URL+'genres/'
 
-    def test_get(self, client):
+    def test_get_count0(self, client):
         """ test_get """
-        test_data = [{'count': 0}]
-        Genres.objects.create(
-            name="genre1", description="description"
-        ).save()
+        expected_data = [{'count': 0}]
 
         response = client.get(self.endpoint+'0/?page=0')
         self.log(response.data)
@@ -26,7 +22,22 @@ class TestSongGenresEndpoints(TestEndpoints):
         assert response.status_code == 200
         assert self.is_equal(
             response.data,
-            test_data
+            expected_data
+        )
+
+    def test_get_count(self, client):
+        """ test_get """
+        expected_data = [{'count': len(Genres.test_data)}]
+
+        self.fill_test_data(Genres)
+
+        response = client.get(self.endpoint+'0/?page=0')
+        self.log(response.data)
+
+        assert response.status_code == 200
+        assert self.is_equal(
+            response.data,
+            expected_data
         )
 
 
