@@ -70,3 +70,18 @@ class TestEndpoints:
 
         assert response.status_code == status_code
         return response
+
+    def post(self,
+             client,
+             api_endpoint,
+             data,
+             status_code=201):
+
+        self.log(f'{api_endpoint}')
+        self.log(f'{data}')
+
+        response = client.post(api_endpoint, data=data)
+        self.log(f'\n{response.data}')
+
+        assert response.status_code == status_code
+        return response
