@@ -3,7 +3,7 @@ from django.db import models
 
 from django.contrib import admin
 
-from user.models import User
+from user.models import Users
 
 
 class Genres(models.Model):
@@ -75,7 +75,7 @@ class Songs (models.Model):
     )
 
     user_id = models.ForeignKey(
-        User,
+        Users,
         db_column='user_id',
         null=False,
         blank=False,
@@ -183,7 +183,7 @@ class SongLikes(models.Model):
     )
 
     user_id = models.ForeignKey(
-        User,
+        Users,
         db_column='user_id',
         null=False,
         blank=False,
