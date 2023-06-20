@@ -41,6 +41,10 @@ PERMISSION_CLASSES = [AllowAny]
 PRINT_QUERY = True
 
 
+PARAM_SEARCH_DESCRIPTION = "char '+' means AND"
+PARAM_PAGE_0_DESCRIPTION = 'page=0 retrieve records count'
+
+
 @extend_schema(tags=['song : list of genres'])
 class GenresView(APIView):
     """ GenresView """
@@ -51,9 +55,9 @@ class GenresView(APIView):
     @extend_schema(
         description='genre_id=0 retrieve all records before applying filters',
         parameters=[
-            OpenApiParameter("search"),
+            OpenApiParameter("search", description=PARAM_SEARCH_DESCRIPTION),
             OpenApiParameter(
-                "page", description='page=0 retrieve records count'),
+                "page", description=PARAM_PAGE_0_DESCRIPTION),
             OpenApiParameter("page_size"),
             OpenApiParameter("short"),
         ],
@@ -93,9 +97,9 @@ class AuthorsView(APIView):
     @extend_schema(
         description='author_id=0 retrieve all records before applying filters',
         parameters=[
-            OpenApiParameter("search"),
+            OpenApiParameter("search", description=PARAM_SEARCH_DESCRIPTION),
             OpenApiParameter(
-                "page", description='page=0 retrieve records count'),
+                "page", description=PARAM_PAGE_0_DESCRIPTION),
             OpenApiParameter("page_size"),
             OpenApiParameter("short"),
         ]
@@ -135,9 +139,9 @@ class AccordsView(APIView):
     @extend_schema(
         description='accord_id=0 retrieve all records before applying filters',
         parameters=[
-            OpenApiParameter("search"),
+            OpenApiParameter("search", description=PARAM_SEARCH_DESCRIPTION),
             OpenApiParameter(
-                "page", description='page=0 retrieve records count'),
+                "page", description=PARAM_PAGE_0_DESCRIPTION),
             OpenApiParameter("page_size"),
             OpenApiParameter("short"),
         ]
@@ -178,9 +182,9 @@ class SongGenresView(APIView):
     @extend_schema(
         description='song_id=0 retrieve all records before applying filters',
         parameters=[
-            OpenApiParameter("search"),
+            OpenApiParameter("search", description=PARAM_SEARCH_DESCRIPTION),
             OpenApiParameter(
-                "page", description='page=0 retrieve records count'),
+                "page", description=PARAM_PAGE_0_DESCRIPTION),
             OpenApiParameter("page_size"),
         ],
     )
@@ -246,9 +250,9 @@ class SongLikesView(APIView):
     @extend_schema(
         description='song_id=0 retrieve all records before applying filters',
         parameters=[
-            OpenApiParameter("search"),
+            OpenApiParameter("search", description=PARAM_SEARCH_DESCRIPTION),
             OpenApiParameter(
-                "page", description='page=0 retrieve records count'),            OpenApiParameter("page_size"),
+                "page", description=PARAM_PAGE_0_DESCRIPTION),            OpenApiParameter("page_size"),
         ],
     )
     def get(self, request, song_id=0, user_id=0, format=None):
@@ -316,9 +320,9 @@ class SongsView(APIView):
             OpenApiParameter("user_id"),
             OpenApiParameter("author_id"),
 
-            OpenApiParameter("search"),
+            OpenApiParameter("search", description=PARAM_SEARCH_DESCRIPTION),
             OpenApiParameter(
-                "page", description='page=0 retrieve records count'),
+                "page", description=PARAM_PAGE_0_DESCRIPTION),
             OpenApiParameter("page_size"),
             OpenApiParameter("short"),
         ],
