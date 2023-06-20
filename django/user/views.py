@@ -34,6 +34,7 @@ UserModel = get_user_model()
 
 class UserRegister(views.APIView):
     permission_classes = (permissions.AllowAny,)
+    
     def post(self, request):
         # fix validation part!
         # clean_data = custom_validation(request.data)
@@ -58,12 +59,14 @@ class UserLogin(views.APIView):
         if serializer.is_valid(raise_exception=True):
             user = serializer.check_user(data)
             login(request, user)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-
+            return Response({'msg': 'User Logged in'}, status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+    
 class UserLogout(views.APIView):
+
     def post(self, request):
         logout(request)
-        return Response(status=status.HTTP_200_OK)
+        return Response({'msg': 'User Logged out'},status=status.HTTP_200_OK)
     
 class UserView(views.APIView):
     permission_classes = (permissions.IsAuthenticated,)
