@@ -48,7 +48,7 @@ class TestEndpoints:
         return APIClient
 
     @staticmethod
-    def fill_test_data(model, test_data: list = None):
+    def fill_model(model, test_data: list = None):
         """ fill model with test_data"""
         if test_data is None:
             test_data = model.test_data
@@ -115,4 +115,22 @@ class TestEndpoints:
         response = client.delete(api_endpoint)
 
         assert response.status_code == status_code
+        return response
+
+    def get_assert(self,
+                   client,
+                   api_endpoint,
+                   expected_data):
+
+        response = self.get(client, api_endpoint)
+
+        if expected_data is None:
+            expected_data = []
+        else:
+            expected_data = [expected_data]
+
+        assert self.is_equal(
+            response.data,
+            expected_data
+        )
         return response
