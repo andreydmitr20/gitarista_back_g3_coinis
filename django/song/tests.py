@@ -13,58 +13,50 @@ class TestSongGenresEndpoints(TestEndpoints):
     endpoint = API_URL+'genres/'
 
     def test_get_count0(self, client):
-        """ test_get """
-        expected_data = [{'count': 0}]
 
-        response = client.get(self.endpoint+'0/?page=0')
-        self.log(response.data)
+        expected_data = [
+            {'count': 0}
+        ]
 
-        assert response.status_code == 200
+        response = self.get(client, self.endpoint +
+                            '0/?page=0')
+
         assert self.is_equal(
             response.data,
             expected_data
         )
 
     def test_get_count(self, client):
-        """ test_get """
-        expected_data = [{'count': len(Genres.test_data)}]
 
         self.fill_test_data(Genres)
 
-        response = client.get(self.endpoint+'0/?page=0')
-        self.log(response.data)
+        expected_data = [
+            {'count': len(Genres.test_data)}
+        ]
 
-        assert response.status_code == 200
+        response = self.get(client, self.endpoint +
+                            '0/?page=0')
+
         assert self.is_equal(
             response.data,
             expected_data
         )
 
+    def test_get_search(self, client):
 
-# @pytest.mark.django_db
-# def test_genre_create():
-#     genre = Genres.objects.create(name="genre1", description="description")
-#     assert genre.name == "genre1"
+        self.fill_test_data(Genres)
 
+        expected_data = [
+            {'genre_id': 1, **Genres.test_data[0]}
+        ]
 
-# @pytest.mark.django_db
-# def test_song_genres_get(client):
-#     response = client.get(API_BASE_URL+API_VERSION+'songs/genres/0/')
-#     assert response.status_code == 200
+        response = self.get(client, self.endpoint +
+                            '0/?page_size=1000&search=' +
+                            Genres.test_data[0]['name']
+                            )
 
-
-# @pytest.mark.django_db
-# def test_song_genres_get_count(client):
-#     Genres.objects.create(
-#         name="genre1", description="description"
-#     ).save()
-
-#     response = client.get(API_BASE_URL+API_VERSION +
-#                           'songs/genres/0/?page=0')
-#     log(response.data)
-
-#     assert response.status_code == 200
-#     assert is_objects_deep_equal(
-#         response.data,
-#         [{'count': 0}]
-#     )
+        assert len(response.data) == 1
+        assert self.is_equal(
+            response.data,
+            expected_data
+        )
