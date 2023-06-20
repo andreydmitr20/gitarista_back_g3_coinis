@@ -129,6 +129,32 @@
         DELETE
         http://127.0.0.1:8000/api/v2/songs/authors/1/
 
+User Options:
+
+    User register:
+        POST body={
+            "username": "user",
+            "email": "user@user.com",
+            "password": "user1234!",
+            "password2": "user1234!"
+        }
+        http://127.0.0.1:8000/api/register/
+
+    User login:
+        POST body={
+        "email": "user@user.com",
+        "password2": "user1234!"
+        }
+        http://127.0.0.1:8000/api/login/
+
+    User logout:
+        POST body={}
+        http://127.0.0.1:8000/api/logout/
+
+    User info(logged user):
+        GET
+        http://127.0.0.1:8000/api/user/
+
 <h3> Relational schema from <a href="erdplus.com">erdplus.com</a> </h3>
 <br>
 <a href="./docs/gitaristi.erdplus">
