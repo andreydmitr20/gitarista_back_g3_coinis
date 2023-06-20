@@ -1,6 +1,6 @@
 """ song part tests """
 from song.models import Accords, Authors, Genres, SongGenres, SongLikes, Songs
-from user.models import User
+from user.models import Users
 from utils.functions_for_tests import (
     ListEndpoints
 )
