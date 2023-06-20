@@ -64,9 +64,9 @@ class TestEndpoints:
             api_endpoint,
             status_code=200):
 
-        self.log(f'{api_endpoint}')
+        self.log(f'GET {api_endpoint}')
         response = client.get(api_endpoint)
-        self.log(f'\n{response.data}')
+        self.log(f'\n{response.data}\n')
 
         assert response.status_code == status_code
         return response
@@ -77,11 +77,42 @@ class TestEndpoints:
              data,
              status_code=201):
 
-        self.log(f'{api_endpoint}')
+        self.log(f'POST {api_endpoint}')
         self.log(f'{data}')
 
-        response = client.post(api_endpoint, data=data)
-        self.log(f'\n{response.data}')
+        response = client.post(api_endpoint,
+                               content_type='application/json',
+                               data=data)
+        self.log(f'\n{response.data}\n')
+
+        assert response.status_code == status_code
+        return response
+
+    def put(self,
+            client,
+            api_endpoint,
+            data,
+            status_code=200):
+
+        self.log(f'PUT {api_endpoint}')
+        self.log(f'{data}')
+
+        response = client.put(api_endpoint,
+                              content_type='application/json',
+                              data=data)
+        self.log(f'\n{response.data}\n')
+
+        assert response.status_code == status_code
+        return response
+
+    def delete(self,
+               client,
+               api_endpoint,
+               status_code=204):
+
+        self.log(f'DELETE {api_endpoint}\n')
+
+        response = client.delete(api_endpoint)
 
         assert response.status_code == status_code
         return response

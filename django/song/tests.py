@@ -11,6 +11,7 @@ class TestSongGenresEndpoints(TestEndpoints):
     """ TestSongGenresEndpoints """
 
     endpoint = API_URL+'genres/'
+    model = Genres
 
     def test_get_count0(self, client):
 
@@ -28,48 +29,48 @@ class TestSongGenresEndpoints(TestEndpoints):
 
     def test_get_count(self, client):
 
-        self.fill_test_data(Genres)
+        self.fill_test_data(self.model)
 
-        expected_data = [
-            {'count': len(Genres.test_data)}
-        ]
+        expected_data = {
+            'count': len(self.model.test_data)
+        }
 
         response = self.get(client, self.endpoint +
                             '0/?page=0')
 
         assert self.is_equal(
             response.data,
-            expected_data
+            [expected_data]
         )
 
     def test_get_search(self, client):
 
-        self.fill_test_data(Genres)
+        self.fill_test_data(self.model)
 
-        expected_data = [
-            {'genre_id': 1, **Genres.test_data[0]}
-        ]
+        expected_data = {
+            'genre_id': 1, **self.model.test_data[0]
+        }
 
         response = self.get(client, self.endpoint +
                             '0/?page_size=1000&search=' +
-                            Genres.test_data[0]['name']
+                            self.model.test_data[0]['name']
                             )
 
         assert len(response.data) == 1
         assert self.is_equal(
             response.data,
-            expected_data
+            [expected_data]
         )
 
     def test_get_short(self, client):
 
-        self.fill_test_data(Genres)
+        self.fill_test_data(self.model)
 
         genre_id = 2
-        expected_data = [
-            {'genre_id': genre_id,
-             'name': Genres.test_data[genre_id-1]['name']}
-        ]
+        expected_data = {
+            'genre_id': genre_id,
+            'name': self.model.test_data[genre_id-1]['name']
+        }
 
         response = self.get(client, self.endpoint +
                             str(genre_id)+'/?page_size=1000&short=1'
@@ -78,17 +79,17 @@ class TestSongGenresEndpoints(TestEndpoints):
         assert len(response.data) == 1
         assert self.is_equal(
             response.data,
-            expected_data
+            [expected_data]
         )
 
     def test_post(self, client):
 
-        self.fill_test_data(Genres)
+        self.fill_test_data(self.model)
 
         temp_data = {'name': 'Test genre',
                      'description': 'Test genre description'}
         expected_data = {
-            'genre_id': len(Genres.test_data)+1,
+            'genre_id': len(self.model.test_data)+1,
             **temp_data
         }
 
@@ -102,4 +103,93 @@ class TestSongGenresEndpoints(TestEndpoints):
             expected_data
         )
 
-        # self.get_row_by_id
+        response = self.get(client, self.endpoint +
+                            str(expected_data['genre_id'])+'/'
+                            )
+
+        assert self.is_equal(
+            response.data,
+            [expected_data]
+        )
+
+    def test_put(self, client):
+
+        self.fill_test_data(self.model)
+
+        genre_id = 2
+
+        expected_data = {
+            'genre_id': genre_id,
+            ** self.model.test_data[genre_id-1]
+        }
+
+        response = self.get(client, self.endpoint +
+                            str(genre_id)+'/'
+                            )
+
+        assert self.is_equal(
+            response.data,
+            [expected_data]
+        )
+
+        temp_data = {
+            'name': 'Test genre',
+            'description': 'Test genre description'
+        }
+
+        response = self.put(client, self.endpoint +
+                            str(genre_id)+'/',
+                            temp_data
+                            )
+
+        expected_data = {
+            **expected_data,
+            **temp_data
+        }
+
+        assert self.is_equal(
+            response.data,
+            expected_data
+        )
+
+        response = self.get(client, self.endpoint +
+                            str(genre_id)+'/'
+                            )
+
+        assert self.is_equal(
+            response.data,
+            [expected_data]
+        )
+
+    def test_delete(self, client):
+
+        self.fill_test_data(self.model)
+
+        genre_id = 2
+
+        expected_data = {
+            'genre_id': genre_id,
+            ** self.model.test_data[genre_id-1]
+        }
+
+        response = self.get(client, self.endpoint +
+                            str(genre_id)+'/'
+                            )
+
+        assert self.is_equal(
+            response.data,
+            [expected_data]
+        )
+
+        response = self.delete(client, self.endpoint +
+                               str(genre_id)+'/'
+                               )
+
+        response = self.get(client, self.endpoint +
+                            str(genre_id)+'/'
+                            )
+
+        assert self.is_equal(
+            response.data,
+            []
+        )
