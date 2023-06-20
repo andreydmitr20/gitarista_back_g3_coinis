@@ -31,14 +31,6 @@ class Genres(models.Model):
     def __str__(self):
         return str(self.name)
 
-    test_data = [
-        {'name': 'Rock', 'description': 'This genre encompasses various subgenres such as classic rock, hard rock, alternative rock, punk rock, and progressive rock. Guitar-driven bands and iconic guitar solos are a defining characteristic of rock music'},
-        {'name': 'Blues', 'description': 'Originating from African-American communities in the United States, blues music heavily relies on the guitar. It often features soulful playing, bending of notes, and expressive solos'},
-        {'name': 'Jazz', 'description': 'Jazz music incorporates improvisation and complex harmonies. The guitar plays a significant role in jazz, both as a rhythm instrument and for soloing. Subgenres like gypsy jazz and smooth jazz also have distinct guitar styles'},
-        {'name': 'Country', 'description': 'Country music often features acoustic and electric guitars, including fingerpicking and twangy guitar sounds. It encompasses subgenres like traditional country, country rock, and outlaw country'},
-        {'name': 'Metal', 'description': 'Known for its heavy sound, aggressive riffs, and fast guitar playing, metal music is characterized by distorted guitars and intricate solos. Subgenres like thrash metal, heavy metal, and power metal are all guitar-driven'},
-    ]
-
     class Meta:
         verbose_name_plural = "Genres"
 
