@@ -100,7 +100,7 @@ class AuthorsView(APIView):
         add_songs = to_int(request.query_params.get(
             self.API_TEXT_ADD_SONGS, '0'), 0)
         if add_songs != 0:
-            add_song = min(add_song, 6)
+            add_songs = min(add_songs, 6)
             return Response([], status=status.HTTP_400_BAD_REQUEST)
 
         return select_simple(
