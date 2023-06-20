@@ -1,43 +1,59 @@
-import logging
-from django.urls import reverse
-import pytest
+""" song part tests """
 
+from song.models import Accords, Authors, Genres, SongGenres, SongLikes, Songs
 from user.models import User
-from song.models import (Songs,
-                         Accords,
-                         Genres,
-                         Authors,
-                         SongLikes,
-                         SongGenres)
+from utils.functions_for_tests import TestEndpoints
 
 
-@pytest.mark.django_db
-def test_genre_create():
-    genre = Genres.objects.create(name="genre1", description="description")
-    assert genre.name == "genre1"
+API_URL = "/api/v2/songs/"
 
 
-LOGGER = logging.getLogger(__name__)
+class TestSongGenresEndpoints(TestEndpoints):
+    """ TestSongGenresEndpoints """
+
+    endpoint = API_URL+'genres/'
+
+    def test_get(self, client):
+        """ test_get """
+        test_data = [{'count': 0}]
+        Genres.objects.create(
+            name="genre1", description="description"
+        ).save()
+
+        response = client.get(self.endpoint+'0/?page=0')
+        self.log(response.data)
+
+        assert response.status_code == 200
+        assert self.is_equal(
+            response.data,
+            test_data
+        )
 
 
-def log(a):
-    LOGGER.info(a)
+# @pytest.mark.django_db
+# def test_genre_create():
+#     genre = Genres.objects.create(name="genre1", description="description")
+#     assert genre.name == "genre1"
 
 
-API_BASE_URL = "/api/"
-API_VERSION = "v2/"
+# @pytest.mark.django_db
+# def test_song_genres_get(client):
+#     response = client.get(API_BASE_URL+API_VERSION+'songs/genres/0/')
+#     assert response.status_code == 200
 
 
-@pytest.mark.django_db
-def test_song_genres_get(client):
-    response = client.get(API_BASE_URL+API_VERSION+'songs/genres/0/')
-    assert response.status_code == 200
+# @pytest.mark.django_db
+# def test_song_genres_get_count(client):
+#     Genres.objects.create(
+#         name="genre1", description="description"
+#     ).save()
 
+#     response = client.get(API_BASE_URL+API_VERSION +
+#                           'songs/genres/0/?page=0')
+#     log(response.data)
 
-@pytest.mark.django_db
-def test_song_genres_get_count(client):
-    response = client.get(API_BASE_URL+API_VERSION +
-                          'songs/genres/0/?page=0')
-    log(response.data)
-    assert response.status_code == 200
-    assert response.data == [{'count': 0}]
+#     assert response.status_code == 200
+#     assert is_objects_deep_equal(
+#         response.data,
+#         [{'count': 0}]
+#     )
