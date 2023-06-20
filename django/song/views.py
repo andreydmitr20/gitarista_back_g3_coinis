@@ -1,39 +1,26 @@
-from drf_spectacular.utils import extend_schema, OpenApiParameter
-from django.db.models import Q, F
-
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from drf_spectacular.utils import OpenApiParameter, extend_schema
+from rest_framework import serializers, status, viewsets
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from utils.views_functions import (API_TEXT_SEARCH, API_TEXT_SHORT,
+                                   delete_simple, filter_params_simple,
+                                   filter_simple, get_int_request_param,
+                                   insert_simple, order_simple,
+                                   pagination_simple, print_query,
+                                   search_simple, select_simple, to_int,
+                                   update_simple)
 
+from django.db.models import F, Q
 
-from utils.views_functions import (select_simple,
-                                   insert_simple,
-                                   update_simple,
-                                   delete_simple,
-                                   print_query,
-                                   pagination_simple,
-                                   search_simple,
-                                   order_simple,
-                                   get_int_request_param,
-                                   filter_simple,
-                                   filter_params_simple,
-                                   API_TEXT_SEARCH,
-                                   API_TEXT_SHORT)
-
-
-from .models import (Songs,
-                     Accords,
-                     Authors,
-                     SongGenres,
-                     SongLikes,
-                     Genres)
-from .serializers import (SongsSerializer, SongsShortSerializer, SongsListSerializer,
+from .models import Accords, Authors, Genres, SongGenres, SongLikes, Songs
+from .serializers import (AccordsSerializer, AccordsShortSerializer,
                           AuthorsSerializer, AuthorsShortSerializer,
                           GenresSerializer, GenresShortSerializer,
-                          SongLikesSerializer, SongLikesListSerializer,
-                          SongGenresSerializer, SongGenresListSerializer,
-                          AccordsSerializer, AccordsShortSerializer)
-
+                          SongGenresListSerializer, SongGenresSerializer,
+                          SongLikesListSerializer, SongLikesSerializer,
+                          SongsListSerializer, SongsSerializer,
+                          SongsShortSerializer)
 
 PERMISSION_CLASSES = [AllowAny]
 # PERMISSION_CLASSES=[IsAuthenticated]
@@ -94,6 +81,8 @@ class AuthorsView(APIView):
     serializer_class = AuthorsSerializer
     model = Authors
 
+    API_TEXT_ADD_SONGS = 'add_songs'
+
     @extend_schema(
         description='author_id=0 retrieve all records before applying filters',
         parameters=[
@@ -102,10 +91,18 @@ class AuthorsView(APIView):
                 "page", description=PARAM_PAGE_0_DESCRIPTION),
             OpenApiParameter("page_size"),
             OpenApiParameter("short"),
+            OpenApiParameter(API_TEXT_ADD_SONGS, description='add songs'),
         ]
     )
     def get(self, request, author_id=0, format=None):
         """ get """
+
+        add_songs = to_int(request.query_params.get(
+            self.API_TEXT_ADD_SONGS, '0'), 0)
+        if add_songs != 0:
+            add_song = min(add_song, 6)
+            return Response([], status=status.HTTP_400_BAD_REQUEST)
+
         return select_simple(
             self.model,
             request,

@@ -1,14 +1,11 @@
 """ functions to help with views and serializers """
-from django.core.paginator import Paginator, EmptyPage
+from rest_framework import serializers, status, viewsets
+from rest_framework.response import Response
+
+from django.core.paginator import EmptyPage, Paginator
+from django.db import IntegrityError
 from django.db.models import Q
 from django.http import Http404, HttpResponse
-from django.db import IntegrityError
-
-
-from rest_framework import status, viewsets
-from rest_framework.response import Response
-from rest_framework import serializers
-
 
 API_TEXT_SEARCH = 'search'
 API_TEXT_PAGE = 'page'
