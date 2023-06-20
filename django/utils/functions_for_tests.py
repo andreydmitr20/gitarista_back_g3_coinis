@@ -40,6 +40,29 @@ class Endpoints:
     @staticmethod
     def is_equal(obj1, obj2):
         """ compare two python objects """
+        if isinstance(obj1, list):
+            len1 = len(obj1)
+            if not isinstance(obj2, list):
+                return False
+            len2 = len(obj2)
+            if len1 != len2:
+                return False
+            if len1 == 1:
+                return Endpoints.is_equal(obj1[0], obj2[0])
+            if len1 == 0:
+                return True
+            return False
+        elif isinstance(obj1, dict):
+            if not isinstance(obj2, dict):
+                return False
+            len1 = 0
+            for key, value in obj1.items():
+                if obj2[key] != value:
+                    return False
+                len1 += 1
+            if len(obj2.keys()) != len1:
+                return False
+            return True
         return json.dumps(obj1) == json.dumps(obj2)
 
     @staticmethod
@@ -91,6 +114,7 @@ class Endpoints:
         self.log(f'\n{response.data}\n')
 
         result = response.status_code == status_code
+
         if negative_status_code_test:
             result = not result
         assert result
@@ -137,11 +161,13 @@ class Endpoints:
                    client,
                    api_endpoint,
                    expected_data=None,
+                   status_code=200,
                    negative_expected_data_test=False,
                    negative_status_code_test=False):
 
         response = self.get(client,
                             api_endpoint,
+                            status_code=status_code,
                             negative_status_code_test=negative_status_code_test)
 
         if expected_data is None:
@@ -149,6 +175,7 @@ class Endpoints:
         else:
             expected_data = [expected_data]
 
+        self.log(f'exp: {expected_data}')
         result = self.is_equal(
             response.data,
             expected_data
@@ -166,6 +193,7 @@ class ListEndpoints(Endpoints):
     model = None
     model_pk_field_name = None
     model_search_field_name = None
+    model_short_field_name = None
     temp_data = None
 
     # --------------------
@@ -182,6 +210,15 @@ class ListEndpoints(Endpoints):
 
             expected_data={'count': len(self.test_data)},
             negative_expected_data_test=True)
+
+        self.get_assert(
+            client,
+
+            self.endpoint +
+            '100000/',
+            expected_data=None,
+            status_code=400,
+            negative_status_code_test=True)
 
     # ++++++++++++++++++++
 
@@ -210,12 +247,16 @@ class ListEndpoints(Endpoints):
 
         self.fill_model(self.model)
 
+        search_text = (self.test_data[0][self.model_search_field_name]
+                       .replace(' ', '%20')
+                       )
+
         self.get_assert(
             client,
 
             self.endpoint +
             '0/?page_size=1000&search=' +
-            self.test_data[0][self.model_search_field_name],
+            search_text,
 
             expected_data={
                 self.model_pk_field_name: 1,
@@ -229,6 +270,9 @@ class ListEndpoints(Endpoints):
 
         pk_id = 2
 
+        if self.model_short_field_name is None:
+            self.model_short_field_name = self.model_search_field_name
+
         self.get_assert(
             client,
 
@@ -238,9 +282,9 @@ class ListEndpoints(Endpoints):
 
             expected_data={
                 self.model_pk_field_name: pk_id,
-                self.model_search_field_name:
+                self.model_short_field_name:
                 self.test_data[pk_id -
-                               1][self.model_search_field_name]
+                               1][self.model_short_field_name]
             }
         )
 
@@ -260,6 +304,7 @@ class ListEndpoints(Endpoints):
             self.temp_data
         )
 
+        # self.log(f'resp: {response.data}\n exp: {expected_data}\n')
         assert self.is_equal(response.data, expected_data)
 
         self.get_assert(

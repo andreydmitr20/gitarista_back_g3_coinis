@@ -28,8 +28,8 @@ class TestSongGenresEndpoints(ListEndpoints):
     ]
 
 
-class TestSongAuthorEndpoints(ListEndpoints):
-    """ TestSongAuthorEndpoints """
+class TestSongAuthorsEndpoints(ListEndpoints):
+    """ TestSongAuthorsEndpoints """
     endpoint = API_URL+'authors/'
     model = Authors
     model_pk_field_name = 'author_id'
@@ -43,4 +43,28 @@ class TestSongAuthorEndpoints(ListEndpoints):
         {'name': 'The Beatles', 'link': 'https://sh.wikipedia.org/wiki/The_Beatles'},
         {'name': 'Чёрный Обелиск',
             'link': 'https://ru.wikipedia.org/wiki/%D0%A7%D1%91%D1%80%D0%BD%D1%8B%D0%B9_%D0%9E%D0%B1%D0%B5%D0%BB%D0%B8%D1%81%D0%BA_(%D0%B3%D1%80%D1%83%D0%BF%D0%BF%D0%B0)'},
+    ]
+
+
+class TestSongAccordsEndpoints(ListEndpoints):
+    """ TestSongAccordsEndpoints """
+    endpoint = API_URL+'accords/'
+    model = Accords
+    model_pk_field_name = 'accord_id'
+    model_search_field_name = 'name'
+    model_short_field_name = 'short_name'
+    temp_data = {
+        'name': 'Test accord name',
+        'link': 'http://test.link',
+        "short_name": 'Sn'
+    }
+    test_data = [
+        {'name': 'A major', 'short_name': 'A',
+            'link': 'https://www.audiolisted.com/wp-content/uploads/2018/04/A-Major-Chord-Open-Finger-Numbers.jpg.webp'},
+        {'name': 'E9', 'short_name': 'E9',
+            'link': 'https://www.audiolisted.com/wp-content/uploads/2018/04/E-9-Chord-7th-Fret-5th-String-Root-1.jpg.webp'},
+        {'name': 'E minor', 'short_name': 'Em',
+            'link': 'https://www.audiolisted.com/wp-content/uploads/2018/04/E-Minor-Chord-Open-Finger-Numbers.jpg.webp'},
+        {'name': 'G major', 'short_name': 'G',
+            'link': 'https://www.audiolisted.com/wp-content/uploads/2018/04/G-Major-Chord-Open-Finger-Numbers.jpg.webp'},
     ]

@@ -16,6 +16,7 @@ API_TEXT_PAGE_SIZE = 'page_size'
 API_TEXT_SHORT = 'short'
 
 DEFAULT_PAGE_SIZE_FOR_PAGINATION = 4
+MAX_PAGE_SIZE_FOR_PAGINATION = 20
 
 
 def to_int(value, default_value):
@@ -40,24 +41,30 @@ def search_simple(queryset,
                   search_field):
     """ search by max 3 patterns space separated """
     # print('search:', search_text)
+    search_text = search_text.replace('%20', ' ')
+
     search_text = search_text.strip()
 
     if search_text != '':
-        search_text = search_text.split(' ')
+        search_text = search_text.split('+')
+
     search_text_len = len(search_text)
     if search_text_len > 0:
         if search_text_len == 1:
             queryset = queryset.filter(
-                Q(**{'{}__icontains'.format(search_field)                  : search_text[0].strip()})
+                Q(**{'{}__icontains'.format(search_field)
+                  : search_text[0].strip()})
             )
         elif search_text_len == 2:
             queryset = queryset.filter(
-                Q(**{'{}__icontains'.format(search_field)                  : search_text[0].strip()})
-                | Q(**{'{}__icontains'.format(search_field): search_text[1].strip()})
+                Q(**{'{}__icontains'.format(search_field)
+                  : search_text[0].strip()})
+                & Q(**{'{}__icontains'.format(search_field): search_text[1].strip()})
             )
         else:
             queryset = queryset.filter(
-                Q(**{'{}__icontains'.format(search_field)                  : search_text[0].strip()})
+                Q(**{'{}__icontains'.format(search_field)
+                  : search_text[0].strip()})
                 | Q(**{'{}__icontains'.format(search_field): search_text[1].strip()})
                 | Q(**{'{}__icontains'.format(search_field): search_text[2].strip()})
             )
@@ -88,6 +95,8 @@ def pagination_simple(
 
     page_size = get_page(request.query_params.get(API_TEXT_PAGE_SIZE),
                          DEFAULT_PAGE_SIZE_FOR_PAGINATION)
+
+    page_size = min(page_size, MAX_PAGE_SIZE_FOR_PAGINATION)
 
     try:
         paginator = Paginator(queryset, page_size)

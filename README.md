@@ -58,11 +58,9 @@
     > python.exe m runserver
 
 </p>
-<h3> Tools </h3>
+<h3> Tests </h3>
 <br>
-    Postman
-
-    Dbeaver
+    > pytest
 
 <h3> CORS </h3>
 <br>
