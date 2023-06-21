@@ -81,7 +81,7 @@ class AuthorsView(APIView):
     serializer_class = AuthorsSerializer
     model = Authors
 
-    API_TEXT_ADD_SONGS = 'add_songs'
+    # API_TEXT_ADD_SONGS = 'add_songs'
 
     @extend_schema(
         description='author_id=0 retrieve all records before applying filters',
@@ -91,17 +91,17 @@ class AuthorsView(APIView):
                 "page", description=PARAM_PAGE_0_DESCRIPTION),
             OpenApiParameter("page_size"),
             OpenApiParameter("short"),
-            OpenApiParameter(API_TEXT_ADD_SONGS, description='add songs'),
+            # OpenApiParameter(API_TEXT_ADD_SONGS, description='add songs'),
         ]
     )
     def get(self, request, author_id=0, format=None):
         """ get """
 
-        add_songs = to_int(request.query_params.get(
-            self.API_TEXT_ADD_SONGS, '0'), 0)
-        if add_songs != 0:
-            add_songs = min(add_songs, 6)
-            return Response([], status=status.HTTP_400_BAD_REQUEST)
+        # add_songs = to_int(request.query_params.get(
+        #     self.API_TEXT_ADD_SONGS, '0'), 0)
+        # if add_songs != 0:
+        #     add_songs = min(add_songs, 6)
+        #     return Response([], status=status.HTTP_400_BAD_REQUEST)
 
         return select_simple(
             self.model,
@@ -257,7 +257,7 @@ class SongLikesView(APIView):
         serializer = SongLikesListSerializer
         fields = serializer.Meta.fields
         queryset = self.model.objects.select_related(
-            'user'
+            'user_id'
         ).annotate(
             user_email=F('user_id__email')
         ).values(
@@ -334,11 +334,11 @@ class SongsView(APIView):
 
         fields = serializer_class_local.Meta.fields
         queryset = self.model.objects.select_related(
-            'user'
+            'user_id'
         ).annotate(
             user_email=F('user_id__email')
         ).select_related(
-            'author'
+            'author_id'
         ).annotate(
             author_name=F('author_id__name')
         ).values(
