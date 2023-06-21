@@ -257,7 +257,7 @@ class SongLikesView(APIView):
         serializer = SongLikesListSerializer
         fields = serializer.Meta.fields
         queryset = self.model.objects.select_related(
-            'user'
+            'user_id'
         ).annotate(
             user_email=F('user_id__email')
         ).values(
@@ -334,11 +334,11 @@ class SongsView(APIView):
 
         fields = serializer_class_local.Meta.fields
         queryset = self.model.objects.select_related(
-            'user'
+            'user_id'
         ).annotate(
             user_email=F('user_id__email')
         ).select_related(
-            'author'
+            'author_id'
         ).annotate(
             author_name=F('author_id__name')
         ).values(
