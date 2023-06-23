@@ -2,6 +2,7 @@
 
 import json
 import logging
+from random import randint
 
 import pytest
 from rest_framework.test import APIClient
@@ -250,8 +251,10 @@ class ListEndpoints(Endpoints):
 
         test_data = self.data_class.fill([self.model])
 
+        pk_id = randint(1, len(test_data))
+
         search_text = (
-            test_data[0][self.model_search_field_name]
+            test_data[pk_id-1][self.model_search_field_name]
             .replace(' ', '%20')
         )
 
@@ -263,8 +266,8 @@ class ListEndpoints(Endpoints):
             search_text,
 
             expected_data={
-                self.model_pk_field_name: 1,
-                **test_data[0]
+                self.model_pk_field_name: pk_id,
+                **test_data[pk_id-1]
             }
         )
 
@@ -272,7 +275,7 @@ class ListEndpoints(Endpoints):
 
         test_data = self.data_class.fill([self.model])
 
-        pk_id = 2
+        pk_id = randint(1, len(test_data))
 
         if self.model_short_field_name is None:
             self.model_short_field_name = self.model_search_field_name
@@ -324,7 +327,7 @@ class ListEndpoints(Endpoints):
 
         test_data = self.data_class.fill([self.model])
 
-        pk_id = 2
+        pk_id = randint(1, len(test_data))
         api_endpoint = self.endpoint + str(pk_id)+'/'
         expected_data = {
             self.model_pk_field_name: pk_id,
@@ -351,7 +354,7 @@ class ListEndpoints(Endpoints):
 
         test_data = self.data_class.fill([self.model])
 
-        pk_id = 2
+        pk_id = randint(1, len(test_data))
         api_endpoint = self.endpoint + str(pk_id)+'/'
         expected_data = {
             self.model_pk_field_name: pk_id,
