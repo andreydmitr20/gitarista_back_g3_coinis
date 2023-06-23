@@ -110,6 +110,7 @@ class SongsListSerializer(serializers.ModelSerializer):
             'user_email',
             'author_id',
             'author_name',
+            'author_link',
             'title',
             'text_with_accords',
             'date_creation',

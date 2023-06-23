@@ -341,6 +341,8 @@ class SongsView(APIView):
             'author_id'
         ).annotate(
             author_name=F('author_id__name')
+        ).annotate(
+            author_link=F('author_id__link')
         ).values(
             *fields)
 

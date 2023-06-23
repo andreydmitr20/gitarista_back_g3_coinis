@@ -116,6 +116,7 @@ class TestSongsEndpoints(Endpoints):
     model_search_field_name = 'title'
     fields_to_skip = ['date_creation',
                       'author_name',
+                      'author_link',
                       'user_email']
     temp_data = {
         'user_id': 3,
@@ -194,6 +195,10 @@ class TestSongsEndpoints(Endpoints):
                                                    pk_id,
                                                    'author_id',
                                                    'name'),
+            'author_link': self.get_fk_field_value(self.model,
+                                                   pk_id,
+                                                   'author_id',
+                                                   'link'),
             'user_email': self.get_fk_field_value(self.model,
                                                   pk_id,
                                                   'user_id',
