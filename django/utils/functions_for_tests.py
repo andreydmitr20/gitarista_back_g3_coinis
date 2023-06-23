@@ -72,8 +72,9 @@ class Endpoints:
 
     def fill_model(self, model):
         """ fill model with test_data"""
-        if self.test_data is None:
-            self.test_data = model.test_data
+        if not hasattr(self, 'test_data') or self.test_data is None:
+            self.log(f'There are no test data for model: {model.__name__}')
+            return
         # TODO
         # obj.objects.bulk_create([obj(row) for row in test_data])
         # obj.save()
@@ -357,3 +358,52 @@ class ListEndpoints(Endpoints):
         self.get_assert(client, api_endpoint, expected_data)
         self.delete(client, api_endpoint)
         self.get_assert(client, api_endpoint, None)
+
+
+class CompositeEndpoints(Endpoints):
+    """ tests for table with composite pk from foreign keys """
+
+    endpoint = None
+    model = None
+    model_pk_field_name = None
+    model_search_field_name = None
+    model_short_field_name = None
+    temp_data = None
+
+    # # --------------------
+
+    # def test_get_count_bad(self, client):
+
+    #     self.fill_model(self.model)
+
+    #     self.get_assert(
+    #         client,
+
+    #         self.endpoint +
+    #         '0/',
+
+    #         expected_data={'count': len(self.test_data)},
+    #         negative_expected_data_test=True)
+
+    #     self.get_assert(
+    #         client,
+
+    #         self.endpoint +
+    #         '100000/',
+    #         expected_data=None,
+    #         status_code=400,
+    #         negative_status_code_test=True)
+
+    # ++++++++++++++++++++
+
+    def fill_data(self):
+        pass
+
+    def test_get_count0(self, client):
+
+        self.get_assert(
+            client,
+            self.endpoint +
+            '0/?page=0',
+
+            expected_data={'count': 0})
