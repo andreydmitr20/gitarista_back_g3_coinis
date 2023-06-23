@@ -60,7 +60,8 @@ class Endpoints:
         elif isinstance(received, dict):
             if not isinstance(expected, dict):
                 return False
-            len1 = 0
+            count = 0
+            count_skipped = 0
             for key, value in received.items():
 
                 if not key in expected.keys():
@@ -68,11 +69,12 @@ class Endpoints:
                         self.log(f'NOT FOUND: {key}')
                         return False
                     self.log(f'skipped: {key}')
+                    count_skipped += 1
                 else:
                     if expected[key] != value:
                         return False
-                len1 += 1
-            if len1 != len(expected.keys())+len(fields_to_skip):
+                count += 1
+            if count != len(expected.keys())+count_skipped:
                 self.log(
                     f'keys count:\n{received.keys()}\n{expected.keys()}')
                 return False

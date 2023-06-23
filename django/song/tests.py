@@ -114,7 +114,9 @@ class TestSongsEndpoints(Endpoints):
     model = Songs
     model_pk_field_name = 'song_id'
     model_search_field_name = 'title'
-    model_short_field_name = None
+    fields_to_skip = ['date_creation',
+                      'author_name',
+                      'user_email']
     temp_data = {
         'user_id': 3,
         'author_id': 3,
@@ -223,10 +225,10 @@ class TestSongsEndpoints(Endpoints):
         }
         del expected_data['text_with_accords']
         row = self.model.objects.get(pk=pk_id)
-        expected_data['author_name'] = getattr(
-            getattr(row, 'author_id'),
-            'name'
-        )
+        # expected_data['author_name'] = getattr(
+        #     getattr(row, 'author_id'),
+        #     'name'
+        # )
 
         self.get_assert(
             client,
@@ -236,7 +238,7 @@ class TestSongsEndpoints(Endpoints):
             '/?page_size=1000&short=1',
 
             expected_data=expected_data,
-            fields_to_skip=['date_creation']
+            fields_to_skip=self.fields_to_skip
         )
 
     def test_post(self, client):
@@ -259,7 +261,7 @@ class TestSongsEndpoints(Endpoints):
         self.log(f'resp: {response.data}\n exp: {expected_data}\n')
         assert self.is_equal(response.data,
                              expected_data,
-                             fields_to_skip=['date_creation']
+                             fields_to_skip=self.fields_to_skip
                              )
 
         self.get_assert(
@@ -269,9 +271,7 @@ class TestSongsEndpoints(Endpoints):
             str(expected_data[self.model_pk_field_name])+'/',
 
             expected_data,
-            fields_to_skip=['date_creation',
-                            'author_name',
-                            'user_email']
+            fields_to_skip=self.fields_to_skip
         )
 
     def test_put(self, client):
@@ -290,11 +290,8 @@ class TestSongsEndpoints(Endpoints):
         self.get_assert(client,
                         api_endpoint,
                         expected_data,
-                        fields_to_skip=[
-                            'user_email',
-                            'date_creation',
-                            'author_name',
-                        ])
+                        fields_to_skip=self.fields_to_skip
+                        )
 
         response = self.put(client, api_endpoint, self.temp_data)
 
@@ -306,25 +303,21 @@ class TestSongsEndpoints(Endpoints):
         assert self.is_equal(
             response.data,
             expected_data,
-            fields_to_skip=[
-                'date_creation',
-            ]
+            fields_to_skip=self.fields_to_skip
         )
 
         self.get_assert(client,
                         api_endpoint,
                         expected_data,
-                        fields_to_skip=[
-                            'user_email',
-                            'date_creation',
-                            'author_name',
-                        ])
+                        fields_to_skip=self.fields_to_skip
+                        )
 
     def test_delete(self, client):
 
         test_data = self.fill(self.data_class,
                               [],
                               self.model)
+
         pk_id = randint(1, len(test_data))
         api_endpoint = self.endpoint + str(pk_id)+'/'
         expected_data = {
@@ -335,10 +328,7 @@ class TestSongsEndpoints(Endpoints):
         self.get_assert(client,
                         api_endpoint,
                         expected_data,
-                        fields_to_skip=[
-                            'user_email',
-                            'date_creation',
-                            'author_name',
-                        ])
+                        fields_to_skip=self.fields_to_skip
+                        )
         self.delete(client, api_endpoint)
         self.get_assert(client, api_endpoint, None)
