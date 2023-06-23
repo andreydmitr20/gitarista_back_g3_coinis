@@ -41,7 +41,7 @@ class Endpoints:
     def is_equal(self,
                  received,
                  expected,
-                 fields_to_skip: list = []):
+                 fields_to_skip: list = []) -> bool:
         """ compare two python objects """
         if isinstance(received, list):
             len1 = len(received)
@@ -80,6 +80,17 @@ class Endpoints:
                 return False
             return True
         return json.dumps(received) == json.dumps(expected)
+
+    def get_pk_field_value(self, model, pk, fieldname):
+        """ get_field_value by pk"""
+        return getattr(model.objects.get(pk=pk), fieldname)
+
+    def get_fk_field_value(self, model, pk, fk_fieldname, fieldname):
+        """ get_field_value by fk"""
+        return getattr(
+            getattr(model.objects.get(pk=pk), fk_fieldname),
+            fieldname
+        )
 
     @staticmethod
     def api_client():
@@ -511,10 +522,12 @@ class CompositeEndpoints(Endpoints):
 
         pk_id = randint(1, len(test_data))
 
-        row = self.model.objects.get(pk=pk_id)
-
-        search_field_value = getattr(getattr(row, self.model_search_field_id_name),
-                                     self.model_search_field_name)
+        search_field_value = self.get_fk_field_value(
+            self.model,
+            pk_id,
+            self.model_search_field_id_name,
+            self.model_search_field_name
+        )
         search_text = search_field_value.replace(' ', '%20')
 
         self.get_assert(
@@ -524,11 +537,10 @@ class CompositeEndpoints(Endpoints):
             '0/' +
             self.endpoint_suffix +
             str(
-                getattr(
-                    getattr(
-                        row,
-                        self.model_search_field_id_name
-                    ),
+                self.get_fk_field_value(
+                    self.model,
+                    pk_id,
+                    self.model_search_field_id_name,
                     self.model_search_field_id_name
                 )
             ) +
@@ -568,9 +580,10 @@ class CompositeEndpoints(Endpoints):
         assert self.is_equal(response.data, expected_data)
 
         del expected_data['id']
-        row = self.model.objects.get(pk=pk_id)
-        expected_data[self.model_second_field_name] = getattr(
-            getattr(row, self.model_search_field_id_name),
+        expected_data[self.model_second_field_name] = self.get_fk_field_value(
+            self.model,
+            pk_id,
+            self.model_search_field_id_name,
             self.model_search_field_name
         )
 
@@ -597,12 +610,13 @@ class CompositeEndpoints(Endpoints):
 
         expected_data = {
             **test_data[pk_id-1],
+            self.model_second_field_name: self.get_fk_field_value(
+                self.model,
+                pk_id,
+                self.model_search_field_id_name,
+                self.model_search_field_name
+            )
         }
-        row = self.model.objects.get(pk=pk_id)
-        expected_data[self.model_second_field_name] = getattr(
-            getattr(row, self.model_search_field_id_name),
-            self.model_search_field_name
-        )
 
         self.get_assert(client, api_endpoint, expected_data)
         self.delete(client, api_endpoint)

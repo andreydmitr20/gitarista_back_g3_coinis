@@ -189,17 +189,16 @@ class TestSongsEndpoints(Endpoints):
 
         expected_data = {
             self.model_pk_field_name: pk_id,
-            **test_data[pk_id-1]
+            **test_data[pk_id-1],
+            'author_name': self.get_fk_field_value(self.model,
+                                                   pk_id,
+                                                   'author_id',
+                                                   'name'),
+            'user_email': self.get_fk_field_value(self.model,
+                                                  pk_id,
+                                                  'user_id',
+                                                  'email'),
         }
-        row = self.model.objects.get(pk=pk_id)
-        expected_data['author_name'] = getattr(
-            getattr(row, 'author_id'),
-            'name'
-        )
-        expected_data['user_email'] = getattr(
-            getattr(row, 'user_id'),
-            'email'
-        )
 
         self.get_assert(
             client,
@@ -221,14 +220,13 @@ class TestSongsEndpoints(Endpoints):
 
         expected_data = {
             self.model_pk_field_name: pk_id,
-            **test_data[pk_id - 1]
+            **test_data[pk_id - 1],
+            'author_name': self.get_fk_field_value(self.model,
+                                                   pk_id,
+                                                   'author_id',
+                                                   'name'),
         }
         del expected_data['text_with_accords']
-        row = self.model.objects.get(pk=pk_id)
-        # expected_data['author_name'] = getattr(
-        #     getattr(row, 'author_id'),
-        #     'name'
-        # )
 
         self.get_assert(
             client,
