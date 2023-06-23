@@ -38,33 +38,46 @@ class Endpoints:
         """ log """
         self.logger.info(a)
 
-    @staticmethod
-    def is_equal(obj1, obj2):
+    def is_equal(self,
+                 received,
+                 expected,
+                 fields_to_skip: list = []):
         """ compare two python objects """
-        if isinstance(obj1, list):
-            len1 = len(obj1)
-            if not isinstance(obj2, list):
+        if isinstance(received, list):
+            len1 = len(received)
+            if not isinstance(expected, list):
                 return False
-            len2 = len(obj2)
+            len2 = len(expected)
             if len1 != len2:
                 return False
             if len1 == 1:
-                return Endpoints.is_equal(obj1[0], obj2[0])
+                return self.is_equal(received[0],
+                                     expected[0],
+                                     fields_to_skip)
             if len1 == 0:
                 return True
             return False
-        elif isinstance(obj1, dict):
-            if not isinstance(obj2, dict):
+        elif isinstance(received, dict):
+            if not isinstance(expected, dict):
                 return False
             len1 = 0
-            for key, value in obj1.items():
-                if not key in obj2.keys() or obj2[key] != value:
-                    return False
+            for key, value in received.items():
+
+                if not key in expected.keys():
+                    if not key in fields_to_skip:
+                        self.log(f'NOT FOUND: {key}')
+                        return False
+                    self.log(f'skipped: {key}')
+                else:
+                    if expected[key] != value:
+                        return False
                 len1 += 1
-            if len(obj2.keys()) != len1:
+            if len1 != len(expected.keys())+len(fields_to_skip):
+                self.log(
+                    f'keys count:\n{received.keys()}\n{expected.keys()}')
                 return False
             return True
-        return json.dumps(obj1) == json.dumps(obj2)
+        return json.dumps(received) == json.dumps(expected)
 
     @staticmethod
     def api_client():
@@ -208,7 +221,9 @@ class Endpoints:
                    expected_data=None,
                    status_code=200,
                    negative_expected_data_test=False,
-                   negative_status_code_test=False):
+                   negative_status_code_test=False,
+                   fields_to_skip=[]
+                   ):
 
         response = self.get(client,
                             api_endpoint,
@@ -227,7 +242,8 @@ class Endpoints:
         self.log(f'{log_text} {expected_data}')
         result = self.is_equal(
             response.data,
-            expected_data
+            expected_data,
+            fields_to_skip
         )
         if negative_expected_data_test:
             result = not result

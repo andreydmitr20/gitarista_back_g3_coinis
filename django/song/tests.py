@@ -2,7 +2,7 @@
 from math import exp
 from random import randint
 from song.models import Accords, Authors, Genres, SongGenres, SongLikes, Songs
-from song.datafortests import DataForTests
+from song.data_for_tests import DataForTests
 from user.models import Users
 from utils.functions_for_tests import (
     Endpoints,
@@ -120,10 +120,7 @@ class TestSongsEndpoints(Endpoints):
         'author_id': 3,
         'title': 'Test Title',
         'link': 'http://www.pesmarica.rs/',
-                'text_with_accords':
-                """ 
-               
-                """
+                'text_with_accords': '',
     }
 
     # --------------------
@@ -201,10 +198,6 @@ class TestSongsEndpoints(Endpoints):
             getattr(row, 'user_id'),
             'email'
         )
-        expected_data['date_creation'] = getattr(
-            row,
-            'date_creation'
-        )
 
         self.get_assert(
             client,
@@ -213,17 +206,11 @@ class TestSongsEndpoints(Endpoints):
             '0/?page_size=1000&search=' +
             search_text,
 
-            expected_data=expected_data
+            expected_data=expected_data,
+            fields_to_skip=['date_creation']
         )
 
     def test_get_short(self, client):
-        # 'song_id',
-        # 'user_id',
-        # 'author_id',
-        # 'author_name',
-        # 'title',
-        # 'date_creation',
-        # 'link'
 
         test_data = self.fill(self.data_class,
                               [],
@@ -240,10 +227,6 @@ class TestSongsEndpoints(Endpoints):
             getattr(row, 'author_id'),
             'name'
         )
-        expected_data['date_creation'] = getattr(
-            row,
-            'date_creation'
-        )
 
         self.get_assert(
             client,
@@ -252,75 +235,110 @@ class TestSongsEndpoints(Endpoints):
             str(pk_id) +
             '/?page_size=1000&short=1',
 
-            expected_data=expected_data
+            expected_data=expected_data,
+            fields_to_skip=['date_creation']
         )
 
-    # def test_post(self, client):
+    def test_post(self, client):
 
-    #     test_data = self.fill(self.data_class, [self.model])
+        test_data = self.fill(self.data_class,
+                              [],
+                              self.model)
+        expected_data = {
+            self.model_pk_field_name: len(test_data)+1,
+            **self.temp_data
+        }
 
-    #     expected_data = {
-    #         self.model_pk_field_name: len(test_data)+1,
-    #         **self.temp_data
-    #     }
+        response = self.post(
+            client,
+            self.endpoint +
+            '0/',
+            self.temp_data
+        )
 
-    #     response = self.post(
-    #         client,
-    #         self.endpoint +
-    #         '0/',
-    #         self.temp_data
-    #     )
+        self.log(f'resp: {response.data}\n exp: {expected_data}\n')
+        assert self.is_equal(response.data,
+                             expected_data,
+                             fields_to_skip=['date_creation']
+                             )
 
-    #     # self.log(f'resp: {response.data}\n exp: {expected_data}\n')
-    #     assert self.is_equal(response.data, expected_data)
+        self.get_assert(
+            client,
 
-    #     self.get_assert(
-    #         client,
+            self.endpoint +
+            str(expected_data[self.model_pk_field_name])+'/',
 
-    #         self.endpoint +
-    #         str(expected_data[self.model_pk_field_name])+'/',
+            expected_data,
+            fields_to_skip=['date_creation',
+                            'author_name',
+                            'user_email']
+        )
 
-    #         expected_data
-    #     )
+    def test_put(self, client):
 
-    # def test_put(self, client):
+        test_data = self.fill(self.data_class,
+                              [],
+                              self.model)
 
-    #     test_data = self.fill(self.data_class, [self.model])
+        pk_id = randint(1, len(test_data))
+        api_endpoint = self.endpoint + str(pk_id)+'/'
+        expected_data = {
+            self.model_pk_field_name: pk_id,
+            ** test_data[pk_id-1]
+        }
 
-    #     pk_id = randint(1, len(test_data))
-    #     api_endpoint = self.endpoint + str(pk_id)+'/'
-    #     expected_data = {
-    #         self.model_pk_field_name: pk_id,
-    #         ** test_data[pk_id-1]
-    #     }
+        self.get_assert(client,
+                        api_endpoint,
+                        expected_data,
+                        fields_to_skip=[
+                            'user_email',
+                            'date_creation',
+                            'author_name',
+                        ])
 
-    #     self.get_assert(client, api_endpoint, expected_data)
+        response = self.put(client, api_endpoint, self.temp_data)
 
-    #     response = self.put(client, api_endpoint, self.temp_data)
+        expected_data = {
+            **expected_data,
+            **self.temp_data
+        }
 
-    #     expected_data = {
-    #         **expected_data,
-    #         **self.temp_data
-    #     }
+        assert self.is_equal(
+            response.data,
+            expected_data,
+            fields_to_skip=[
+                'date_creation',
+            ]
+        )
 
-    #     assert self.is_equal(
-    #         response.data,
-    #         expected_data
-    #     )
+        self.get_assert(client,
+                        api_endpoint,
+                        expected_data,
+                        fields_to_skip=[
+                            'user_email',
+                            'date_creation',
+                            'author_name',
+                        ])
 
-    #     self.get_assert(client, api_endpoint, expected_data)
+    def test_delete(self, client):
 
-    # def test_delete(self, client):
+        test_data = self.fill(self.data_class,
+                              [],
+                              self.model)
+        pk_id = randint(1, len(test_data))
+        api_endpoint = self.endpoint + str(pk_id)+'/'
+        expected_data = {
+            self.model_pk_field_name: pk_id,
+            **test_data[pk_id-1]
+        }
 
-    #     test_data = self.fill(self.data_class, [self.model])
-
-    #     pk_id = randint(1, len(test_data))
-    #     api_endpoint = self.endpoint + str(pk_id)+'/'
-    #     expected_data = {
-    #         self.model_pk_field_name: pk_id,
-    #         **test_data[pk_id-1]
-    #     }
-
-    #     self.get_assert(client, api_endpoint, expected_data)
-    #     self.delete(client, api_endpoint)
-    #     self.get_assert(client, api_endpoint, None)
+        self.get_assert(client,
+                        api_endpoint,
+                        expected_data,
+                        fields_to_skip=[
+                            'user_email',
+                            'date_creation',
+                            'author_name',
+                        ])
+        self.delete(client, api_endpoint)
+        self.get_assert(client, api_endpoint, None)
