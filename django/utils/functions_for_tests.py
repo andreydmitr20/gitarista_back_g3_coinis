@@ -28,6 +28,8 @@ def client():
 class Endpoints:
     """ base test endpoint class """
 
+    data_class = None
+
     pytestmark = pytest.mark.django_db
 
     logger = logging.getLogger(__name__)
@@ -70,17 +72,17 @@ class Endpoints:
         """ api_client """
         return APIClient
 
-    def fill_model(self, model):
-        """ fill model with test_data"""
-        if not hasattr(self, 'test_data') or self.test_data is None:
-            self.log(f'There are no test data for model: {model.__name__}')
-            return
-        # TODO
-        # obj.objects.bulk_create([obj(row) for row in test_data])
-        # obj.save()
-        for data_dict in self.test_data:
-            new_row = model.objects.create(**data_dict)
-            new_row.save()
+    # def fill_model(self, model):
+    #     """ fill model with test_data"""
+    #     if not hasattr(self, 'test_data') or self.test_data is None:
+    #         self.log(f'There are no test data for model: {model.__name__}')
+    #         return
+    #     # TODO
+    #     # obj.objects.bulk_create([obj(row) for row in test_data])
+    #     # obj.save()
+    #     for data_dict in self.test_data:
+    #         new_row = model.objects.create(**data_dict)
+    #         new_row.save()
 
     def get(self,
             client,
@@ -201,7 +203,7 @@ class ListEndpoints(Endpoints):
 
     def test_get_count_bad(self, client):
 
-        self.fill_model(self.model)
+        test_data = self.data_class.fill([self.model])
 
         self.get_assert(
             client,
@@ -209,7 +211,7 @@ class ListEndpoints(Endpoints):
             self.endpoint +
             '0/',
 
-            expected_data={'count': len(self.test_data)},
+            expected_data={'count': len(test_data)},
             negative_expected_data_test=True)
 
         self.get_assert(
@@ -234,7 +236,7 @@ class ListEndpoints(Endpoints):
 
     def test_get_count(self, client):
 
-        self.fill_model(self.model)
+        test_data = self.data_class.fill([self.model])
 
         self.get_assert(
             client,
@@ -242,15 +244,16 @@ class ListEndpoints(Endpoints):
             self.endpoint +
             '0/?page=0',
 
-            expected_data={'count': len(self.test_data)})
+            expected_data={'count': len(test_data)})
 
     def test_get_search(self, client):
 
-        self.fill_model(self.model)
+        test_data = self.data_class.fill([self.model])
 
-        search_text = (self.test_data[0][self.model_search_field_name]
-                       .replace(' ', '%20')
-                       )
+        search_text = (
+            test_data[0][self.model_search_field_name]
+            .replace(' ', '%20')
+        )
 
         self.get_assert(
             client,
@@ -261,13 +264,13 @@ class ListEndpoints(Endpoints):
 
             expected_data={
                 self.model_pk_field_name: 1,
-                **self.test_data[0]
+                **test_data[0]
             }
         )
 
     def test_get_short(self, client):
 
-        self.fill_model(self.model)
+        test_data = self.data_class.fill([self.model])
 
         pk_id = 2
 
@@ -284,17 +287,17 @@ class ListEndpoints(Endpoints):
             expected_data={
                 self.model_pk_field_name: pk_id,
                 self.model_short_field_name:
-                self.test_data[pk_id -
-                               1][self.model_short_field_name]
+                test_data[pk_id -
+                          1][self.model_short_field_name]
             }
         )
 
     def test_post(self, client):
 
-        self.fill_model(self.model)
+        test_data = self.data_class.fill([self.model])
 
         expected_data = {
-            self.model_pk_field_name: len(self.test_data)+1,
+            self.model_pk_field_name: len(test_data)+1,
             **self.temp_data
         }
 
@@ -319,13 +322,13 @@ class ListEndpoints(Endpoints):
 
     def test_put(self, client):
 
-        self.fill_model(self.model)
+        test_data = self.data_class.fill([self.model])
 
         pk_id = 2
         api_endpoint = self.endpoint + str(pk_id)+'/'
         expected_data = {
             self.model_pk_field_name: pk_id,
-            ** self.test_data[pk_id-1]
+            ** test_data[pk_id-1]
         }
 
         self.get_assert(client, api_endpoint, expected_data)
@@ -346,13 +349,13 @@ class ListEndpoints(Endpoints):
 
     def test_delete(self, client):
 
-        self.fill_model(self.model)
+        test_data = self.data_class.fill([self.model])
 
         pk_id = 2
         api_endpoint = self.endpoint + str(pk_id)+'/'
         expected_data = {
             self.model_pk_field_name: pk_id,
-            ** self.test_data[pk_id-1]
+            **test_data[pk_id-1]
         }
 
         self.get_assert(client, api_endpoint, expected_data)

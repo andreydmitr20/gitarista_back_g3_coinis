@@ -1,17 +1,32 @@
 """ song part tests """
 from song.models import Accords, Authors, Genres, SongGenres, SongLikes, Songs
-from song.test_data import TEST_DATA
+from song.datafortests import DataForTests
 from user.models import Users
 from utils.functions_for_tests import Endpoints, ListEndpoints
 
 API_URL = "/api/v2/songs/"
 
 
+# class TestUsersEndpoints(Endpoints):
+#     """ TestUsersEndpoints """
+#     fill_test_data = fill_test_data
+#     endpoint = '/api/register/'
+#     model = Users
+#     model_pk_field_name = 'user_id'
+#     model_search_field_name = 'username'
+#     temp_data = {
+#         'username': 'user100',
+#         'email': 'user100@email.com',
+#     }
+
+
 class TestSongGenresEndpoints(ListEndpoints):
     """ TestSongGenresEndpoints """
+
+    data_class = DataForTests
+
     endpoint = API_URL+'genres/'
     model = Genres
-    test_data = TEST_DATA[model.__name__]
     model_pk_field_name = 'genre_id'
     model_search_field_name = 'name'
     temp_data = {
@@ -22,9 +37,11 @@ class TestSongGenresEndpoints(ListEndpoints):
 
 class TestSongAuthorsEndpoints(ListEndpoints):
     """ TestSongAuthorsEndpoints """
+
+    data_class = DataForTests
+
     endpoint = API_URL+'authors/'
     model = Authors
-    test_data = TEST_DATA[model.__name__]
     model_pk_field_name = 'author_id'
     model_search_field_name = 'name'
     temp_data = {
@@ -35,9 +52,11 @@ class TestSongAuthorsEndpoints(ListEndpoints):
 
 class TestSongAccordsEndpoints(ListEndpoints):
     """ TestSongAccordsEndpoints """
+
+    data_class = DataForTests
+
     endpoint = API_URL+'accords/'
     model = Accords
-    # test_data = TEST_DATA[model.__name__]
     model_pk_field_name = 'accord_id'
     model_search_field_name = 'name'
     model_short_field_name = 'short_name'
