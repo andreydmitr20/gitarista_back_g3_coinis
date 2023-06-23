@@ -529,6 +529,11 @@ class CompositeEndpoints(Endpoints):
                               self.model)
 
         pk_id = len(test_data)+1
+        api_endpoint = (self.endpoint +
+                        str(self.temp_data[self.model_main_field_id_name])+'/' +
+                        self.endpoint_suffix +
+                        str(self.temp_data[self.model_search_field_id_name])+'/'
+                        )
 
         expected_data = {
             'id': pk_id,
@@ -537,10 +542,7 @@ class CompositeEndpoints(Endpoints):
 
         response = self.post(
             client,
-            self.endpoint +
-            str(self.temp_data[self.model_main_field_id_name])+'/' +
-            self.endpoint_suffix +
-            str(self.temp_data[self.model_search_field_id_name])+'/',
+            api_endpoint,
             {}
         )
 
@@ -556,26 +558,34 @@ class CompositeEndpoints(Endpoints):
 
         self.get_assert(
             client,
-
-            self.endpoint +
-            str(self.temp_data[self.model_main_field_id_name])+'/' +
-            self.endpoint_suffix +
-            str(self.temp_data[self.model_search_field_id_name])+'/',
-
+            api_endpoint,
             expected_data
         )
 
-    # def test_delete(self, client):
+    def test_delete(self, client):
 
-    #     test_data = self.fill(self.data_class, [self.model])
+        test_data = self.fill(self.data_class,
+                              [],
+                              self.model)
 
-    #     pk_id = randint(1, len(test_data))
-    #     api_endpoint = self.endpoint + str(pk_id)+'/'
-    #     expected_data = {
-    #         self.model_pk_field_name: pk_id,
-    #         **test_data[pk_id-1]
-    #     }
+        pk_id = randint(1, len(test_data))
 
-    #     self.get_assert(client, api_endpoint, expected_data)
-    #     self.delete(client, api_endpoint)
-    #     self.get_assert(client, api_endpoint, None)
+        api_endpoint = (self.endpoint +
+                        str(test_data[pk_id-1][self.model_main_field_id_name])+'/' +
+                        self.endpoint_suffix +
+                        str(test_data[pk_id-1]
+                            [self.model_search_field_id_name])+'/'
+                        )
+
+        expected_data = {
+            **test_data[pk_id-1],
+        }
+        row = self.model.objects.get(pk=pk_id)
+        expected_data[self.model_second_field_name] = getattr(
+            getattr(row, self.model_search_field_id_name),
+            self.model_search_field_name
+        )
+
+        self.get_assert(client, api_endpoint, expected_data)
+        self.delete(client, api_endpoint)
+        self.get_assert(client, api_endpoint, None)

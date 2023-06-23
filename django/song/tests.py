@@ -75,22 +75,21 @@ class TestSongSongGenresEndpoints(CompositeEndpoints):
     }
 
 
-# class TestSongSongLikesEndpoints(CompositeEndpoints):
-#     """ TestSongSongGenresEndpoints """
-#     endpoint = API_URL+'/'
-#     endpoint_suffix = 'likes/'
-#     model = SongLikes
-#     # model_pk_field_name = 'accord_id'
-#     # model_search_field_name = 'name'
-#     # model_short_field_name = 'short_name'
-#     temp_data = {
-#         'song_id': 2,
-#         'user_id': 1,
-#     }
+class TestSongSongLikesEndpoints(CompositeEndpoints):
+    """ TestSongSongLikesEndpoints """
 
-#     def fill_data(self):
-#         Users.fill_test_data()
-#         Songs.fill_test_data()
+    data_class = DataForTests
+    endpoint = API_URL
+    endpoint_suffix = 'likes/'
+    model = SongLikes
+    model_main_field_id_name = 'song_id'
+    model_search_field_id_name = 'user_id'
+    model_search_field_name = 'email'
+    model_second_field_name = 'user_email'
+    temp_data = {
+        'song_id': 3,
+        'user_id': 3,
+    }
 
 
 # class TestUsersEndpoints(Endpoints):
