@@ -419,10 +419,12 @@ class CompositeEndpoints(Endpoints):
     endpoint = None
     endpoint_suffix = None
     model = None
+    model_main_field_id_name = None
     model_search_field_id_name = None
     model_search_field_name = None
-    # model_short_field_name = None
-    # temp_data = None
+    model_second_field_name = None
+
+    temp_data = None
 
     # --------------------
 
@@ -503,93 +505,65 @@ class CompositeEndpoints(Endpoints):
             self.endpoint +
             '0/' +
             self.endpoint_suffix +
-            str(getattr(getattr(row, self.model_search_field_id_name), self.model_search_field_id_name)) +
+            str(
+                getattr(
+                    getattr(
+                        row,
+                        self.model_search_field_id_name
+                    ),
+                    self.model_search_field_id_name
+                )
+            ) +
             '/' +
-            '?page_size=1&page=0&search=' +
+            '?page_size=1000&page=0&search=' +
             search_text,
 
             expected_data={'count': 0},
             negative_expected_data_test=True
         )
 
-    # def test_get_short(self, client):
+    def test_post(self, client):
 
-    #     test_data = self.fill(self.data_class, [self.model])
+        test_data = self.fill(self.data_class,
+                              [],
+                              self.model)
 
-    #     pk_id = randint(1, len(test_data))
+        pk_id = len(test_data)+1
 
-    #     if self.model_short_field_name is None:
-    #         self.model_short_field_name = self.model_search_field_name
+        expected_data = {
+            'id': pk_id,
+            **self.temp_data
+        }
 
-    #     self.get_assert(
-    #         client,
+        response = self.post(
+            client,
+            self.endpoint +
+            str(self.temp_data[self.model_main_field_id_name])+'/' +
+            self.endpoint_suffix +
+            str(self.temp_data[self.model_search_field_id_name])+'/',
+            {}
+        )
 
-    #         self.endpoint +
-    #         str(pk_id) +
-    #         '/?page_size=1000&short=1',
+        self.log(f'resp: {response.data}\n exp: {expected_data}\n')
+        assert self.is_equal(response.data, expected_data)
 
-    #         expected_data={
-    #             self.model_pk_field_name: pk_id,
-    #             self.model_short_field_name:
-    #             test_data[pk_id -
-    #                       1][self.model_short_field_name]
-    #         }
-    #     )
+        del expected_data['id']
+        row = self.model.objects.get(pk=pk_id)
+        expected_data[self.model_second_field_name] = getattr(
+            getattr(row, self.model_search_field_id_name),
+            self.model_search_field_name
+        )
 
-    # def test_post(self, client):
+        self.get_assert(
+            client,
 
-    #     test_data = self.fill(self.data_class, [self.model])
+            self.endpoint +
+            str(self.temp_data[self.model_main_field_id_name])+'/' +
+            self.endpoint_suffix +
+            str(self.temp_data[self.model_search_field_id_name])+'/',
 
-    #     expected_data = {
-    #         self.model_pk_field_name: len(test_data)+1,
-    #         **self.temp_data
-    #     }
-
-    #     response = self.post(
-    #         client,
-    #         self.endpoint +
-    #         '0/',
-    #         self.temp_data
-    #     )
-
-    #     # self.log(f'resp: {response.data}\n exp: {expected_data}\n')
-    #     assert self.is_equal(response.data, expected_data)
-
-    #     self.get_assert(
-    #         client,
-
-    #         self.endpoint +
-    #         str(expected_data[self.model_pk_field_name])+'/',
-
-    #         expected_data
-    #     )
-
-    # def test_put(self, client):
-
-    #     test_data = self.fill(self.data_class, [self.model])
-
-    #     pk_id = randint(1, len(test_data))
-    #     api_endpoint = self.endpoint + str(pk_id)+'/'
-    #     expected_data = {
-    #         self.model_pk_field_name: pk_id,
-    #         ** test_data[pk_id-1]
-    #     }
-
-    #     self.get_assert(client, api_endpoint, expected_data)
-
-    #     response = self.put(client, api_endpoint, self.temp_data)
-
-    #     expected_data = {
-    #         **expected_data,
-    #         **self.temp_data
-    #     }
-
-    #     assert self.is_equal(
-    #         response.data,
-    #         expected_data
-    #     )
-
-    #     self.get_assert(client, api_endpoint, expected_data)
+            expected_data
+        )
 
     # def test_delete(self, client):
 
