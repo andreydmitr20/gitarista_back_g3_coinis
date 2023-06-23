@@ -7,7 +7,7 @@ from random import randint
 import pytest
 from rest_framework.test import APIClient
 
-# from utils.functions_for_tests import TestEndpoints
+
 """
     pytest.ini:
     [pytest]
@@ -29,16 +29,14 @@ def client():
 class Endpoints:
     """ base test endpoint class """
 
-    data_class = None
-
     pytestmark = pytest.mark.django_db
 
     logger = logging.getLogger(__name__)
 
-    @staticmethod
-    def log(a):
+    # @staticmethod
+    def log(self, a):
         """ log """
-        Endpoints.logger.info(a)
+        self.logger.info(a)
 
     @staticmethod
     def is_equal(obj1, obj2):
@@ -84,6 +82,49 @@ class Endpoints:
     #     for data_dict in self.test_data:
     #         new_row = model.objects.create(**data_dict)
     #         new_row.save()
+
+    # @staticmethod
+    def fill(self,
+             data_class,
+             models: list,
+             stop_on_model=None
+             ):
+        """ fill db by data in order """
+
+        def fill_model(model):
+            try:
+                for data_dict in data_class.data[model.__name__]:
+                    new_data_dict = {}
+                    for key, value in data_dict.items():
+                        # have to put model instance instead of pk value
+                        if key.endswith('_id'):
+                            # self.log(f'key {key} val: {value}')
+                            field_model = data_class.model_by_fieldname.get(
+                                key, None)
+                            if not field_model is None:
+                                value = field_model.objects.get(pk=value)
+                                # self.log(f'key {key} val: {value}')
+                        new_data_dict[key] = value
+                    new_row = model.objects.create(**new_data_dict)
+                    new_row.save()
+            except Exception as exc:
+                raise Exception(
+                    f'Failed to fill with test data model: {model.__name__}') from exc
+
+        if len(models) == 0:
+            models = data_class.models_in_order
+
+        model = None
+
+        for model in models:
+            fill_model(model)
+            if not stop_on_model is None and model.__name__ == stop_on_model.__name__:
+                break
+        return data_class.data[model.__name__]
+
+    # @staticmethod
+    # def get_data_for_model(model):
+    #     return DataForTests.data[model.__name__]
 
     def get(self,
             client,
@@ -192,7 +233,7 @@ class Endpoints:
 
 class ListEndpoints(Endpoints):
     """ tests for table with pk_id """
-
+    data_class = None
     endpoint = None
     model = None
     model_pk_field_name = None
@@ -204,7 +245,7 @@ class ListEndpoints(Endpoints):
 
     def test_get_count_bad(self, client):
 
-        test_data = self.data_class.fill([self.model])
+        test_data = self.fill(self.data_class, [self.model])
 
         self.get_assert(
             client,
@@ -237,7 +278,7 @@ class ListEndpoints(Endpoints):
 
     def test_get_count(self, client):
 
-        test_data = self.data_class.fill([self.model])
+        test_data = self.fill(self.data_class, [self.model])
 
         self.get_assert(
             client,
@@ -249,7 +290,7 @@ class ListEndpoints(Endpoints):
 
     def test_get_search(self, client):
 
-        test_data = self.data_class.fill([self.model])
+        test_data = self.fill(self.data_class, [self.model])
 
         pk_id = randint(1, len(test_data))
 
@@ -273,7 +314,7 @@ class ListEndpoints(Endpoints):
 
     def test_get_short(self, client):
 
-        test_data = self.data_class.fill([self.model])
+        test_data = self.fill(self.data_class, [self.model])
 
         pk_id = randint(1, len(test_data))
 
@@ -297,7 +338,7 @@ class ListEndpoints(Endpoints):
 
     def test_post(self, client):
 
-        test_data = self.data_class.fill([self.model])
+        test_data = self.fill(self.data_class, [self.model])
 
         expected_data = {
             self.model_pk_field_name: len(test_data)+1,
@@ -325,7 +366,7 @@ class ListEndpoints(Endpoints):
 
     def test_put(self, client):
 
-        test_data = self.data_class.fill([self.model])
+        test_data = self.fill(self.data_class, [self.model])
 
         pk_id = randint(1, len(test_data))
         api_endpoint = self.endpoint + str(pk_id)+'/'
@@ -352,7 +393,7 @@ class ListEndpoints(Endpoints):
 
     def test_delete(self, client):
 
-        test_data = self.data_class.fill([self.model])
+        test_data = self.fill(self.data_class, [self.model])
 
         pk_id = randint(1, len(test_data))
         api_endpoint = self.endpoint + str(pk_id)+'/'
@@ -369,47 +410,56 @@ class ListEndpoints(Endpoints):
 class CompositeEndpoints(Endpoints):
     """ tests for table with composite pk from foreign keys """
 
+    data_class = None
+
     endpoint = None
+    endpoint_suffix = None
     model = None
-    model_pk_field_name = None
-    model_search_field_name = None
-    model_short_field_name = None
-    temp_data = None
+    # model_pk_field_name = None
+    # model_search_field_name = None
+    # model_short_field_name = None
+    # temp_data = None
 
-    # # --------------------
+    # --------------------
 
-    # def test_get_count_bad(self, client):
+    def test_get_count_bad(self, client):
 
-    #     self.fill_model(self.model)
+        test_data = self.fill(self.data_class,
+                              [],
+                              self.model)
 
-    #     self.get_assert(
-    #         client,
+        self.get_assert(
+            client,
 
-    #         self.endpoint +
-    #         '0/',
+            self.endpoint +
+            '0/' +
+            self.endpoint_suffix +
+            '0/',
 
-    #         expected_data={'count': len(self.test_data)},
-    #         negative_expected_data_test=True)
+            expected_data={'count': len(test_data)},
+            negative_expected_data_test=True)
 
-    #     self.get_assert(
-    #         client,
+        self.get_assert(
+            client,
 
-    #         self.endpoint +
-    #         '100000/',
-    #         expected_data=None,
-    #         status_code=400,
-    #         negative_status_code_test=True)
+            self.endpoint +
+            '0/' +
+            self.endpoint_suffix +
+            '100000/',
+            expected_data=None,
+            status_code=400,
+            negative_status_code_test=True)
 
     # ++++++++++++++++++++
-
-    def fill_data(self):
-        pass
 
     def test_get_count0(self, client):
 
         self.get_assert(
             client,
             self.endpoint +
-            '0/?page=0',
+            '0/' +
+            self.endpoint_suffix +
+            '0/' +
+            '?page=0',
 
             expected_data={'count': 0})

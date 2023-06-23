@@ -2,22 +2,13 @@
 from song.models import Accords, Authors, Genres, SongGenres, SongLikes, Songs
 from song.datafortests import DataForTests
 from user.models import Users
-from utils.functions_for_tests import Endpoints, ListEndpoints
+from utils.functions_for_tests import (
+    Endpoints,
+    ListEndpoints,
+    CompositeEndpoints
+)
 
 API_URL = "/api/v2/songs/"
-
-
-# class TestUsersEndpoints(Endpoints):
-#     """ TestUsersEndpoints """
-#     fill_test_data = fill_test_data
-#     endpoint = '/api/register/'
-#     model = Users
-#     model_pk_field_name = 'user_id'
-#     model_search_field_name = 'username'
-#     temp_data = {
-#         'username': 'user100',
-#         'email': 'user100@email.com',
-#     }
 
 
 class TestSongGenresEndpoints(ListEndpoints):
@@ -67,22 +58,20 @@ class TestSongAccordsEndpoints(ListEndpoints):
     }
 
 
-# class TestSongSongGenresEndpoints(CompositeEndpoints):
-#     """ TestSongSongGenresEndpoints """
-#     endpoint = API_URL+'/'
-#     endpoint_suffix = 'genres/'
-#     model = SongGenres
-#     # model_pk_field_name = 'accord_id'
-#     # model_search_field_name = 'name'
-#     # model_short_field_name = 'short_name'
-#     temp_data = {
-#         'song_id': 1,
-#         'genre_id': 3,
-#     }
+class TestSongSongGenresEndpoints(CompositeEndpoints):
+    """ TestSongSongGenresEndpoints """
 
-#     def fill_data(self):
-#         Genres.fill_test_data()
-#         Songs.fill_test_data()
+    data_class = DataForTests
+    endpoint = API_URL
+    endpoint_suffix = 'genres/'
+    model = SongGenres
+    # model_pk_field_name = 'accord_id'
+    # model_search_field_name = 'name'
+    # model_short_field_name = 'short_name'
+    # temp_data = {
+    #     'song_id': 1,
+    #     'genre_id': 3,
+    # }
 
 
 # class TestSongSongLikesEndpoints(CompositeEndpoints):
@@ -101,3 +90,16 @@ class TestSongAccordsEndpoints(ListEndpoints):
 #     def fill_data(self):
 #         Users.fill_test_data()
 #         Songs.fill_test_data()
+
+
+# class TestUsersEndpoints(Endpoints):
+#     """ TestUsersEndpoints """
+#     fill_test_data = fill_test_data
+#     endpoint = '/api/register/'
+#     model = Users
+#     model_pk_field_name = 'user_id'
+#     model_search_field_name = 'username'
+#     temp_data = {
+#         'username': 'user100',
+#         'email': 'user100@email.com',
+#     }
