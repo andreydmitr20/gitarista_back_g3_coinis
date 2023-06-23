@@ -65,8 +65,8 @@ class TestSongSongGenresEndpoints(CompositeEndpoints):
     endpoint = API_URL
     endpoint_suffix = 'genres/'
     model = SongGenres
-    # model_pk_field_name = 'accord_id'
-    # model_search_field_name = 'name'
+    model_search_field_id_name = 'genre_id'
+    model_search_field_name = 'name'
     # model_short_field_name = 'short_name'
     # temp_data = {
     #     'song_id': 1,
