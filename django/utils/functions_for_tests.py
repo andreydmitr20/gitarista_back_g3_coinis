@@ -58,7 +58,7 @@ class Endpoints:
                 return False
             len1 = 0
             for key, value in obj1.items():
-                if obj2[key] != value:
+                if not key in obj2.keys() or obj2[key] != value:
                     return False
                 len1 += 1
             if len(obj2.keys()) != len1:
@@ -220,7 +220,7 @@ class Endpoints:
         else:
             expected_data = [expected_data]
 
-        log_text = 'expected:'
+        log_text = '\nexpected:'
         if negative_expected_data_test:
             log_text = 'not '+log_text
 

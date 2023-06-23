@@ -1,4 +1,6 @@
 """ song part tests """
+from math import exp
+from random import randint
 from song.models import Accords, Authors, Genres, SongGenres, SongLikes, Songs
 from song.datafortests import DataForTests
 from user.models import Users
@@ -103,3 +105,222 @@ class TestSongSongLikesEndpoints(CompositeEndpoints):
 #         'username': 'user100',
 #         'email': 'user100@email.com',
 #     }
+
+
+class TestSongsEndpoints(Endpoints):
+    """ tests for table with pk_id """
+    data_class = DataForTests
+    endpoint = API_URL
+    model = Songs
+    model_pk_field_name = 'song_id'
+    model_search_field_name = 'title'
+    model_short_field_name = None
+    temp_data = {
+        'user_id': 3,
+        'author_id': 3,
+        'title': 'Test Title',
+        'link': 'http://www.pesmarica.rs/',
+                'text_with_accords':
+                """ 
+               
+                """
+    }
+
+    # --------------------
+
+    def test_get_count_bad(self, client):
+
+        test_data = self.fill(self.data_class,
+                              [],
+                              self.model)
+        self.get_assert(
+            client,
+
+            self.endpoint +
+            '0/',
+
+            expected_data={'count': len(test_data)},
+            negative_expected_data_test=True)
+
+        self.get_assert(
+            client,
+
+            self.endpoint +
+            '100000/',
+            expected_data=None,
+            status_code=400,
+            negative_status_code_test=True)
+
+    # ++++++++++++++++++++
+
+    def test_get_count0(self, client):
+
+        self.get_assert(
+            client,
+            self.endpoint +
+            '0/?page=0',
+
+            expected_data={'count': 0})
+
+    def test_get_count(self, client):
+
+        test_data = self.fill(self.data_class,
+                              [],
+                              self.model)
+        self.get_assert(
+            client,
+
+            self.endpoint +
+            '0/?page=0',
+
+            expected_data={'count': len(test_data)})
+
+    def test_get_search(self, client):
+
+        test_data = self.fill(self.data_class,
+                              [],
+                              self.model)
+
+        pk_id = randint(1, len(test_data))
+
+        search_text = (
+            test_data[pk_id-1][self.model_search_field_name]
+            .replace(' ', '%20')
+        )
+
+        expected_data = {
+            self.model_pk_field_name: pk_id,
+            **test_data[pk_id-1]
+        }
+        row = self.model.objects.get(pk=pk_id)
+        expected_data['author_name'] = getattr(
+            getattr(row, 'author_id'),
+            'name'
+        )
+        expected_data['user_email'] = getattr(
+            getattr(row, 'user_id'),
+            'email'
+        )
+        expected_data['date_creation'] = getattr(
+            row,
+            'date_creation'
+        )
+
+        self.get_assert(
+            client,
+
+            self.endpoint +
+            '0/?page_size=1000&search=' +
+            search_text,
+
+            expected_data=expected_data
+        )
+
+    def test_get_short(self, client):
+        # 'song_id',
+        # 'user_id',
+        # 'author_id',
+        # 'author_name',
+        # 'title',
+        # 'date_creation',
+        # 'link'
+
+        test_data = self.fill(self.data_class,
+                              [],
+                              self.model)
+        pk_id = randint(1, len(test_data))
+
+        expected_data = {
+            self.model_pk_field_name: pk_id,
+            **test_data[pk_id - 1]
+        }
+        del expected_data['text_with_accords']
+        row = self.model.objects.get(pk=pk_id)
+        expected_data['author_name'] = getattr(
+            getattr(row, 'author_id'),
+            'name'
+        )
+        expected_data['date_creation'] = getattr(
+            row,
+            'date_creation'
+        )
+
+        self.get_assert(
+            client,
+
+            self.endpoint +
+            str(pk_id) +
+            '/?page_size=1000&short=1',
+
+            expected_data=expected_data
+        )
+
+    # def test_post(self, client):
+
+    #     test_data = self.fill(self.data_class, [self.model])
+
+    #     expected_data = {
+    #         self.model_pk_field_name: len(test_data)+1,
+    #         **self.temp_data
+    #     }
+
+    #     response = self.post(
+    #         client,
+    #         self.endpoint +
+    #         '0/',
+    #         self.temp_data
+    #     )
+
+    #     # self.log(f'resp: {response.data}\n exp: {expected_data}\n')
+    #     assert self.is_equal(response.data, expected_data)
+
+    #     self.get_assert(
+    #         client,
+
+    #         self.endpoint +
+    #         str(expected_data[self.model_pk_field_name])+'/',
+
+    #         expected_data
+    #     )
+
+    # def test_put(self, client):
+
+    #     test_data = self.fill(self.data_class, [self.model])
+
+    #     pk_id = randint(1, len(test_data))
+    #     api_endpoint = self.endpoint + str(pk_id)+'/'
+    #     expected_data = {
+    #         self.model_pk_field_name: pk_id,
+    #         ** test_data[pk_id-1]
+    #     }
+
+    #     self.get_assert(client, api_endpoint, expected_data)
+
+    #     response = self.put(client, api_endpoint, self.temp_data)
+
+    #     expected_data = {
+    #         **expected_data,
+    #         **self.temp_data
+    #     }
+
+    #     assert self.is_equal(
+    #         response.data,
+    #         expected_data
+    #     )
+
+    #     self.get_assert(client, api_endpoint, expected_data)
+
+    # def test_delete(self, client):
+
+    #     test_data = self.fill(self.data_class, [self.model])
+
+    #     pk_id = randint(1, len(test_data))
+    #     api_endpoint = self.endpoint + str(pk_id)+'/'
+    #     expected_data = {
+    #         self.model_pk_field_name: pk_id,
+    #         **test_data[pk_id-1]
+    #     }
+
+    #     self.get_assert(client, api_endpoint, expected_data)
+    #     self.delete(client, api_endpoint)
+    #     self.get_assert(client, api_endpoint, None)
