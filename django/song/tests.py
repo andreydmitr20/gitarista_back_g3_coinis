@@ -1,16 +1,23 @@
 """ song part tests """
+from math import exp
+from random import randint
 from song.models import Accords, Authors, Genres, SongGenres, SongLikes, Songs
+from song.data_for_tests import DataForTests
 from user.models import Users
 from utils.functions_for_tests import (
-    ListEndpoints
+    Endpoints,
+    ListEndpoints,
+    CompositeEndpoints
 )
-
 
 API_URL = "/api/v2/songs/"
 
 
 class TestSongGenresEndpoints(ListEndpoints):
     """ TestSongGenresEndpoints """
+
+    data_class = DataForTests
+
     endpoint = API_URL+'genres/'
     model = Genres
     model_pk_field_name = 'genre_id'
@@ -19,17 +26,13 @@ class TestSongGenresEndpoints(ListEndpoints):
         'name': 'Test genre',
         'description': 'Test genre description'
     }
-    test_data = [
-        {'name': 'Rock', 'description': 'This genre encompasses various subgenres such as classic rock, hard rock, alternative rock, punk rock, and progressive rock. Guitar-driven bands and iconic guitar solos are a defining characteristic of rock music'},
-        {'name': 'Blues', 'description': 'Originating from African-American communities in the United States, blues music heavily relies on the guitar. It often features soulful playing, bending of notes, and expressive solos'},
-        {'name': 'Jazz', 'description': 'Jazz music incorporates improvisation and complex harmonies. The guitar plays a significant role in jazz, both as a rhythm instrument and for soloing. Subgenres like gypsy jazz and smooth jazz also have distinct guitar styles'},
-        {'name': 'Country', 'description': 'Country music often features acoustic and electric guitars, including fingerpicking and twangy guitar sounds. It encompasses subgenres like traditional country, country rock, and outlaw country'},
-        {'name': 'Metal', 'description': 'Known for its heavy sound, aggressive riffs, and fast guitar playing, metal music is characterized by distorted guitars and intricate solos. Subgenres like thrash metal, heavy metal, and power metal are all guitar-driven'},
-    ]
 
 
 class TestSongAuthorsEndpoints(ListEndpoints):
     """ TestSongAuthorsEndpoints """
+
+    data_class = DataForTests
+
     endpoint = API_URL+'authors/'
     model = Authors
     model_pk_field_name = 'author_id'
@@ -38,16 +41,13 @@ class TestSongAuthorsEndpoints(ListEndpoints):
         'name': 'Test author name',
         'link': 'http://test.link'
     }
-    test_data = [
-        {'name': 'Johnny Cash', 'link': 'https://en.wikipedia.org/wiki/Johnny_Cash'},
-        {'name': 'The Beatles', 'link': 'https://sh.wikipedia.org/wiki/The_Beatles'},
-        {'name': 'Чёрный Обелиск',
-            'link': 'https://ru.wikipedia.org/wiki/%D0%A7%D1%91%D1%80%D0%BD%D1%8B%D0%B9_%D0%9E%D0%B1%D0%B5%D0%BB%D0%B8%D1%81%D0%BA_(%D0%B3%D1%80%D1%83%D0%BF%D0%BF%D0%B0)'},
-    ]
 
 
 class TestSongAccordsEndpoints(ListEndpoints):
     """ TestSongAccordsEndpoints """
+
+    data_class = DataForTests
+
     endpoint = API_URL+'accords/'
     model = Accords
     model_pk_field_name = 'accord_id'
@@ -58,13 +58,275 @@ class TestSongAccordsEndpoints(ListEndpoints):
         'link': 'http://test.link',
         "short_name": 'Sn'
     }
-    test_data = [
-        {'name': 'A major', 'short_name': 'A',
-            'link': 'https://www.audiolisted.com/wp-content/uploads/2018/04/A-Major-Chord-Open-Finger-Numbers.jpg.webp'},
-        {'name': 'E9', 'short_name': 'E9',
-            'link': 'https://www.audiolisted.com/wp-content/uploads/2018/04/E-9-Chord-7th-Fret-5th-String-Root-1.jpg.webp'},
-        {'name': 'E minor', 'short_name': 'Em',
-            'link': 'https://www.audiolisted.com/wp-content/uploads/2018/04/E-Minor-Chord-Open-Finger-Numbers.jpg.webp'},
-        {'name': 'G major', 'short_name': 'G',
-            'link': 'https://www.audiolisted.com/wp-content/uploads/2018/04/G-Major-Chord-Open-Finger-Numbers.jpg.webp'},
-    ]
+
+
+class TestSongSongGenresEndpoints(CompositeEndpoints):
+    """ TestSongSongGenresEndpoints """
+
+    data_class = DataForTests
+    endpoint = API_URL
+    endpoint_suffix = 'genres/'
+    model = SongGenres
+    model_main_field_id_name = 'song_id'
+    model_search_field_id_name = 'genre_id'
+    model_search_field_name = 'name'
+    model_second_field_name = 'genre_name'
+    temp_data = {
+        'song_id': 1,
+        'genre_id': 4,
+    }
+
+
+class TestSongSongLikesEndpoints(CompositeEndpoints):
+    """ TestSongSongLikesEndpoints """
+
+    data_class = DataForTests
+    endpoint = API_URL
+    endpoint_suffix = 'likes/'
+    model = SongLikes
+    model_main_field_id_name = 'song_id'
+    model_search_field_id_name = 'user_id'
+    model_search_field_name = 'email'
+    model_second_field_name = 'user_email'
+    temp_data = {
+        'song_id': 3,
+        'user_id': 3,
+    }
+
+
+# class TestUsersEndpoints(Endpoints):
+#     """ TestUsersEndpoints """
+#     fill_test_data = fill_test_data
+#     endpoint = '/api/register/'
+#     model = Users
+#     model_pk_field_name = 'user_id'
+#     model_search_field_name = 'username'
+#     temp_data = {
+#         'username': 'user100',
+#         'email': 'user100@email.com',
+#     }
+
+
+class TestSongsEndpoints(Endpoints):
+    """ tests for table with pk_id """
+    data_class = DataForTests
+    endpoint = API_URL
+    model = Songs
+    model_pk_field_name = 'song_id'
+    model_search_field_name = 'title'
+    fields_to_skip = ['date_creation',
+                      'author_name',
+                      'user_email']
+    temp_data = {
+        'user_id': 3,
+        'author_id': 3,
+        'title': 'Test Title',
+        'link': 'http://www.pesmarica.rs/',
+                'text_with_accords': '',
+    }
+
+    # --------------------
+
+    def test_get_count_bad(self, client):
+
+        test_data = self.fill(self.data_class,
+                              [],
+                              self.model)
+        self.get_assert(
+            client,
+
+            self.endpoint +
+            '0/',
+
+            expected_data={'count': len(test_data)},
+            negative_expected_data_test=True)
+
+        self.get_assert(
+            client,
+
+            self.endpoint +
+            '100000/',
+            expected_data=None,
+            status_code=400,
+            negative_status_code_test=True)
+
+    # ++++++++++++++++++++
+
+    def test_get_count0(self, client):
+
+        self.get_assert(
+            client,
+            self.endpoint +
+            '0/?page=0',
+
+            expected_data={'count': 0})
+
+    def test_get_count(self, client):
+
+        test_data = self.fill(self.data_class,
+                              [],
+                              self.model)
+        self.get_assert(
+            client,
+
+            self.endpoint +
+            '0/?page=0',
+
+            expected_data={'count': len(test_data)})
+
+    def test_get_search(self, client):
+
+        test_data = self.fill(self.data_class,
+                              [],
+                              self.model)
+
+        pk_id = randint(1, len(test_data))
+
+        search_text = (
+            test_data[pk_id-1][self.model_search_field_name]
+            .replace(' ', '%20')
+        )
+
+        expected_data = {
+            self.model_pk_field_name: pk_id,
+            **test_data[pk_id-1],
+            'author_name': self.get_fk_field_value(self.model,
+                                                   pk_id,
+                                                   'author_id',
+                                                   'name'),
+            'user_email': self.get_fk_field_value(self.model,
+                                                  pk_id,
+                                                  'user_id',
+                                                  'email'),
+        }
+
+        self.get_assert(
+            client,
+
+            self.endpoint +
+            '0/?page_size=1000&search=' +
+            search_text,
+
+            expected_data=expected_data,
+            fields_to_skip=['date_creation']
+        )
+
+    def test_get_short(self, client):
+
+        test_data = self.fill(self.data_class,
+                              [],
+                              self.model)
+        pk_id = randint(1, len(test_data))
+
+        expected_data = {
+            self.model_pk_field_name: pk_id,
+            **test_data[pk_id - 1],
+            'author_name': self.get_fk_field_value(self.model,
+                                                   pk_id,
+                                                   'author_id',
+                                                   'name'),
+        }
+        del expected_data['text_with_accords']
+
+        self.get_assert(
+            client,
+
+            self.endpoint +
+            str(pk_id) +
+            '/?page_size=1000&short=1',
+
+            expected_data=expected_data,
+            fields_to_skip=self.fields_to_skip
+        )
+
+    def test_post(self, client):
+
+        test_data = self.fill(self.data_class,
+                              [],
+                              self.model)
+        expected_data = {
+            self.model_pk_field_name: len(test_data)+1,
+            **self.temp_data
+        }
+
+        response = self.post(
+            client,
+            self.endpoint +
+            '0/',
+            self.temp_data
+        )
+
+        self.log(f'resp: {response.data}\n exp: {expected_data}\n')
+        assert self.is_equal(response.data,
+                             expected_data,
+                             fields_to_skip=self.fields_to_skip
+                             )
+
+        self.get_assert(
+            client,
+
+            self.endpoint +
+            str(expected_data[self.model_pk_field_name])+'/',
+
+            expected_data,
+            fields_to_skip=self.fields_to_skip
+        )
+
+    def test_put(self, client):
+
+        test_data = self.fill(self.data_class,
+                              [],
+                              self.model)
+
+        pk_id = randint(1, len(test_data))
+        api_endpoint = self.endpoint + str(pk_id)+'/'
+        expected_data = {
+            self.model_pk_field_name: pk_id,
+            ** test_data[pk_id-1]
+        }
+
+        self.get_assert(client,
+                        api_endpoint,
+                        expected_data,
+                        fields_to_skip=self.fields_to_skip
+                        )
+
+        response = self.put(client, api_endpoint, self.temp_data)
+
+        expected_data = {
+            **expected_data,
+            **self.temp_data
+        }
+
+        assert self.is_equal(
+            response.data,
+            expected_data,
+            fields_to_skip=self.fields_to_skip
+        )
+
+        self.get_assert(client,
+                        api_endpoint,
+                        expected_data,
+                        fields_to_skip=self.fields_to_skip
+                        )
+
+    def test_delete(self, client):
+
+        test_data = self.fill(self.data_class,
+                              [],
+                              self.model)
+
+        pk_id = randint(1, len(test_data))
+        api_endpoint = self.endpoint + str(pk_id)+'/'
+        expected_data = {
+            self.model_pk_field_name: pk_id,
+            **test_data[pk_id-1]
+        }
+
+        self.get_assert(client,
+                        api_endpoint,
+                        expected_data,
+                        fields_to_skip=self.fields_to_skip
+                        )
+        self.delete(client, api_endpoint)
+        self.get_assert(client, api_endpoint, None)

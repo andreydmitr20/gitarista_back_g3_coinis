@@ -271,7 +271,7 @@ class SongLikesView(APIView):
             queryset = search_simple(
                 queryset,
                 request.query_params.get(API_TEXT_SEARCH),
-                'user_name',
+                'user_email',
             )
 
         queryset = order_simple(queryset, 'user_name')
