@@ -119,42 +119,40 @@ class DataForTests:
                 'link': 'http://www.pesmarica.rs/Akordi/12796/Nedeljko-Baji%C4%87-Baja--Zapisano-je-u-vremenu',
 
 
-                'text_with_accords': '',
-                # """
-                # Em ---------Am ---Em
-                # Zapisano je u vremenu
-                # C----------D- -----Em
-                # kakva je to ljubav bila
-                # C---------D- --------
-                # (kamo srece za nas dvoje
-                # G ----E -Am ---D- --G  (Em  2x)
-                # kad bi se nekom ponovila) 2x
+                'text_with_accords':
+                """Em ---------Am ---Em
+                Zapisano je u vremenu
+                C----------D- -----Em
+                kakva je to ljubav bila
+                C---------D- --------
+                (kamo srece za nas dvoje
+                G ----E -Am ---D- --G  (Em  2x)
+                kad bi se nekom ponovila) 2x
 
-                # Zapisano je u vremenu
-                # da se secam, da se secas
-                # (rekla si mi: ''Volecu te doveka.'',
-                # B ja tebi: ''Nemoj da me cekas!'') 2x
+                Zapisano je u vremenu
+                da se secam, da se secas
+                (rekla si mi: ''Volecu te doveka.'',
+                B ja tebi: ''Nemoj da me cekas!'') 2x
 
-                # Ref. 2x
-                # D- -------------------Em -----------
-                # Zazmuri, broj do sto, to bice dovoljno
-                # ---D- ---------------Em -----------
-                # da probam nekako, da odem bezbolno
-                # ---D- -------------Em -----------
-                # ja necu voleti, posle tebe, ni u snu -
-                # C--------D- ------Em
-                # zapisano je u vremenu
+                Ref. 2x
+                D- -------------------Em -----------
+                Zazmuri, broj do sto, to bice dovoljno
+                ---D- ---------------Em -----------
+                da probam nekako, da odem bezbolno
+                ---D- -------------Em -----------
+                ja necu voleti, posle tebe, ni u snu -
+                C--------D- ------Em
+                zapisano je u vremenu
 
-                # Zapisano je u vremenu
-                # da smo mnogo jaki bili
-                # (B gde bi nam bio kraj
-                # jos da smo se za ljubav borili)2x
+                Zapisano je u vremenu
+                da smo mnogo jaki bili
+                (B gde bi nam bio kraj
+                jos da smo se za ljubav borili)2x
 
-                # Zapisano je u vremenu
-                # plakala si, i ja s' tobom
-                # (i na kraju, kad si rekla: ''Volim te.'',
-                # teska srca rekao sam: ''Zbogom'') 2x
-                # """
+                Zapisano je u vremenu
+                plakala si, i ja s' tobom
+                (i na kraju, kad si rekla: ''Volim te.'',
+                teska srca rekao sam: ''Zbogom'') 2x"""
             },
             {
                 'user_id': 1,
@@ -163,47 +161,45 @@ class DataForTests:
                 'link': 'http://www.pesmarica.rs/Akordi/12791/Aco-Pejovi%C4%87--Da-si-tu',
 
 
-                'text_with_accords': '',
-                # """
-                # Em                       D
-                # Iako znam da ljubav nema pravila
-                # Em                       D
-                # taj osjecaj krivice imam danima
-                # G
-                # za grube reci sto su pale
-                # D
-                # za ruke koje nisu znale
-                # Am                       Hm
-                # da zadrze te tu na mojim vratima
+                'text_with_accords':
+                """Em                       D
+                Iako znam da ljubav nema pravila
+                Em                       D
+                taj osjecaj krivice imam danima
+                G
+                za grube reci sto su pale
+                D
+                za ruke koje nisu znale
+                Am                       Hm
+                da zadrze te tu na mojim vratima
 
-                # Em                         D
-                # Proveravam telefon svoj iz navike
-                # Em                           D
-                # za propusteni poziv tvoj bih dao sve
-                # G
-                # zar nije vredna ljubav moja
-                # D
-                # ni poruke sa tvoga broja
-                # Am                        Hm
-                # zar mora Bog u crno da me zavije
-                # Hm
-                # Da mi je
+                Em                         D
+                Proveravam telefon svoj iz navike
+                Em                           D
+                za propusteni poziv tvoj bih dao sve
+                G
+                zar nije vredna ljubav moja
+                D
+                ni poruke sa tvoga broja
+                Am                        Hm
+                zar mora Bog u crno da me zavije
+                Hm
+                Da mi je
 
-                # Ref.
-                # G
-                # Da si tu bar noci ove
-                # D
-                # da si tu, jedino moje
-                # Am                   Em      (D)
-                # da si tu da oci dusu odmore
+                Ref.
+                G
+                Da si tu bar noci ove
+                D
+                da si tu, jedino moje
+                Am                   Em      (D)
+                da si tu da oci dusu odmore
 
-                # G
-                # Da si tu bar ovog' trena
-                # D
-                # bila bi za sva vremena
-                # C            D                 Em
-                # da si tu, pa makar i bio tvoja sena
-                # """
+                G
+                Da si tu bar ovog' trena
+                D
+                bila bi za sva vremena
+                C            D                 Em
+                da si tu, pa makar i bio tvoja sena"""
             },
             {
                 'user_id': 1,
@@ -212,61 +208,59 @@ class DataForTests:
                 'link': 'http://www.pesmarica.rs/Akordi/12781/Toma-Zdravkovi%C4%87--Za-ljiljanu',
 
 
-                'text_with_accords': '',
-                # """
-                #                 Em
-                # Ne kosite rosnu travu
-                # Am
-                # ne lomite mladu granu
-                # D
-                # Ostavite cvetna polja
-                # G
-                # ostavite cvetna polja
-                # H7                  Em
-                # nek cvetaju za Ljiljanu
-                # (2x)
+                'text_with_accords':
+                """                  Em
+                Ne kosite rosnu travu
+                Am
+                ne lomite mladu granu
+                D
+                Ostavite cvetna polja
+                G
+                ostavite cvetna polja
+                H7                  Em
+                nek cvetaju za Ljiljanu
+                (2x)
 
 
-                # Ref.
-                # C                  Am
-                # Ljubavi su mnoge bile
-                # D                    G
-                # kao vatra mladost planu
-                # Am           Em
-                # sve sto osta od zivota
-                # D                  G
-                # ja bi dao za Ljiljanu
-                # Am            Em
-                # sve sto osta od zivota
-                # D         H7       Em
-                # ja bi dao za Ljiljanu
+                Ref.
+                C                  Am
+                Ljubavi su mnoge bile
+                D                    G
+                kao vatra mladost planu
+                Am           Em
+                sve sto osta od zivota
+                D                  G
+                ja bi dao za Ljiljanu
+                Am            Em
+                sve sto osta od zivota
+                D         H7       Em
+                ja bi dao za Ljiljanu
 
 
-                # Ne pevajte pesme njene
-                # ne dirajte staru ranu
-                # pet godina ja negujem
-                # pet godina ja jos cuvam
-                # jednu ruzu za Ljiljanu
+                Ne pevajte pesme njene
+                ne dirajte staru ranu
+                pet godina ja negujem
+                pet godina ja jos cuvam
+                jednu ruzu za Ljiljanu
 
-                # Pet godina ja jos cuvam
-                # pet godina ja negujem
-                # jednu ruzu za Ljiljanu
+                Pet godina ja jos cuvam
+                pet godina ja negujem
+                jednu ruzu za Ljiljanu
 
-                # Ref.
+                Ref.
 
-                # Ostvaricu snove svoje
-                # kada hladne kise stanu
+                Ostvaricu snove svoje
+                kada hladne kise stanu
 
-                # Kad s'prolecem ozelene
-                # cvetna polja za Ljiljanu
-                # cvetna polja za Ljiljanu
-                # (2x)
+                Kad s'prolecem ozelene
+                cvetna polja za Ljiljanu
+                cvetna polja za Ljiljanu
+                (2x)
 
-                # Ref.
+                Ref.
 
-                # Ja bi dao za Ljiljanu
-                # za Ljiljanu, za Ljiljanu
-                # """
+                Ja bi dao za Ljiljanu
+                za Ljiljanu, za Ljiljanu"""
             },
         ],
 

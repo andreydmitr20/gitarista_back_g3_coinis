@@ -94,19 +94,6 @@ class TestSongSongLikesEndpoints(CompositeEndpoints):
     }
 
 
-# class TestUsersEndpoints(Endpoints):
-#     """ TestUsersEndpoints """
-#     fill_test_data = fill_test_data
-#     endpoint = '/api/register/'
-#     model = Users
-#     model_pk_field_name = 'user_id'
-#     model_search_field_name = 'username'
-#     temp_data = {
-#         'username': 'user100',
-#         'email': 'user100@email.com',
-#     }
-
-
 class TestSongsEndpoints(Endpoints):
     """ tests for table with pk_id """
     data_class = DataForTests
@@ -116,13 +103,124 @@ class TestSongsEndpoints(Endpoints):
     model_search_field_name = 'title'
     fields_to_skip = ['date_creation',
                       'author_name',
+                      'author_link',
                       'user_email']
     temp_data = {
         'user_id': 3,
         'author_id': 3,
-        'title': 'Test Title',
-        'link': 'http://www.pesmarica.rs/',
-                'text_with_accords': '',
+        'title': 'Где цветы',
+        'link': 'https://amdm.ru/akkordi/megapolis/11464/gde_cveti/',
+                'text_with_accords':
+        """G           Em
+        Где цветы, дай мне ответ,
+        C           D
+        где они остались?
+        G           Em
+        Где цветы, дай мне ответ,
+        C           D
+        где они растут?
+        G           Em
+        Где цветы, дай мне ответ -
+        C           D
+        девушки сорвали, и вот их нет.
+
+        Припев:
+        C         G   
+        Когда же все это поймут?
+        С         D   G
+        Когда же все поймут? 
+
+        G           Em
+        А девушки где, дай ответ,
+        C           D
+        где они остались?
+        G           Em
+        Девушки где, дай ответ,
+        C           D
+        где они живут?
+        G           Em
+        Девушки где, дай ответ -
+        C           D
+        вышли замуж, и вот их нет.
+        G           Em
+        Когда же все это поймут?
+        C           D
+        Когда же все поймут? 
+
+        Припев:
+        C         G   
+        Когда же все это поймут?
+        С         D   G
+        Когда же все поймут? 
+
+        G           Em
+        А где мужья их, дай ответ,
+        C           D
+        где они остались?
+        G           Em
+        Где мужья их, дай ответ,
+        C           D
+        где теперь живут?
+        G           Em
+        Где мужья их, дай ответ -
+        C           D
+        ушли в солдаты, и вот их нет.
+        G           Em
+        Когда же все это поймут?
+        C           D
+        Когда же все поймут? 
+
+        Припев:
+        C         G   
+        Когда же все это поймут?
+        С         D   G
+        Когда же все поймут? 
+
+        G           Em
+        А где солдаты, дай ответ,
+        C           D
+        где они остались?
+        G           Em
+        Где солдаты, дай ответ,
+        C           D
+        ведь их так ждут!
+        G           Em
+        Где солдаты, дай ответ -
+        C           D
+        легли в могилы, и вот их нет.
+        G           Em
+        Когда же все это поймут?
+        C           D
+        Когда же все поймут? 
+
+        Припев:
+        C         G   
+        Когда же все это поймут?
+        С         D   G
+        Когда же все поймут? 
+
+        G           Em
+        Где могилы, дай ответ,
+        C           D
+        где они остались?
+        G           Em
+        Где могилы, дай ответ,
+        C           D
+        где слезы льют?
+        G           Em
+        Где могилы, дай ответ -
+        C           D
+        цветами стали, и вот их нет.
+        G           Em
+        Когда же все это поймут?
+        C           D
+        Когда же все поймут? 
+
+        Припев:
+        C         G   
+        Когда же все это поймут?
+        С         D   G
+        Когда же все поймут?"""
     }
 
     # --------------------
@@ -194,6 +292,10 @@ class TestSongsEndpoints(Endpoints):
                                                    pk_id,
                                                    'author_id',
                                                    'name'),
+            'author_link': self.get_fk_field_value(self.model,
+                                                   pk_id,
+                                                   'author_id',
+                                                   'link'),
             'user_email': self.get_fk_field_value(self.model,
                                                   pk_id,
                                                   'user_id',
@@ -330,3 +432,16 @@ class TestSongsEndpoints(Endpoints):
                         )
         self.delete(client, api_endpoint)
         self.get_assert(client, api_endpoint, None)
+
+
+# class TestUsersEndpoints(Endpoints):
+#     """ TestUsersEndpoints """
+#     fill_test_data = fill_test_data
+#     endpoint = '/api/register/'
+#     model = Users
+#     model_pk_field_name = 'user_id'
+#     model_search_field_name = 'username'
+#     temp_data = {
+#         'username': 'user100',
+#         'email': 'user100@email.com',
+#     }
