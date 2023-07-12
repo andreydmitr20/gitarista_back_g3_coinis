@@ -1,0 +1,852 @@
+[
+  {
+    "model": "admin.logentry",
+    "pk": 1,
+    "fields": {
+      "action_time": "2023-06-05T21:14:07.410Z",
+      "user": 1,
+      "content_type": 5,
+      "object_id": "2",
+      "object_repr": "test@test.com",
+      "action_flag": 1,
+      "change_message": "[{\"added\": {}}]"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 1,
+    "fields": {
+      "name": "Can add log entry",
+      "content_type": 1,
+      "codename": "add_logentry"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 2,
+    "fields": {
+      "name": "Can change log entry",
+      "content_type": 1,
+      "codename": "change_logentry"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 3,
+    "fields": {
+      "name": "Can delete log entry",
+      "content_type": 1,
+      "codename": "delete_logentry"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 4,
+    "fields": {
+      "name": "Can view log entry",
+      "content_type": 1,
+      "codename": "view_logentry"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 5,
+    "fields": {
+      "name": "Can add permission",
+      "content_type": 2,
+      "codename": "add_permission"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 6,
+    "fields": {
+      "name": "Can change permission",
+      "content_type": 2,
+      "codename": "change_permission"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 7,
+    "fields": {
+      "name": "Can delete permission",
+      "content_type": 2,
+      "codename": "delete_permission"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 8,
+    "fields": {
+      "name": "Can view permission",
+      "content_type": 2,
+      "codename": "view_permission"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 9,
+    "fields": {
+      "name": "Can add group",
+      "content_type": 3,
+      "codename": "add_group"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 10,
+    "fields": {
+      "name": "Can change group",
+      "content_type": 3,
+      "codename": "change_group"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 11,
+    "fields": {
+      "name": "Can delete group",
+      "content_type": 3,
+      "codename": "delete_group"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 12,
+    "fields": {
+      "name": "Can view group",
+      "content_type": 3,
+      "codename": "view_group"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 13,
+    "fields": {
+      "name": "Can add content type",
+      "content_type": 4,
+      "codename": "add_contenttype"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 14,
+    "fields": {
+      "name": "Can change content type",
+      "content_type": 4,
+      "codename": "change_contenttype"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 15,
+    "fields": {
+      "name": "Can delete content type",
+      "content_type": 4,
+      "codename": "delete_contenttype"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 16,
+    "fields": {
+      "name": "Can view content type",
+      "content_type": 4,
+      "codename": "view_contenttype"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 17,
+    "fields": {
+      "name": "Can add session",
+      "content_type": 5,
+      "codename": "add_session"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 18,
+    "fields": {
+      "name": "Can change session",
+      "content_type": 5,
+      "codename": "change_session"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 19,
+    "fields": {
+      "name": "Can delete session",
+      "content_type": 5,
+      "codename": "delete_session"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 20,
+    "fields": {
+      "name": "Can view session",
+      "content_type": 5,
+      "codename": "view_session"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 21,
+    "fields": {
+      "name": "Can add user",
+      "content_type": 6,
+      "codename": "add_user"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 22,
+    "fields": {
+      "name": "Can change user",
+      "content_type": 6,
+      "codename": "change_user"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 23,
+    "fields": {
+      "name": "Can delete user",
+      "content_type": 6,
+      "codename": "delete_user"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 24,
+    "fields": {
+      "name": "Can view user",
+      "content_type": 6,
+      "codename": "view_user"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 25,
+    "fields": {
+      "name": "Can add genre",
+      "content_type": 7,
+      "codename": "add_genre"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 26,
+    "fields": {
+      "name": "Can change genre",
+      "content_type": 7,
+      "codename": "change_genre"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 27,
+    "fields": {
+      "name": "Can delete genre",
+      "content_type": 7,
+      "codename": "delete_genre"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 28,
+    "fields": {
+      "name": "Can view genre",
+      "content_type": 7,
+      "codename": "view_genre"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 29,
+    "fields": {
+      "name": "Can add accord",
+      "content_type": 8,
+      "codename": "add_accord"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 30,
+    "fields": {
+      "name": "Can change accord",
+      "content_type": 8,
+      "codename": "change_accord"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 31,
+    "fields": {
+      "name": "Can delete accord",
+      "content_type": 8,
+      "codename": "delete_accord"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 32,
+    "fields": {
+      "name": "Can view accord",
+      "content_type": 8,
+      "codename": "view_accord"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 33,
+    "fields": {
+      "name": "Can add author",
+      "content_type": 9,
+      "codename": "add_author"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 34,
+    "fields": {
+      "name": "Can change author",
+      "content_type": 9,
+      "codename": "change_author"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 35,
+    "fields": {
+      "name": "Can delete author",
+      "content_type": 9,
+      "codename": "delete_author"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 36,
+    "fields": {
+      "name": "Can view author",
+      "content_type": 9,
+      "codename": "view_author"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 37,
+    "fields": {
+      "name": "Can add song",
+      "content_type": 10,
+      "codename": "add_song"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 38,
+    "fields": {
+      "name": "Can change song",
+      "content_type": 10,
+      "codename": "change_song"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 39,
+    "fields": {
+      "name": "Can delete song",
+      "content_type": 10,
+      "codename": "delete_song"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 40,
+    "fields": {
+      "name": "Can view song",
+      "content_type": 10,
+      "codename": "view_song"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 41,
+    "fields": {
+      "name": "Can add song like",
+      "content_type": 11,
+      "codename": "add_songlike"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 42,
+    "fields": {
+      "name": "Can change song like",
+      "content_type": 11,
+      "codename": "change_songlike"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 43,
+    "fields": {
+      "name": "Can delete song like",
+      "content_type": 11,
+      "codename": "delete_songlike"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 44,
+    "fields": {
+      "name": "Can view song like",
+      "content_type": 11,
+      "codename": "view_songlike"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 45,
+    "fields": {
+      "name": "Can add song genre",
+      "content_type": 12,
+      "codename": "add_songgenre"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 46,
+    "fields": {
+      "name": "Can change song genre",
+      "content_type": 12,
+      "codename": "change_songgenre"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 47,
+    "fields": {
+      "name": "Can delete song genre",
+      "content_type": 12,
+      "codename": "delete_songgenre"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 48,
+    "fields": {
+      "name": "Can view song genre",
+      "content_type": 12,
+      "codename": "view_songgenre"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 1,
+    "fields": { "app_label": "admin", "model": "logentry" }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 2,
+    "fields": { "app_label": "auth", "model": "permission" }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 3,
+    "fields": { "app_label": "auth", "model": "group" }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 4,
+    "fields": { "app_label": "contenttypes", "model": "contenttype" }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 5,
+    "fields": { "app_label": "sessions", "model": "session" }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 6,
+    "fields": { "app_label": "user", "model": "user" }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 7,
+    "fields": { "app_label": "song", "model": "genre" }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 8,
+    "fields": { "app_label": "song", "model": "accord" }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 9,
+    "fields": { "app_label": "song", "model": "author" }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 10,
+    "fields": { "app_label": "song", "model": "song" }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 11,
+    "fields": { "app_label": "song", "model": "songlike" }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 12,
+    "fields": { "app_label": "song", "model": "songgenre" }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "2ezz1miv6kvt8p7rpncqlahuvpuygk8a",
+    "fields": {
+      "session_data": ".eJxVjEEOwiAQRe_C2hCgMNNx6d4zkKGAVA0kpV0Z765NutDtf-_9l_C8rcVvPS1-juIsjDj9boGnR6o7iHeutyanVtdlDnJX5EG7vLaYnpfD_Tso3Mu3Bu0gpxEA3JgIA6KyGI2NiTWCI-MUMZCiSIyZaTBoMWjMg8JMhsT7A7TzNos:1q4dpY:1KqED_4mlIPqEY7GUJOh8eNoak5PvIdpVT7VCsD4mB4",
+      "expire_date": "2023-06-15T08:38:48.041Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "7297hlajp2gw3ju3zfhuw0ih7lgjk6bt",
+    "fields": {
+      "session_data": ".eJxVjEEOwiAQRe_C2hCgMNNx6d4zkKGAVA0kpV0Z765NutDtf-_9l_C8rcVvPS1-juIsjDj9boGnR6o7iHeutyanVtdlDnJX5EG7vLaYnpfD_Tso3Mu3Bu0gpxEA3JgIA6KyGI2NiTWCI-MUMZCiSIyZaTBoMWjMg8JMhsT7A7TzNos:1q4GPs:h-vOH8-RHu7DhROic8Hqim1MfELeZeDoKE333ix-zXU",
+      "expire_date": "2023-06-14T07:38:44.082Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "9k0qtiyofq5w1nr0od5tac2wy90lteyo",
+    "fields": {
+      "session_data": ".eJxVjEEOwiAQRe_C2hCgMNNx6d4zkKGAVA0kpV0Z765NutDtf-_9l_C8rcVvPS1-juIsjDj9boGnR6o7iHeutyanVtdlDnJX5EG7vLaYnpfD_Tso3Mu3Bu0gpxEA3JgIA6KyGI2NiTWCI-MUMZCiSIyZaTBoMWjMg8JMhsT7A7TzNos:1q3uLZ:6knpn2rZGMzpB43pwofkLgZqhbdgMDk_SNyPsLLMDmw",
+      "expire_date": "2023-06-13T08:04:49.465Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "a4zvb7v3h0u3ckrzeut5woaarr2m5hyi",
+    "fields": {
+      "session_data": ".eJxVjMEOwiAQRP-FsyEsZdvi0Xu_gSwslaqBpLQn479Lkx40mdO8N_MWjvYtub3G1S0srgLE5bfzFJ4xH4AflO9FhpK3dfHyUORJq5wKx9ftdP8OEtXU1iaOgTuNvkfkHphQWTY8ojKo2VhFegaw3cBWtcCgwHicWdtmso7i8wXHrjcG:1q6HVc:lJcUASAeF58Tpe-JXCcKxIA_TTTkhNumhjo7aB9ADEc",
+      "expire_date": "2023-06-19T21:13:00.770Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "qulq07exuwpiq4nm1yv7r9wfpjrryrwu",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSEFhkdduvcbyMCMUjWQlHZl_HfbpAvd3nPOfYuI61Li2nmOE4mzUOL0uyXMT647oAfWe5O51WWektwVedAur434dTncv4OCvWw1BD9aBsqKQWelHWrLjkbndDYYEmCicEPvEAIBwIa1YRN40NZDHsTnC9oMN3A:1q4JbZ:92UcNTY1PoR7e32qDr1nQCF2fazecuS6xkRqcsv0Xbk",
+      "expire_date": "2023-06-14T11:03:01.995Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "tads6bgo5ytaack3549mozqn41dq5kf5",
+    "fields": {
+      "session_data": ".eJxVjEEOwiAQRe_C2hCgMNNx6d4zkKGAVA0kpV0Z765NutDtf-_9l_C8rcVvPS1-juIsjDj9boGnR6o7iHeutyanVtdlDnJX5EG7vLaYnpfD_Tso3Mu3Bu0gpxEA3JgIA6KyGI2NiTWCI-MUMZCiSIyZaTBoMWjMg8JMhsT7A7TzNos:1q46sA:3VCgTt1ZzCghmPck7lJ-NdV1lmyTbaCUoJDQiqoeX5Q",
+      "expire_date": "2023-06-13T21:27:18.434Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "ut2cgzk4ty4p6263teuvv7zgqppmpskg",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSEFhkdduvcbyMCMUjWQlHZl_HfbpAvd3nPOfYuI61Li2nmOE4mzUOL0uyXMT647oAfWe5O51WWektwVedAur434dTncv4OCvWw1BD9aBsqKQWelHWrLjkbndDYYEmCicEPvEAIBwIa1YRN40NZDHsTnC9oMN3A:1q2bgi:o4iFj57lwdpgfcNQrdi62nL8RXNSFZ3sD9r-LVxGF5k",
+      "expire_date": "2023-06-09T17:57:16.818Z"
+    }
+  },
+  {
+    "model": "user.users",
+    "pk": 1,
+    "fields": {
+      "last_login": "2023-06-20T08:41:03.252Z",
+      "is_superuser": true,
+      "first_name": "",
+      "last_name": "",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2023-06-05T09:20:21.284Z",
+      "email": "john@doe.com",
+      "username": "johndoe",
+      "password": "pbkdf2_sha256$600000$X88BqhiuOqzQN5Magq4TXW$03cDO0rW6Gah4JHFILx7w6aiEIGfL3rdar61k5KZyeA=",
+      "date_creation": "2023-06-05T09:20:21.649Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "user.users",
+    "pk": 2,
+    "fields": {
+      "last_login": null,
+      "is_superuser": false,
+      "first_name": "",
+      "last_name": "",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2023-06-05T21:13:07Z",
+      "email": "test@test.com",
+      "username": "test",
+      "password": "1234",
+      "date_creation": "2023-06-05T21:14:07.405Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "song.genres",
+    "pk": 0,
+    "fields": {
+      "name": "Rock",
+      "description": "This genre encompasses various subgenres such as classic rock, hard rock, alternative rock, punk rock, and progressive rock. Guitar-driven bands and iconic guitar solos are a defining characteristic of rock music"
+    }
+  },
+  {
+    "model": "song.genres",
+    "pk": 1,
+    "fields": {
+      "name": "Blues",
+      "description": "Originating from African-American communities in the United States, blues music heavily relies on the guitar. It often features soulful playing, bending of notes, and expressive solos"
+    }
+  },
+  {
+    "model": "song.genres",
+    "pk": 2,
+    "fields": {
+      "name": "Jazz",
+      "description": "Jazz music incorporates improvisation and complex harmonies. The guitar plays a significant role in jazz, both as a rhythm instrument and for soloing. Subgenres like gypsy jazz and smooth jazz also have distinct guitar styles"
+    }
+  },
+  {
+    "model": "song.genres",
+    "pk": 3,
+    "fields": {
+      "name": "Country",
+      "description": "Country music often features acoustic and electric guitars, including fingerpicking and twangy guitar sounds. It encompasses subgenres like traditional country, country rock, and outlaw country"
+    }
+  },
+  {
+    "model": "song.genres",
+    "pk": 4,
+    "fields": {
+      "name": "Metal",
+      "description": "Known for its heavy sound, aggressive riffs, and fast guitar playing, metal music is characterized by distorted guitars and intricate solos. Subgenres like thrash metal, heavy metal, and power metal are all guitar-driven"
+    }
+  },
+  {
+    "model": "song.genres",
+    "pk": 5,
+    "fields": {
+      "name": "Folk",
+      "description": "Folk music utilizes acoustic guitars and often features storytelling through lyrics. Fingerpicking and strumming patterns are common techniques. Subgenres like contemporary folk and folk rock incorporate electric guitars as well"
+    }
+  },
+  {
+    "model": "song.genres",
+    "pk": 6,
+    "fields": {
+      "name": "Flamenco",
+      "description": "Originating in Spain, flamenco is a highly expressive and passionate genre that heavily relies on guitar playing. It combines intricate fingerpicking techniques with percussive elements"
+    }
+  },
+  {
+    "model": "song.genres",
+    "pk": 7,
+    "fields": {
+      "name": "Classical",
+      "description": "Classical music showcases the guitar as a solo instrument, featuring compositions by renowned composers like Fernando Sor and Johann Sebastian Bach. It requires fingerstyle playing and classical guitar techniques"
+    }
+  },
+  {
+    "model": "song.genres",
+    "pk": 8,
+    "fields": {
+      "name": "Funk",
+      "description": "Funk music is known for its tight rhythm sections and infectious grooves. The guitar typically plays a rhythmic role, providing syncopated chords and funky strumming patterns"
+    }
+  },
+  {
+    "model": "song.genres",
+    "pk": 9,
+    "fields": {
+      "name": "R&B/Soul",
+      "description": "Rhythm and blues and soul music often incorporate guitar as a foundational instrument, providing melodic and rhythmic elements. It can range from smooth and mellow to energetic and groovy"
+    }
+  },
+  {
+    "model": "song.genres",
+    "pk": 10,
+    "fields": { "name": "test", "description": "descr" }
+  },
+  {
+    "model": "song.authors",
+    "pk": 1,
+    "fields": {
+      "name": "Rolling Stones",
+      "link": "https://cdn.britannica.com/41/197341-050-4859B808/The-Rolling-Stones-Bill-Wyman-Keith-Richards-1964.jpg"
+    }
+  },
+  {
+    "model": "song.authors",
+    "pk": 2,
+    "fields": {
+      "name": "The Kinks",
+      "link": "https://thekinks.info/wp-content/uploads/2018/08/Kinks-69-b.jpg"
+    }
+  },
+  {
+    "model": "song.authors",
+    "pk": 3,
+    "fields": {
+      "name": "Cream",
+      "link": "https://upload.wikimedia.org/wikipedia/commons/5/58/Cream_Clapton_Bruce_Baker_1960s.jpg"
+    }
+  },
+  {
+    "model": "song.authors",
+    "pk": 4,
+    "fields": {
+      "name": "Linkin Park",
+      "link": "https://lh3.googleusercontent.com/JVf7FLtfKhvN_H8A_Wp9X-PCkhwVsOM2z1gjE6P5_BrYf5iQ9EVrf7Hs_HudHBpNkxPLgEF3pQtAETW3b77Et7njDQ=w640-h400-e365-rj-sc0x00ffffff"
+    }
+  },
+  {
+    "model": "song.authors",
+    "pk": 5,
+    "fields": {
+      "name": "Led Zeppelin",
+      "link": "https://cdn.cnn.com/cnn/interactive/2018/10/entertainment/led-zeppelin-cnnphotos/media/01.jpg"
+    }
+  },
+  {
+    "model": "song.authors",
+    "pk": 6,
+    "fields": {
+      "name": "The Beatles",
+      "link": "https://ichef.bbci.co.uk/news/976/cpsprodpb/3970/production/_108240741_beatles-abbeyroad-square-reuters-applecorps.jpg"
+    }
+  },
+  {
+    "model": "song.authors",
+    "pk": 7,
+    "fields": {
+      "name": "Van Halen",
+      "link": "https://www.rollingstone.com/wp-content/uploads/2019/10/eddie-van-halen-shreds.jpg"
+    }
+  },
+  {
+    "model": "song.songs",
+    "pk": 1,
+    "fields": {
+      "user_id": 1,
+      "author_id": 1,
+      "title": "Zapisano je u vremenu",
+      "date_creation": "2023-05-30T08:17:35.442Z",
+      "link": "http://www.pesmarica.rs/Akordi/12796/Nedeljko-Baji%C4%87-Baja--Zapisano-je-u-vremenu",
+      "text_with_accords": "Em ---------Am ---Em \r\nZapisano je u vremenu\r\nC----------D- -----Em \r\nkakva je to ljubav bila\r\nC---------D- --------\r\n(kamo srece za nas dvoje\r\nG ----E -Am ---D- --G  (Em  2x)\r\nkad bi se nekom ponovila) 2x\r\n\r\nZapisano je u vremenu\r\nda se secam, da se secas\r\n(rekla si mi: ''Volecu te doveka.'',\r\nB ja tebi: ''Nemoj da me cekas!'') 2x\r\n\r\nRef. 2x\r\nD- -------------------Em -----------\r\nZazmuri, broj do sto, to bice dovoljno\r\n---D- ---------------Em -----------\r\nda probam nekako, da odem bezbolno\r\n---D- -------------Em -----------\r\nja necu voleti, posle tebe, ni u snu - \r\nC--------D- ------Em \r\nzapisano je u vremenu\r\n\r\nZapisano je u vremenu\r\nda smo mnogo jaki bili\r\n(B gde bi nam bio kraj\r\njos da smo se za ljubav borili)2x\r\n\r\nZapisano je u vremenu\r\nplakala si, i ja s' tobom\r\n(i na kraju, kad si rekla: ''Volim te.'',\r\nteska srca rekao sam: ''Zbogom'') 2x"
+    }
+  },
+  {
+    "model": "song.songs",
+    "pk": 2,
+    "fields": {
+      "user_id": 2,
+      "author_id": 2,
+      "title": "Da si tu",
+      "date_creation": "2023-05-30T21:32:01.579Z",
+      "link": "http://www.pesmarica.rs/Akordi/12791/Aco-Pejovi%C4%87--Da-si-tu",
+      "text_with_accords": "Em                       D\r\nIako znam da ljubav nema pravila\r\nEm                       D\r\ntaj osjecaj krivice imam danima\r\nG \r\nza grube reci sto su pale\r\nD\r\nza ruke koje nisu znale\r\nAm                       Hm\r\nda zadrze te tu na mojim vratima\r\n\r\nEm                         D\r\nProveravam telefon svoj iz navike\r\nEm                           D\r\nza propusteni poziv tvoj bih dao sve\r\nG \r\nzar nije vredna ljubav moja\r\nD\r\nni poruke sa tvoga broja\r\nAm                        Hm\r\nzar mora Bog u crno da me zavije\r\nHm\r\nDa mi je\r\n\r\nRef.\r\nG \r\nDa si tu bar noci ove\r\nD\r\nda si tu, jedino moje\r\nAm                   Em      (D)\r\nda si tu da oci dusu odmore\r\n\r\nG \r\nDa si tu bar ovog' trena\r\nD\r\nbila bi za sva vremena\r\nC            D                 Em\r\nda si tu, pa makar i bio tvoja sena"
+    }
+  },
+  {
+    "model": "song.songs",
+    "pk": 3,
+    "fields": {
+      "user_id": 2,
+      "author_id": 3,
+      "title": "Za ljiljanu",
+      "date_creation": "2023-05-30T21:42:45.137Z",
+      "link": "http://www.pesmarica.rs/Akordi/12781/Toma-Zdravkovi%C4%87--Za-ljiljanu",
+      "text_with_accords": "Em\r\nNe kosite rosnu travu\r\nAm\r\nne lomite mladu granu\r\nD\r\nOstavite cvetna polja\r\nG\r\nostavite cvetna polja\r\nH7                  Em\r\nnek cvetaju za Ljiljanu\r\n(2x)\r\n\r\n\r\nRef.\r\nC                  Am\r\nLjubavi su mnoge bile\r\nD                    G\r\nkao vatra mladost planu\r\nAm           Em\r\nsve sto osta od zivota\r\nD                  G\r\nja bi dao za Ljiljanu\r\nAm            Em\r\nsve sto osta od zivota\r\nD         H7       Em\r\nja bi dao za Ljiljanu\r\n\r\n\r\nNe pevajte pesme njene\r\nne dirajte staru ranu\r\npet godina ja negujem\r\npet godina ja jos cuvam\r\njednu ruzu za Ljiljanu\r\n\r\nPet godina ja jos cuvam\r\npet godina ja negujem\r\njednu ruzu za Ljiljanu\r\n\r\nRef.\r\n\r\nOstvaricu snove svoje\r\nkada hladne kise stanu\r\n\r\nKad s'prolecem ozelene\r\ncvetna polja za Ljiljanu\r\ncvetna polja za Ljiljanu\r\n(2x)\r\n\r\nRef.\r\n\r\nJa bi dao za Ljiljanu\r\nza Ljiljanu, za Ljiljanu"
+    }
+  },
+  {
+    "model": "song.songs",
+    "pk": 4,
+    "fields": {
+      "user_id": 1,
+      "author_id": 4,
+      "title": "In The End",
+      "date_creation": "2023-06-15T20:46:48.074Z",
+      "link": "",
+      "text_with_accords": ""
+    }
+  },
+  {
+    "model": "song.songs",
+    "pk": 5,
+    "fields": {
+      "user_id": 1,
+      "author_id": 4,
+      "title": "Numb",
+      "date_creation": "2023-06-21T11:07:07.173Z",
+      "link": "",
+      "text_with_accords": ""
+    }
+  },
+  {
+    "model": "song.songs",
+    "pk": 6,
+    "fields": {
+      "user_id": 1,
+      "author_id": 4,
+      "title": "Crawling",
+      "date_creation": "2023-06-21T11:07:51.263Z",
+      "link": "",
+      "text_with_accords": ""
+    }
+  },
+  {
+    "model": "song.songgenres",
+    "pk": 1,
+    "fields": { "song_id": 1, "genre_id": 5 }
+  },
+  {
+    "model": "song.songgenres",
+    "pk": 2,
+    "fields": { "song_id": 2, "genre_id": 5 }
+  },
+  {
+    "model": "song.songgenres",
+    "pk": 3,
+    "fields": { "song_id": 3, "genre_id": 2 }
+  },
+  {
+    "model": "song.songlikes",
+    "pk": 1,
+    "fields": { "song_id": 1, "user_id": 2 }
+  },
+  {
+    "model": "song.accords",
+    "pk": 1,
+    "fields": {
+      "name": "E minor",
+      "link": "https://www.guitarlessons.org/wp-content/uploads/2022/07/e-minor-chord.png.webp",
+      "short_name": "Em"
+    }
+  },
+  {
+    "model": "song.accords",
+    "pk": 2,
+    "fields": {
+      "name": "E major",
+      "link": "https://www.guitarlessons.org/wp-content/uploads/2022/07/e-chord.png.webp",
+      "short_name": "E"
+    }
+  }
+]

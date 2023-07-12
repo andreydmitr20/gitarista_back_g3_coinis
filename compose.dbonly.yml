@@ -4,15 +4,15 @@ services:
     image: postgres:14.1-alpine
     restart: always
     environment:
-      POSTGRES_USER: ${DB_USER}}
+      POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASS}
       POSTGRES_DB: ${DB_NAME}
     volumes:
-      - gitarista-db-data:/var/lib/postgresql/data
+      - gitarista-db:/var/lib/postgresql/data
     #expose:
     #  - "5432"
     ports:
-      - "5432:5432"
+      - "${DB_PORT}:${DB_PORT}"
     healthcheck:
       test: pg_isready -U ${DB_USER}
       interval: 2s
@@ -24,6 +24,6 @@ services:
         max-file: "3"
 
 volumes:
-  gitarista-db-data:
-    name: gitarista-db-data
+  gitarista-db:
+    name: gitarista-db
     external: true
