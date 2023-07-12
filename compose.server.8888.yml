@@ -8,10 +8,10 @@ services:
       POSTGRES_PASSWORD: ${DB_PASS}
     volumes:
       - gitarista-db:/var/lib/postgresql/data
-    #expose:
-    #  - "5432"
-    ports:
-      - "${DB_PORT}:${DB_PORT}"
+    expose:
+      - "${DB_PORT}"
+    # ports:
+    # - "${DB_PORT}:${DB_PORT}"
     # healthcheck:
     #   test: pg_isready -U ${DB_USER}
     #   interval: 2s
