@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from django.core.exceptions import ValidationError
 from rest_framework import views, response, exceptions, permissions, status
-from django.contrib.auth import get_user_model, authenticate , login, logout
+from django.contrib.auth import get_user_model, authenticate, login, logout
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.response import Response
-from .serializer import UserRegisterSerializer,UserLoginSerializer,UserSerializer
+from .serializer import UserRegisterSerializer, UserLoginSerializer, UserSerializer
 UserModel = get_user_model()
 # Create your views here.
 
@@ -19,7 +19,7 @@ UserModel = get_user_model()
 #     ##
 #     if not password or len(password) < 8:
 #         raise ValidationError('choose another password, min 8 characters')
-    
+
 # def validate_email(data):
 #     email = data['email'].strip()
 #     if not email:
@@ -32,9 +32,11 @@ UserModel = get_user_model()
 #         raise ValidationError('a password is needed')
 #     return True
 
+
 class UserRegister(views.APIView):
     permission_classes = (permissions.AllowAny,)
-    
+    serializer_class = UserRegisterSerializer
+
     def post(self, request):
         # fix validation part!
         # clean_data = custom_validation(request.data)
@@ -46,10 +48,12 @@ class UserRegister(views.APIView):
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(status=status.HTTP_400_BAD_REQUEST)
         # return (request.data)
-    
+
+
 class UserLogin(views.APIView):
     permission_classes = (permissions.AllowAny,)
     # authentication_classes = (SessionAuthentication,)
+    serializer_class = UserLoginSerializer
 
     def post(self, request):
         data = request.data
@@ -59,19 +63,23 @@ class UserLogin(views.APIView):
         if serializer.is_valid(raise_exception=True):
             user = serializer.check_user(data)
             login(request, user)
-            return Response({'msg': 'User Logged in'}, status=status.HTTP_200_OK)
+            return Response({'msg': 'User Logged in',
+                             'user_id': user.user_id}, status=status.HTTP_200_OK)
         return Response(status=status.HTTP_400_BAD_REQUEST)
-    
+
+
 class UserLogout(views.APIView):
 
     def post(self, request):
         logout(request)
-        return Response({'msg': 'User Logged out'},status=status.HTTP_200_OK)
-    
+        return Response({'msg': 'User Logged out'}, status=status.HTTP_200_OK)
+
+
 class UserView(views.APIView):
     permission_classes = (permissions.IsAuthenticated,)
     authentication_classes = (SessionAuthentication,)
+    serializer_class = UserSerializer
 
     def get(self, request):
         serializer = UserSerializer(request.user)
-        return Response({'user':serializer.data}, status=status.HTTP_200_OK)
+        return Response({'user': serializer.data}, status=status.HTTP_200_OK)
