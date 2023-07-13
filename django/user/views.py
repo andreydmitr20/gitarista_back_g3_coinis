@@ -64,7 +64,10 @@ class UserLogin(views.APIView):
             user = serializer.check_user(data)
             login(request, user)
             return Response({'msg': 'User Logged in',
-                             'user_id': user.user_id}, status=status.HTTP_200_OK)
+                             'user_id': user.user_id,
+                             'username': user.username,
+                             'email': user.email,
+                             }, status=status.HTTP_200_OK)
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
