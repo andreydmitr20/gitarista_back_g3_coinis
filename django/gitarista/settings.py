@@ -85,6 +85,9 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
+    "http://13.53.108.151",
+    "http://gitarist.me",
+    "http://www.gitarist.me",
     "http://localhost:3000",
     "http://127.0.0.1",
     "null",
