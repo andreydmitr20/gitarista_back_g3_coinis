@@ -30,7 +30,7 @@ services:
     depends_on:
       - db
     ports:
-      - "8880:8880"
+      - "127.0.0.1:8880:8880"
     logging:
       options:
         max-size: "100m"
