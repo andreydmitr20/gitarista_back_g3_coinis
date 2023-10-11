@@ -3,6 +3,8 @@ from rest_framework import serializers, status, viewsets
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.generics import GenericAPIView
+
 from utils.views_functions import (API_TEXT_SEARCH, API_TEXT_SHORT,
                                    delete_simple, filter_params_simple,
                                    filter_simple, get_int_request_param,
@@ -22,6 +24,10 @@ from .serializers import (AccordsSerializer, AccordsShortSerializer,
                           SongsListSerializer, SongsSerializer,
                           SongsShortSerializer)
 
+
+import requests
+from bs4 import *
+
 PERMISSION_CLASSES = [AllowAny]
 # PERMISSION_CLASSES=[IsAuthenticated]
 
@@ -30,6 +36,39 @@ PRINT_QUERY = True
 
 PARAM_SEARCH_DESCRIPTION = "char '+' means AND"
 PARAM_PAGE_0_DESCRIPTION = 'page=0 retrieve records count'
+
+
+def get_page(url: str) -> dict:
+    try:
+        respond = requests.get(url)
+
+        soup = BeautifulSoup(respond.text, "html.parser")
+        soup.prettify()
+        return {
+            "error": "ok",
+            "title": soup.title.get_text(),
+            "text": soup.get_text(),
+        }
+    except Exception as exception:
+        error = f'Can not get page {url}. {exception}'
+        print(error)
+        return {
+            "error": error,
+        }
+
+
+@extend_schema(tags=['scrape url'])
+class ScrapeView(GenericAPIView):
+    """ Scrape """
+    @extend_schema(
+        description='scrape url',
+        parameters=[
+            OpenApiParameter("url", description='url'),
+        ],
+    )
+    def get(self, request, format=None):
+        result = get_page(request.GET.get("url"))
+        return Response([result], status=status.HTTP_200_OK)
 
 
 @extend_schema(tags=['song : list of genres'])

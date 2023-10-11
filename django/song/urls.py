@@ -8,11 +8,13 @@ from .views import (AuthorsView,
                     SongGenresView,
                     SongLikesView,
                     SongsView,
+                    ScrapeView,
                     )
 
 urlpatterns = [
 
     path('genres/<int:genre_id>/', GenresView.as_view(), name='genres'),
+    path('scrape/', ScrapeView.as_view(), name='scrape'),
 
     path('authors/<int:author_id>/', AuthorsView.as_view(), name='authors'),
 
