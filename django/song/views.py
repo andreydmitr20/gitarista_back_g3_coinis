@@ -27,6 +27,8 @@ from .serializers import (AccordsSerializer, AccordsShortSerializer,
 
 import requests
 from bs4 import *
+from django.shortcuts import render
+from django.views import View
 
 PERMISSION_CLASSES = [AllowAny]
 # PERMISSION_CLASSES=[IsAuthenticated]
@@ -69,6 +71,14 @@ class ScrapeView(GenericAPIView):
     def get(self, request, format=None):
         result = get_page(request.GET.get("url"))
         return Response([result], status=status.HTTP_200_OK)
+
+
+class ScrapeHTMLView(View):
+    def get(self, request, *args, **kwargs):
+        # Your processing logic here
+
+        # Rendering the HTML file
+        return render(request, 'song/index.html', context={'variable': 'value'})
 
 
 @extend_schema(tags=['song : list of genres'])
